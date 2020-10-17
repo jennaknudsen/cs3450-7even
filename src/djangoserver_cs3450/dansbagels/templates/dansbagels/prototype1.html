@@ -1,0 +1,26 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" href="{% static 'dansbagels/style.css' %}" type="text/css"/>
+        <link rel="shortcut icon" href="{%static 'dansbagels/images/favicon.ico' %}"/>
+        <title>Prototype 1</title>
+    </head>
+    <body>
+        <h1> Prototype 1 </h1>
+        <p> Enter the ID of a user in the database. Press "Set Password" to set that user's password. </p>
+        <form action="{% url 'changepassword' %}" method="post">
+            {% csrf_token %}
+            <select name="user" id="user">
+                {% for user in all_users %}
+                    <option value="{{ user.0 }}">{{ user.0 }}</option>
+                {% endfor %}
+            </select>
+            <input type="text" name="new_password" id="txt_password">
+            <input type="submit" value="Set Password">
+        </form>
+    </body>
+</html>
