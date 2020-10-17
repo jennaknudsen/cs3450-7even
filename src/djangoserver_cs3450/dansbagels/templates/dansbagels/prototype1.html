@@ -12,6 +12,21 @@
     <body>
         <h1> Prototype 1 </h1>
         <p> Enter the ID of a user in the database. Press "Set Password" to set that user's password. </p>
+        <script>
+            function showPassword() {
+                var userSelect = document.getElementById("user");
+                var userName = userSelect.options[userSelect.selectedIndex].text;
+                var userPassDict = {
+                    {% for user in all_users %}
+                        "{{ user.0 }}" : "{{ user.1 }}",
+                    {% endfor %}
+                };
+
+                var password = userPassDict[userName];
+                alert("Username: " + userName + "\nPassword: " + password);
+            };
+        </script>
+
         <form action="{% url 'changepassword' %}" method="post">
             {% csrf_token %}
             <select name="user" id="user">
@@ -19,8 +34,9 @@
                     <option value="{{ user.0 }}">{{ user.0 }}</option>
                 {% endfor %}
             </select>
-            <input type="text" name="new_password" id="txt_password">
-            <input type="submit" value="Set Password">
+            <input type="password" name="new_password" id="txt_password" />
+            <button type="button" onClick="showPassword()">Show Current Password</button>
+            <input type="submit" value="Set Password" />
         </form>
     </body>
 </html>
