@@ -101,3 +101,6 @@ class OrderLineItem(models.Model):
 
     orderQuantity_int = models.IntegerField()
 
+    def __str__(self):
+        return "Item: " + str(self.itemOrdered) + " | Quantity: " + str(self.orderQuantity_int)
+
