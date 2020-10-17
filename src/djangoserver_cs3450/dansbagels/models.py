@@ -58,21 +58,6 @@ class OrderStatus(models.Model):
     def __str__(self):
         return self.orderStatus_text
 
-# this class will be used to hold an item ordered and its quantity
-class OrderLineItem(models.Model):
-    # each line item is tied to a single MenuItem
-    itemOrdered = models.ForeignKey(
-        MenuItem,
-        on_delete=models.CASCADE,
-    )
-
-    # likewise, each line item is tied to a single parent Order
-    order = models.ForeignKey(
-        Order,
-        on_delete=models.CASCADE,
-    )
-
-    orderQuantity_int = models.IntegerField()
 
 # this class will hold orders
 class Order(models.Model):
@@ -97,4 +82,22 @@ class Order(models.Model):
     )
 
     def __str__(self):
-        return str(self.personOrdered) + "'s order
+        return str(self.personOrdered) + "'s order"
+
+
+# this class will be used to hold an item ordered and its quantity
+class OrderLineItem(models.Model):
+    # each line item is tied to a single MenuItem
+    itemOrdered = models.ForeignKey(
+        MenuItem,
+        on_delete=models.CASCADE,
+    )
+
+    # likewise, each line item is tied to a single parent Order
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+    )
+
+    orderQuantity_int = models.IntegerField()
+
