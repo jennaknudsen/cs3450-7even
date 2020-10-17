@@ -304,6 +304,55 @@ def populate_db(apps, schema_editor):
 
     print("\nDone adding all existing customers.")
 
+    print("Now adding all employees.")
+
+    employee1 = Person()
+    employee1.firstName_text = "Dan"
+    employee1.lastName_text = "Of Dans Bagels"
+    employee1.username_text = "DanOfDansBagels"
+    employee1.password_text = "default"
+    employee1.email_email = "<none>"
+    employee1.phoneNumber_text = "<none>"
+    employee1.accountBalance_decimal = "100.00"
+    employee1.accountType = (AccountType.objects.get(pk=4))
+    employee1.save()
+
+
+    employee2 = Person()
+    employee2.firstName_text = "Bradley"
+    employee2.lastName_text = "Of Dans Bagels"
+    employee2.username_text = "BradleyOfDansBagels"
+    employee2.password_text = "default"
+    employee2.email_email = "<none>"
+    employee2.phoneNumber_text = "<none>"
+    employee2.accountBalance_decimal = "100.00"
+    employee2.accountType = (AccountType.objects.get(pk=3))
+    employee2.save()
+
+
+    employee3 = Person()
+    employee3.firstName_text = "Matt"
+    employee3.lastName_text = "Mullens"
+    employee3.username_text = "MattMullens"
+    employee3.password_text = "default"
+    employee3.email_email = "<none>"
+    employee3.phoneNumber_text = "<none>"
+    employee3.accountBalance_decimal = "100.00"
+    employee3.accountType = (AccountType.objects.get(pk=2))
+    employee3.save()
+
+
+    employee4 = Person()
+    employee4.firstName_text = "Sam"
+    employee4.lastName_text = "Samuelson"
+    employee4.username_text = "SamSamuelson"
+    employee4.password_text = "default"
+    employee4.email_email = "<none>"
+    employee4.phoneNumber_text = "<none>"
+    employee4.accountBalance_decimal = "100.00"
+    employee4.accountType = (AccountType.objects.get(pk=3))
+    employee4.save()
+
 
 class Migration(migrations.Migration):
 
