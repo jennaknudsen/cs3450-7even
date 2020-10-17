@@ -13,6 +13,9 @@ can be tested by doing the following:
 
 As the migration runs, you should be able to see the various database entries populated.
 
+NOTE: If you see any error messages, be sure that Django is up-to-date on your computer. This
+project was created using Django version 3.1.2.
+
 ### Running the password changing webpage
 
 1. Change the working directory to `src/djangoserver_cs3450/` (same directory as the migration)
