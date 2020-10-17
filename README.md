@@ -17,11 +17,12 @@ service.
 In Git, whenever a change needs to be made, we will do the following:
 
 * Create a new branch at the tip of `master`
-* Make all changes necessary on this branch
-* Once all changes are validated as working, merge back into `master`, possibly using
-  a pull request
+* Make all changes necessary on this branch, pushing the commits to our shared
+  GitHub repo
+* Once all changes are validated as working, merge back into `master`
 
-The above procedure may be modified when we actually start writing code.
+If we run into a merge conflict, the individuals who pushed up the code that conflicts
+will work with each other to get that conflict solved (unless there's an obvious fix).
 
 ## Tool stack description and setup procedure
 
