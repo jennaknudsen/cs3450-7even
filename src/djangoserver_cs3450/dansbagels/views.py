@@ -32,7 +32,7 @@ def prototype2(request):
 def prototype1(request):
     # list will be of tuples (username, password)
     listOfUsers = []
-    allPeople = Person.objects.all()
+    allPeople = Person.objects.all() 
     for person in allPeople:
         listOfUsers.append((person.username_text, person.password_text))
     context = {
