@@ -1,2 +1,95 @@
-<h1>This is my prototype page for doing cool things.</h1>
-<h2>{{ dummy }}</h2>
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" href="{% static 'dansbagels/style.css' %}" type="text/css"/>
+        <link rel="shortcut icon" href="{%static 'dansbagels/images/favicon.ico' %}"/>
+        <title>Prototype 2</title>
+    </head>
+    <body>
+        <h1>Prototype 2</h1>
+        <p> Enter the ID of a user in the database. Press "View Information" to see that user's information. </p>
+
+        <script>
+            function showInfo() {
+                var userSelect = document.getElementById("user");
+                var userName = userSelect.options[userSelect.selectedIndex].text;
+
+                var infoSelect = document.getElementById("infoToShow");
+                var infoToShow = infoSelect.options[infoSelect.selectedIndex].text;
+
+                var infoValue = infoSelect.options[infoSelect.selectedIndex].value;
+
+                switch(infoValue) {
+                    case "First Name":
+                        var userInfoDict = {
+                            {% for user in all_users %}
+                                "{{ user.username_text }}" : "{{ user.firstName_text }}",
+                            {% endfor %}
+                        };
+                        break;
+                    case "Last Name":
+                        var userInfoDict = {
+                            {% for user in all_users %}
+                                "{{ user.username_text }}" : "{{ user.lastName_text }}",
+                            {% endfor %}
+                        };
+                        break;
+                    case "Email":
+                        var userInfoDict = {
+                            {% for user in all_users %}
+                                "{{ user.username_text }}" : "{{ user.email_email }}",
+                            {% endfor %}
+                        };
+                        break;
+                    case "Phone Number":
+                        var userInfoDict = {
+                            {% for user in all_users %}
+                                "{{ user.username_text }}" : "{{ user.phoneNumber_text }}",
+                            {% endfor %}
+                        };
+                        break;
+                    case "Account Balance":
+                        var userInfoDict = {
+                            {% for user in all_users %}
+                                "{{ user.username_text }}" : "{{ user.accountBalance_decimal }}",
+                            {% endfor %}
+                        };
+                        break;
+                    case "Account Type":
+                        var userInfoDict = {
+                            {% for user in all_users %}
+                                "{{ user.username_text }}" : "{{ user.accountType.accountType_text }}",
+                            {% endfor %}
+                        };
+                        break;
+                }
+
+                var infoType = userInfoDict[userName];
+                alert("Username: " + userName + "\n" + infoToShow + ": " + infoType);
+            };
+        </script>
+
+        <form>
+            {% csrf_token %}
+            <select name="user" id="user">
+                {% for user in all_users %}
+                    <option value="{{ user.username_text }}">{{ user.username_text }}</option>
+                {% endfor %}
+            </select>
+
+            <select name="user" id="infoToShow">
+                <option value="First Name">First Name</option>
+                <option value="Last Name">Last Name</option>
+                <option value="Email">Email</option>
+                <option value="Phone Number">Phone Number</option>
+                <option value="Account Balance">Account Balance</option>
+                <option value="Account Type">Account Type</option>
+            </select>
+            <button type="button" onClick="showInfo()">Show Current Info</button>
+        </form>
+    </body>
+</html>

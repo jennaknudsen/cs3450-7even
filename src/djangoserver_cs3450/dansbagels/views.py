@@ -19,10 +19,12 @@ def test(request):
 
 def prototype2(request):
     # get database info here to pass in
-    # here is a dummy version
-    dummy = 'dummy string'
-    # use the string in the first spot to reference the variable in the template file.
-    context = {'dummy': dummy}
+    listOfUsers = []
+    allPeople = Person.objects.all()
+
+    context = {
+        'all_users': allPeople
+    }
 
     return render(request, 'dansbagels/prototype2.html', context)
 
@@ -34,7 +36,7 @@ def prototype1(request):
     for person in allPeople:
         listOfUsers.append((person.username_text, person.password_text))
     context = {
-        'all_users' : listOfUsers
+        'all_users': listOfUsers
     }
     return render(request, 'dansbagels/prototype1.html', context)
 
