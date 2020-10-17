@@ -36,7 +36,7 @@ class Person(models.Model):
     )
 
     def __str__(self):
-        return self.username_text + " (" + accountType.accountType_text + ")"
+        return self.username_text + " (" + self.accountType.accountType_text + ")"
 
 
 # this class will hold menu items
@@ -58,14 +58,24 @@ class OrderStatus(models.Model):
     def __str__(self):
         return self.orderStatus_text
 
+# this class will be used to hold an item ordered and its quantity
+class OrderLineItem(models.Model):
+    # each line item is tied to a single MenuItem
+    itemOrdered = models.ForeignKey(
+        MenuItem,
+        on_delete=models.CASCADE,
+    )
+
+    # likewise, each line item is tied to a single parent Order
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+    )
+
+    orderQuantity_int = models.IntegerField()
 
 # this class will hold orders
 class Order(models.Model):
-    # an order can have any number of menu items on it,
-    # and a menu item can be on any number of orders
-    # many to many relationship
-    menuItems = models.ManyToManyField(MenuItem)
-
     # pickup time is specified as a Python DateTime
     pickUpTime = models.DateTimeField()
 
@@ -87,4 +97,4 @@ class Order(models.Model):
     )
 
     def __str__(self):
-        return self.personOrdered + "'s order of " + menuItems
+        return str(self.personOrdered) + "'s order
