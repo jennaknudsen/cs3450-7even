@@ -64,6 +64,10 @@ migration set up that can be ran to set the database up in a testable way. Then,
 creating/removing user accounts, making transactions, adding/removing orders, etc. If all 
 outputs report proper values, then we will consider the system testing as a pass.
 
+## Prototypes
+
+More details about the prototypes (including how to run them) can be found in `docs/Prototypes.md`.
+
 ## Notes
 
 This description of the process was created before any acutal code was written for this 
