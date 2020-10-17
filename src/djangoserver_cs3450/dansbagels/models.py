@@ -1,3 +1,90 @@
 from django.db import models
+import datetime
+from django.utils import timezone
 
-# Create your models here.
+
+# this class holds account types (Customer, Cashier, Chef, Manager)
+class AccountType(models.Model):
+    accountType_text = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.accountType_text
+
+
+# This class holds user accounts
+class Person(models.Model):
+    # store username and password as CharFields
+    username_text = models.CharField(max_length=200)
+    password_text = models.CharField(max_length=200)
+
+    firstName_text = models.CharField(max_length=200)
+    lastName_text = models.CharField(max_length=200)
+    email_email = models.EmailField(max_length=200)
+    phoneNumber_text = models.CharField(max_length=200)
+
+    # the account can't have more than $99999.99 in it due to DB constraints
+    accountBalance_decimal = models.DecimalField(max_digits=7, decimal_places=2)
+
+    # each user in the database will be assigned an accountType
+    # many-to-one relationship
+    accountType = models.ForeignKey(
+        AccountType,
+        null=True,
+        on_delete=models.SET_NULL,      # if for some reason, an account type is deleted,
+                                        # keep the Person objects alive, but set their accountType
+                                        # to just be NULL instead
+    )
+
+    def __str__(self):
+        return self.username_text + " (" + accountType.accountType_text + ")"
+
+
+# this class will hold menu items
+class MenuItem(models.Model):
+    itemName_text = models.CharField(max_length=20)
+    inventoryQuantity_int = models.IntegerField()
+
+    # max item price is $99.99
+    itemPrice_decimal = models.DecimalField(max_digits=4, decimal_places=2)
+
+    def __str__(self):
+        return self.itemName_text
+
+
+# this class holds orderspizza statuses (Ordered, In Preparation, Ready, Completed)
+class OrderStatus(models.Model):
+    orderStatus_text = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.orderStatus_text
+
+
+# this class will hold orders
+class Order(models.Model):
+    # an order can have any number of menu items on it,
+    # and a menu item can be on any number of orders
+    # many to many relationship
+    menuItems = models.ManyToManyField(MenuItem)
+
+    # pickup time is specified as a Python DateTime
+    pickUpTime = models.DateTimeField()
+
+    # each order will be tied to a single Person
+    # many-to-one relationship 
+    personOrdered = models.ForeignKey(
+        Person,
+        on_delete=models.CASCADE,       # if for some reason, a person's account is deleted,
+                                        # delete all orders that person had placed
+    )
+
+    # each order will have a single OrderStatus
+    # many-to-one relationship
+    currentStatus = models.ForeignKey(
+        OrderStatus,
+        null=True,
+        on_delete=models.SET_NULL,      # if for some reason, an order status is deleted,
+                                        # keep those orders but set their status to NULL
+    )
+
+    def __str__(self):
+        return self.personOrdered + "'s order of " + menuItems
