@@ -41,6 +41,36 @@ def prototype1(request):
     return render(request, 'dansbagels/prototype1.html', context)
 
 
+def createAccount(request):
+    context = {'purpose': "Account creation"}
+    return render(request, 'dansbagels/createAccount.html', context)
+
+
+def login(request):
+    context = {'purpose': "Log in"}
+    return render(request, 'dansbagels/login.html', context)
+
+
+def home(request):
+    context = {'purpose': "Home page"}
+    return render(request, 'dansbagels/home.html', context)
+
+
+def orderBagel(request):
+    context = {'purpose': "Order Bagel"}
+    return render(request, 'dansbagels/orderBagel.html', context)
+
+
+def account(request):
+    context = {'purpose': "View/Change account info"}
+    return render(request, 'dansbagels/account.html', context)
+
+
+def admin__add_rem(request):
+    context = {'purpose': "View/add/remove accounts: admin only"}
+    return render(request, 'dansbagels/admin__add_rem.html', context)
+
+
 
 def changepassword(request):
     thisUsername = request.POST['user']
