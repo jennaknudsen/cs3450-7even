@@ -23,3 +23,13 @@ class OwnerAccountPageTestCase(TestCase):
 
         # make sure some things saved
         self.assertEqual("fn.ln", Person.objects.get(firstName_text=firstName).username_text)
+
+        # now, try to delete the account with username "fn.ln"
+        # make sure it's there to begin with
+        self.assertEqual(True, Person.objects.filter(username_text=username).exists())
+        # test delete works
+        self.assertEqual(True, deleteAccount(username))
+        # ensure it deleted
+        self.assertEqual(False, Person.objects.filter(username_text=username).exists())
+        # test deletion on nonexistent object (should fail)
+        self.assertEqual(False, deleteAccount(username))

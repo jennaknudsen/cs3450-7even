@@ -39,6 +39,19 @@ def createAccount(firstName, lastName, username, password, email, phoneNumber,
         return False
 
 
+# Delete an account given a username.
+# Return true if account was successfully deleted, false otherwise.
+def deleteAccount(username):
+    try:
+        Person.objects.get(username_text=username).delete()
+        printDebug("Account " + username + " deleted successfully")
+        return True
+    except Exception as e:
+        printDebug("Failed to delete account " + username)
+        printDebug(str(e))
+        return False
+
+
 def printDebug(message):
     if printDebugMessages:
         print("[DEBUG] " + str(message))
