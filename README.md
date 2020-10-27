@@ -5,8 +5,8 @@ This is the Git repo for Team 7even for CS 3450.
 ## Organization and name scheme for the workspace
 
 All documentation will be stored in a folder called `docs/`. All project source
-code will be stored in a folder called `src/mysite/`. As the program is being written, 
-we expect the `src/mysite/` folder to become subdivided into more subfolders (Django 
+code will be stored in a folder called `src/djangoserver_cs3450/`. As the program is being written,
+we expect the `src/djangoserver_cs3450/` folder to become subdivided into more subfolders (Django
 will generate many of these automatically).
 
 ## Version control procedures
@@ -43,7 +43,7 @@ for this assignment.
 To set up the server on a new computer, perform the following steps:
 
 1. Open a new command-line shell (we used Git Bash)
-2. Change the working directoy to the `src/mysite/` directory 
+2. Change the working directoy to the `src/djangoserver_cs3450/` directory
 3. When running the program for the first time, the database will be empty. To populate 
 the database for the first time, run `python manage.py migrate`.
 4. Once the database has been populated, run `python manage.py runserver` to run the 
@@ -53,7 +53,7 @@ To run the server on a computer every time after setup, perform steps 1, 2, and 
 
 ## Unit testing instructions
 
-Unit tests for the database will be stored in a folder called `tests.py` in the `src/mysite` 
+Unit tests for the database will be stored in a folder called `tests.py` in the `src/djangoserver_cs3450`
 directory. To run these unit tests, cd into the directory containing `manage.py` and then 
 run `python manage.py test`. This will report any unit test failures and a test summary.
 
