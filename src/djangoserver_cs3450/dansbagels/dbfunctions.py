@@ -52,6 +52,32 @@ def deleteAccount(username):
         return False
 
 
+# Update an account given proper input parameters.
+# This function searches for a user with username_text == oldUsername
+# Having two username parameters allows the function to support updating a username
+# Return true if the update was successful, false otherwise.
+def updateAccount(oldUsername, firstName, lastName, username, password, email, phoneNumber, 
+                  accountType, accountBalance):
+    try:
+        person = Person.objects.get(username_text=oldUsername)
+        person.firstName_text = firstName
+        person.lastName_text = lastName
+        person.username_text = username
+        person.password_text = password
+        person.email_email = email
+        person.phoneNumber_text = phoneNumber
+        person.accountBalance_decimal=accountBalance
+        person.accountType = accountType
+        person.save()
+        printDebug("Account for " + firstName + " " + lastName + " updated successfully")
+        return True
+    except Exception as e:
+        printDebug("Failed to update account for " + firstName + " " + lastName)
+        printDebug(str(e))
+        return False
+
+
+# Print a simple debug message preceded by [DEBUG]
 def printDebug(message):
     if printDebugMessages:
         print("[DEBUG] " + str(message))
