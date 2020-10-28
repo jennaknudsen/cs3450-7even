@@ -5,7 +5,20 @@ from django.utils import timezone
 
 # this class holds account types (Customer, Cashier, Chef, Manager)
 class AccountType(models.Model):
-    accountType_text = models.CharField(max_length=20)
+    CUSTOMER = 1
+    CASHIER = 2
+    CHEF = 3
+    MANAGER = 4
+    ACCOUNT_TYPE_CHOICES = [
+        (MANAGER, "Manager"),
+        (CHEF, "Chef"),
+        (CASHIER, "Cashier"),
+        (CUSTOMER, "Customer")
+    ]
+    accountType_text = models.CharField(
+        max_length=20,
+        choices=ACCOUNT_TYPE_CHOICES
+    )
 
     def __str__(self):
         return self.accountType_text
