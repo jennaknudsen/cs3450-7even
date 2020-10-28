@@ -12,5 +12,5 @@ class AccountCreation(forms.Form):
     password = forms.CharField(max_length=200)
 
 
-class OwnerAccountCreation(AccountCreation):
+class ManagerAccountCreation(AccountCreation):
     accountType = forms.ChoiceField(choices=AccountType.ACCOUNT_TYPE_CHOICES)

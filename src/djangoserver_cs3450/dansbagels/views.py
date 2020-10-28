@@ -153,9 +153,28 @@ def account(request):
     return render(request, 'dansbagels/account.html', context)
 
 
-# URL: localhost:8000/dansbagels/admin__add_rem
+# URL: localhost:8000/dansbagels/admin/add_rem
 def admin__add_rem(request):
-    context = {'purpose': "View/add/remove accounts: admin only"}
-    return render(request, 'dansbagels/admin__add_rem.html', context)
+    if request.method == "GET":
+        form = ManagerAccountCreation()
+        context = {
+            'purpose': "View/add/remove accounts: admin only",
+            'form': form
+        }
+        return render(request, 'dansbagels/admin__add_rem.html', context)
+    if request.method == "POST":
+        form = ManagerAccountCreation(request.POST)
+        if form.is_valid():
+            createAccountDB(
+                firstName=form.cleaned_data['firstName'],
+                lastName=form.cleaned_data['lastName'],
+                email=form.cleaned_data['email'],
+                phoneNumber=form.cleaned_data['phone'],
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password'],
+                accountType=AccountType(form.cleaned_data['accountType'])
+            )
+        return redirect(request.path)
+
 
 
