@@ -1,10 +1,12 @@
 from django import template
 
 from django.template import loader
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from dansbagels.models import *
+from .forms import *
+from .dbfunctions import *
 
 # import helper functions from dbfunctions.py
 from dansbagels.dbfunctions import *
@@ -61,8 +63,27 @@ def prototype2(request):
 
 # URL: localhost:8000/dansbagels/createAccount
 def createAccount(request):
-    context = {'purpose': "Account creation"}
-    return render(request, 'dansbagels/createAccount.html', context)
+    if request.method == 'GET':
+        form = AccountCreation()
+        context = {
+            'purpose': "Account creation",
+            'form': form
+        }
+        return render(request, 'dansbagels/createAccount.html', context)
+    if request.method == 'POST':
+        form = AccountCreation(request.POST)
+        if form.is_valid():
+            createAccountDB(
+                firstName=form.cleaned_data['firstName'],
+                lastName=form.cleaned_data['lastName'],
+                email=form.cleaned_data['email'],
+                phoneNumber=form.cleaned_data['phone'],
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password'],
+                accountType=AccountType(AccountType.CUSTOMER)
+            )
+        return redirect("login")
+
 
 
 # URL: localhost:8000/dansbagels/login
@@ -132,9 +153,28 @@ def account(request):
     return render(request, 'dansbagels/account.html', context)
 
 
-# URL: localhost:8000/dansbagels/admin__add_rem
+# URL: localhost:8000/dansbagels/admin/add_rem
 def admin__add_rem(request):
-    context = {'purpose': "View/add/remove accounts: admin only"}
-    return render(request, 'dansbagels/admin__add_rem.html', context)
+    if request.method == "GET":
+        form = ManagerAccountCreation()
+        context = {
+            'purpose': "View/add/remove accounts: admin only",
+            'form': form
+        }
+        return render(request, 'dansbagels/admin__add_rem.html', context)
+    if request.method == "POST":
+        form = ManagerAccountCreation(request.POST)
+        if form.is_valid():
+            createAccountDB(
+                firstName=form.cleaned_data['firstName'],
+                lastName=form.cleaned_data['lastName'],
+                email=form.cleaned_data['email'],
+                phoneNumber=form.cleaned_data['phone'],
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password'],
+                accountType=AccountType(form.cleaned_data['accountType'])
+            )
+        return redirect(request.path)
+
 
 

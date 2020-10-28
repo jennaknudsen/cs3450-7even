@@ -18,7 +18,7 @@ def verifyLogin(username, password):
 # An accountType object can be obtained by:
 # AccountType.objects.get(pk=[1/2/3/4])
 # All other parameters are strings.
-def createAccount(firstName, lastName, username, password, email, phoneNumber, 
+def createAccountDB(firstName, lastName, username, password, email, phoneNumber,
                   accountType, accountBalance=100.00):
     try:
         person = Person()
