@@ -17,6 +17,42 @@
             <a href="/dansbagels/account" class="link">Account</a>
             <a href="/dansbagels/orderBagel" class="link">Place Order</a>
         </div>
-        <h1>The purpose of this page is: {{ purpose }}</h1>
+        <div>
+            <h1>The purpose of this page is: {{ purpose }}</h1>
+            <table>
+                <tr>
+                    <th>Username</th>
+                    <th>{{ userName }}</th>
+                </tr>
+                <tr>
+                    <th>Password</th>
+                    <th>{{ password }}</th>
+                </tr>
+                <tr>
+                    <th>First Name</th>
+                    <th>{{ firstName }}</th>
+                </tr>
+                <tr>
+                    <th>Last Name</th>
+                    <th>{{ lastName }}</th>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <th>{{ email }}</th>
+                </tr>
+                <tr>
+                    <th>Phone Number</th>
+                    <th>{{ phoneNumber }}</th>
+                </tr>
+                <tr>
+                    <th>Account Balance</th>
+                    <th>{{ accountBalance }}</th>
+                </tr>
+                <tr>
+                    <th>Account Type</th>
+                    <th>{{ accountType }}</th>
+                </tr>
+            </table>
+        </div>
     </body>
 </html>

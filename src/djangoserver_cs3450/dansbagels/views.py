@@ -82,7 +82,7 @@ def createAccount(request):
                 password=form.cleaned_data['password'],
                 accountType=AccountType(AccountType.CUSTOMER)
             )
-        return redirect("login")
+        return redirect('login')
 
 
 # URL: localhost:8000/dansbagels/login
@@ -150,7 +150,19 @@ def orderBagel(request):
 # URL: localhost:8000/dansbagels/account
 def account(request):
     context = {'purpose': "View/Change account info"}
-    return render(request, 'dansbagels/account.html', context)
+    try:
+        account = Person.objects.get(username_text=request.session['username'])
+        context['userName'] = request.session['username']
+        context['password'] = request.session['password']
+        context['firstName'] = str(account.firstName_text)
+        context['lastName'] = account.lastName_text
+        context['email'] = account.email_email
+        context['phoneNumber'] = account.phoneNumber_text
+        context['accountBalance'] = str(account.accountBalance_decimal)
+        context['accountType'] = request.session['accountType']
+        return render(request, 'dansbagels/account.html', context)
+    except Exception:
+        return redirect('login')
 
 
 # URL: localhost:8000/dansbagels/admin/add_rem
