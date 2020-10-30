@@ -20,6 +20,30 @@
         <div>
         {% if permitted %}
             <h1>The purpose of this page is: {{ purpose }}</h1>
+            <table>
+                <tr>
+                    <th>User Name</th>
+                    <th>Password</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Account Balance</th>
+                    <th>Account Type</th>
+                </tr>
+                {% for person in people %}
+                    <tr>
+                        <th>{{person.username_text}}</th>
+                        <th>{{person.password_text}}</th>
+                        <th>{{person.firstName_text}}</th>
+                        <th>{{person.lastName_text}}</th>
+                        <th>{{person.email_email}}</th>
+                        <th>{{person.phoneNumber_text}}</th>
+                        <th>{{person.accountBalance_decimal}}</th>
+                        <th>{{person.accountType}}</th>
+                    </tr>
+                {% endfor %}
+            </table>
             <form method="post">
                 {% csrf_token %}
                 {{ form }}

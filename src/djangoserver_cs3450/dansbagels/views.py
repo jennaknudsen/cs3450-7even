@@ -172,7 +172,8 @@ def admin__add_rem(request):
         context = {
             'purpose': "View/add/remove accounts: admin only",
             'form': form,
-            'permitted': True if request.session['accountType'] == 'Manager' else False
+            'permitted': True if request.session['accountType'] == 'Manager' else False,
+            'people': Person.objects.all()
         }
         return render(request, 'dansbagels/admin__add_rem.html', context)
     if request.method == "POST":
