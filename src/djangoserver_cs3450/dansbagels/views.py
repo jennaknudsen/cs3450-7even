@@ -85,7 +85,6 @@ def createAccount(request):
         return redirect("login")
 
 
-
 # URL: localhost:8000/dansbagels/login
 def login(request):
     context = {'purpose': "Log in"}
@@ -113,6 +112,7 @@ def prototype_login(request):
         request.session['logged_in'] = True
         request.session['username'] = username
         request.session['password'] = password
+        request.session['accountType'] = Person.objects.get(username_text=username).accountType.accountType_text
         # remove "failed login" flag upon successful login
         try:
             del request.session['failed_login']
@@ -159,7 +159,8 @@ def admin__add_rem(request):
         form = ManagerAccountCreation()
         context = {
             'purpose': "View/add/remove accounts: admin only",
-            'form': form
+            'form': form,
+            'permitted': True if request.session['accountType'] == 'Manager' else False
         }
         return render(request, 'dansbagels/admin__add_rem.html', context)
     if request.method == "POST":
