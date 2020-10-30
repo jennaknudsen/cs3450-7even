@@ -152,15 +152,17 @@ def account(request):
     context = {'purpose': "View/Change account info"}
     try:
         account = Person.objects.get(username_text=request.session['username'])
-        context['userName'] = request.session['username']
-        context['password'] = request.session['password']
-        context['firstName'] = str(account.firstName_text)
-        context['lastName'] = account.lastName_text
-        context['email'] = account.email_email
-        context['phoneNumber'] = account.phoneNumber_text
-        context['accountBalance'] = str(account.accountBalance_decimal)
-        context['accountType'] = request.session['accountType']
-        return render(request, 'dansbagels/account.html', context)
+        if request.method == "GET":
+            context['userName'] = request.session['username']
+            context['password'] = request.session['password']
+            context['firstName'] = str(account.firstName_text)
+            context['lastName'] = account.lastName_text
+            context['email'] = account.email_email
+            context['phoneNumber'] = account.phoneNumber_text
+            context['accountBalance'] = str(account.accountBalance_decimal)
+            context['accountType'] = request.session['accountType']
+            context['updateAccountForm'] = AccountCreation()
+            return render(request, 'dansbagels/account.html', context)
     except Exception:
         return redirect('login')
 
@@ -168,10 +170,9 @@ def account(request):
 # URL: localhost:8000/dansbagels/admin/add_rem
 def admin__add_rem(request):
     if request.method == "GET":
-        form = ManagerAccountCreation()
         context = {
             'purpose': "View/add/remove accounts: admin only",
-            'form': form,
+            'form': ManagerAccountCreation(),
             'permitted': True if request.session['accountType'] == 'Manager' else False,
             'people': Person.objects.all()
         }
