@@ -19,7 +19,7 @@ class OwnerAccountPageTestCase(TestCase):
 
         # create the account
         self.assertEqual(True,
-                createAccount(firstName, lastName, username, password, email, phoneNumber, accountType))
+                createAccountDB(firstName, lastName, username, password, email, phoneNumber, accountType))
 
         # make sure some things saved
         self.assertEqual("fn.ln", Person.objects.get(firstName_text=firstName).username_text)
@@ -48,7 +48,7 @@ class ViewAccountInfoPageTestCase(TestCase):
         self.phoneNumber = "123-456-7890"
         self.accountType = AccountType.objects.get(pk=2)
         # we already know that createAccount works, so just use it here
-        createAccount(self.firstName, self.lastName, self.username, self.password,
+        createAccountDB(self.firstName, self.lastName, self.username, self.password,
                       self.email, self.phoneNumber, self.accountType)
 
     def test_update_account(self):
