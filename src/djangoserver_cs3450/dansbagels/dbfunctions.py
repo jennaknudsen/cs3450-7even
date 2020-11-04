@@ -41,7 +41,7 @@ def createAccountDB(firstName, lastName, username, password, email, phoneNumber,
 
 # Delete an account given a username.
 # Return true if account was successfully deleted, false otherwise.
-def deleteAccount(username):
+def deleteAccountDB(username):
     try:
         Person.objects.get(username_text=username).delete()
         printDebug("Account " + username + " deleted successfully")
@@ -56,7 +56,7 @@ def deleteAccount(username):
 # This function searches for a user with username_text == oldUsername
 # Having two username parameters allows the function to support updating a username
 # Return true if the update was successful, false otherwise.
-def updateAccount(oldUsername, firstName, lastName, username, password, email, phoneNumber, 
+def updateAccountDB(oldUsername, firstName, lastName, username, password, email, phoneNumber, 
                   accountType, accountBalance):
     try:
         person = Person.objects.get(username_text=oldUsername)

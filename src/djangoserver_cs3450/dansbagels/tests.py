@@ -30,11 +30,11 @@ class OwnerAccountPageTestCase(TestCase):
 
         self.assertEqual(True, Person.objects.filter(username_text=username).exists())
         # test delete works
-        self.assertEqual(True, deleteAccount(username))
+        self.assertEqual(True, deleteAccountDB(username))
         # ensure it deleted
         self.assertEqual(False, Person.objects.filter(username_text=username).exists())
         # test deletion on nonexistent object (should fail)
-        self.assertEqual(False, deleteAccount(username))
+        self.assertEqual(False, deleteAccountDB(username))
 
 
 class ViewAccountInfoPageTestCase(TestCase):
@@ -55,7 +55,7 @@ class ViewAccountInfoPageTestCase(TestCase):
         # we will reset the username from "fn2.ln2" to "new.username"
         # we will also set the account balance to 50.00
         self.assertEqual(True, 
-                updateAccount("fn2.ln2", self.firstName, self.lastName, "new.username", self.password,
+                updateAccountDB("fn2.ln2", self.firstName, self.lastName, "new.username", self.password,
                               self.email, self.phoneNumber, self.accountType, 50.00))
         self.assertEqual(50.00, Person.objects.get(username_text="new.username").accountBalance_decimal)
 
