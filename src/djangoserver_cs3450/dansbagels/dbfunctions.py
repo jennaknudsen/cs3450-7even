@@ -97,9 +97,14 @@ def checkUsernameDB(username):
 # The order is created FIRST, and then OrderLineItems are added to the order. 
 # Function expects a Person object as an input (this can be easily obtained
 # using a Function such as Person.objects.get(username_text="<username>")
-# Function also expects a pickUpTime DateTimeField as an input.
+# Function also expects a pickUpTime DateTimeField as an input. This can be
+# obtained with a function such as datetime(year, month, day, hour, min, second, tzinfo=pytz.UTC)
+# Make sure to import:
+# from datetime import datetime
+# from django.utils import timezone
+# import pytz
 # Returns True if created successfully, False otherwise.
-def createOrderDB(pickUpTime, personOrdered, currentStatus=OrderStatus.items.get(pk=1)):
+def createOrderDB(pickUpTime, personOrdered, currentStatus=OrderStatus.objects.get(pk=1)):
     try:
         order = Order()
         order.pickUpTime = pickUpTime

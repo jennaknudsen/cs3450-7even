@@ -1,6 +1,9 @@
 from django.test import TestCase
 from dansbagels.models import *
 from dansbagels.dbfunctions import *
+from datetime import datetime
+from django.utils import timezone
+import pytz
 
 class OwnerAccountPageTestCase(TestCase):
     def setUp(self):
@@ -19,7 +22,7 @@ class OwnerAccountPageTestCase(TestCase):
 
         # create the account
         self.assertEqual(True,
-                createAccountDB(firstName, lastName, username, password, email, phoneNumber, accountType 
+                createAccountDB(firstName, lastName, username, password, email, phoneNumber, accountType))
 
         # creating a duplicate account should fail
         self.assertEqual(False,
@@ -77,4 +80,23 @@ class ViewAccountInfoPageTestCase(TestCase):
         self.assertEqual(False,
                 updateAccountDB("fn2.ln2", self.firstName, self.lastName, "new.username", self.password,
                               self.email, self.phoneNumber, self.accountType, 50.00))
+
+
+class CreateOrderPageTestCase(TestCase):
+    def setUp(self):
+        # don't need any initial setup
+        pass
+
+    def test_create_and_populate_order(self):
+        # pickup time: 2020-Nov-10, 19:30:54, UTC time
+        pickUpTime = datetime(2020, 11, 10, 19, 30, 54, tzinfo=pytz.UTC)
+        personOrdered = Person.objects.get(username_text="AbeLincoln")
+
+        # should work with a custom order status as well as the default first order status
+        self.assertEqual(True,
+                createOrderDB(pickUpTime, personOrdered))
+
+        currentStatus = OrderStatus.objects.get(pk=3)
+        self.assertEqual(True,
+                createOrderDB(pickUpTime, personOrdered, currentStatus))
 
