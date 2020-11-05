@@ -19,6 +19,10 @@ class OwnerAccountPageTestCase(TestCase):
 
         # create the account
         self.assertEqual(True,
+                createAccountDB(firstName, lastName, username, password, email, phoneNumber, accountType 
+
+        # creating a duplicate account should fail
+        self.assertEqual(False,
                 createAccountDB(firstName, lastName, username, password, email, phoneNumber, accountType))
 
         # make sure some things saved
@@ -35,6 +39,10 @@ class OwnerAccountPageTestCase(TestCase):
         self.assertEqual(False, Person.objects.filter(username_text=username).exists())
         # test deletion on nonexistent object (should fail)
         self.assertEqual(False, deleteAccountDB(username))
+
+        # creating the account after deletion should work again
+        self.assertEqual(True,
+                createAccountDB(firstName, lastName, username, password, email, phoneNumber, accountType))
 
 
 class ViewAccountInfoPageTestCase(TestCase):
@@ -61,4 +69,12 @@ class ViewAccountInfoPageTestCase(TestCase):
 
         # make sure the account with username "fn2.ln2" does not exist anymore
         self.assertEqual(False, Person.objects.filter(username_text="fn2.ln2").exists())
+
+        # create another user with the initial parameters (again)
+        createAccountDB(self.firstName, self.lastName, self.username, self.password,
+                      self.email, self.phoneNumber, self.accountType)
+        # make sure that updating the account to a username that already exists fails
+        self.assertEqual(False,
+                updateAccountDB("fn2.ln2", self.firstName, self.lastName, "new.username", self.password,
+                              self.email, self.phoneNumber, self.accountType, 50.00))
 

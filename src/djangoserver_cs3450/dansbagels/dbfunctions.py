@@ -20,6 +20,9 @@ def verifyLogin(username, password):
 # All other parameters are strings.
 def createAccountDB(firstName, lastName, username, password, email, phoneNumber,
                   accountType, accountBalance=100.00):
+    if checkUsernameDB(username):
+        printDebug("User " + username + " already exists. Refusing to create new account. Aborting")
+        return False
     try:
         person = Person()
         person.firstName_text = firstName
@@ -58,6 +61,10 @@ def deleteAccountDB(username):
 # Return true if the update was successful, false otherwise.
 def updateAccountDB(oldUsername, firstName, lastName, username, password, email, phoneNumber, 
                   accountType, accountBalance):
+    # don't allow the user to take the username of another user that already exists
+    if oldUsername != username and checkUsernameDB(username):
+        printDebug("User " + username + " already exists. Refusing to update account. Aborting")
+        return False
     try:
         person = Person.objects.get(username_text=oldUsername)
         person.firstName_text = firstName
@@ -75,6 +82,15 @@ def updateAccountDB(oldUsername, firstName, lastName, username, password, email,
         printDebug("Failed to update account for " + firstName + " " + lastName)
         printDebug(str(e))
         return False
+
+
+# Check to see if an account exists, given a username.
+def checkUsernameDB(username):
+    listOfUsernames = []
+    allPeople = Person.objects.all()
+    for person in allPeople:
+        listOfUsernames.append(person.username_text)
+    return username in listOfUsernames
 
 
 # Print a simple debug message preceded by [DEBUG]
