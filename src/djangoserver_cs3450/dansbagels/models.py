@@ -64,7 +64,7 @@ class MenuItem(models.Model):
         return self.itemName_text
 
 
-# this class holds orderspizza statuses (Ordered, In Preparation, Ready, Completed)
+# this class holds order statuses (Ordered, In Preparation, Ready, Completed)
 class OrderStatus(models.Model):
     orderStatus_text = models.CharField(max_length=20)
 

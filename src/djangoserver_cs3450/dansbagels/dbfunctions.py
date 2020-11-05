@@ -93,6 +93,27 @@ def checkUsernameDB(username):
     return username in listOfUsernames
 
 
+# Create an order in the database.
+# The order is created FIRST, and then OrderLineItems are added to the order. 
+# Function expects a Person object as an input (this can be easily obtained
+# using a Function such as Person.objects.get(username_text="<username>")
+# Function also expects a pickUpTime DateTimeField as an input.
+# Returns True if created successfully, False otherwise.
+def createOrderDB(pickUpTime, personOrdered, currentStatus=OrderStatus.items.get(pk=1)):
+    try:
+        order = Order()
+        order.pickUpTime = pickUpTime
+        order.personOrdered = personOrdered
+        order.currentStatus = currentStatus
+        order.save()
+        printDebug("Order for " + str(personOrdered.username_text) + " created successfully.")
+        return True
+    except Exception as e:
+        printDebug("Failed to create order for " + str(personOrdered.username_text))
+        printDebug(str(e))
+        return False
+
+
 # Print a simple debug message preceded by [DEBUG]
 def printDebug(message):
     if printDebugMessages:
