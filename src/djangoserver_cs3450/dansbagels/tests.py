@@ -110,7 +110,8 @@ class CreateOrderPageTestCase(TestCase):
         AbeOrders = []
         allOrders = Order.objects.all()
         for order in allOrders:
-            AbeOrders.append(order)
+            if (order.personOrdered.username_text == "AbeLincoln"):
+                AbeOrders.append(order)
 
         initialQuantities = [itemOrdered[0].inventoryQuantity_int, itemOrdered[1].inventoryQuantity_int,
                 itemOrdered[2].inventoryQuantity_int]
