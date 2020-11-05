@@ -20,7 +20,7 @@
         <h1>The purpose of this page is: {{ purpose }}</h1>
         <form method="post">
             {% csrf_token %}
-            {{ form }}
+            {{ form.as_p }}
             <input type="submit" value="submit">
         </form>
     </body>

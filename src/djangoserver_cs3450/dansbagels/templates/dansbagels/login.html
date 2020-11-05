@@ -37,9 +37,9 @@
             <form action="{% url 'prototype_login' %}" method="post">
                 {% csrf_token %}
                 <label for="txt_username">Username</label>
-                <input name="username" id="txt_username" />
+                <input name="username" id="txt_username" /><br>
                 <label for="txt_password">Password</label>
-                <input name="password" type="password" id="txt_password" />
+                <input name="password" type="password" id="txt_password" /><br>
                 <input type="submit" value="Login" />
             </form>
 
