@@ -107,7 +107,7 @@ def prototype_login(request):
     username = request.POST['username']
     password = request.POST['password']
     # use internal function to verify the login
-    if verifyLogin(username, password):
+    if verifyLoginDB(username, password):
         # set correct flags upon successful login
         request.session['logged_in'] = True
         request.session['username'] = username

@@ -5,7 +5,7 @@ printDebugMessages = True
 
 # Check to see if a given username/combination is valid.
 # Return true if the username/password combination is in the database, false otherwise.
-def verifyLogin(username, password):
+def verifyLoginDB(username, password):
     listOfUsers = []
     allPeople = Person.objects.all()
     for person in allPeople:
