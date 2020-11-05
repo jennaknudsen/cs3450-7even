@@ -94,15 +94,23 @@ def checkUsernameDB(username):
 
 
 # Create an order in the database.
+#
 # The order is created FIRST, and then OrderLineItems are added to the order. 
+#
+# The OrderLineItems MUST be added one-by-one by calling the createOrderLineItemDB() function
+# afer calling this function.
+#
 # Function expects a Person object as an input (this can be easily obtained
 # using a Function such as Person.objects.get(username_text="<username>")
+#
 # Function also expects a pickUpTime DateTimeField as an input. This can be
 # obtained with a function such as datetime(year, month, day, hour, min, second, tzinfo=pytz.UTC)
+#
 # Make sure to import:
 # from datetime import datetime
 # from django.utils import timezone
 # import pytz
+#
 # Returns True if created successfully, False otherwise.
 def createOrderDB(pickUpTime, personOrdered, currentStatus=OrderStatus.objects.get(pk=1)):
     try:
@@ -117,6 +125,52 @@ def createOrderDB(pickUpTime, personOrdered, currentStatus=OrderStatus.objects.g
         printDebug("Failed to create order for " + str(personOrdered.username_text))
         printDebug(str(e))
         return False
+
+
+# Creates an order line item.
+# This function MUST be called for each line item that is added to an order.
+# This line item must be tied to an Order and a MenuItem at creation. 
+# When the order is created, decrement the total count of the menu item.
+# Returns True if created successfully, False otherwise.
+def createOrderLineItemDB(itemOrdered, order, orderQuantity):
+    try:
+        # first, make sure order quantity is valid
+        if not checkOrderQuantityValidDB(itemOrdered, orderQuantity):
+            return False
+
+        # create the item
+        orderLineItem = OrderLineItem()
+        orderLineItem.itemOrdered = itemOrdered
+        orderLineItem.order = order
+        orderLineItem.orderQuantity_int = orderQuantity
+        orderLineItem.save()
+
+        # now, decrement the total count of the MenuItem
+        # itemOrdered input parameter is a MenuItem, so we can edit it directly
+        itemOrdered.inventoryQuantity_int -= orderQuantity
+        itemOrdered.save()
+
+        printDebug("OrderLineItem for order " + str(order) + " created successfully.")
+        return True
+    except Exception as e:
+        printDebug("Failed to create order line item of item " + str(itemOrdered)
+                + " and quantity " + str(orderQuantity))
+        printDebug(str(e))
+        return False
+
+
+# Check to ensure that an order quantity is valid.
+def checkOrderQuantityValidDB(itemOrdered, orderQuantity):
+    if orderQuantity == 0:
+        printDebug("Order quantity 0 is invalid.")
+        return False
+    elif orderQuantity > itemOrdered.inventoryQuantity_int:
+        printDebug("Order quantity " + str(orderQuantity) + " is invalid: There are only "
+                + str(itemOrdered.inventoryQuantity_int) + " left.")
+        return False
+    else:
+        printDebug("Order quantity " + str(orderQuantity) + " is valid.")
+        return True
 
 
 # Print a simple debug message preceded by [DEBUG]
