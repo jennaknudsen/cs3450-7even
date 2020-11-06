@@ -17,10 +17,10 @@
             <a href="/dansbagels/account" class="link">Account</a>
             <a href="/dansbagels/orderBagel" class="link">Place Order</a>
         </div>
-        <h1>The purpose of this page is: {{ purpose }}</h1>
+        <h1 align="center">Log in</h1>
         {% if user_is_logged_in %}
 
-            <p> Currently logged in: {{ username }}</p>
+            <p align="center"> Currently logged in: {{ username }}</p>
             <form action="{% url 'prototype_logout' %}" method="post">
                 {% csrf_token %}
                 <input type="submit" value="Logout" />
@@ -29,17 +29,17 @@
         {% else %}
 
             {% if failed_login %}
-                <p> Username / password incorrect. </p>
+                <p align="center"> Username / password incorrect. </p>
             {% else %}
-                <p> You are not logged in. </p>
+                <p align="center"> You are not logged in. </p>
             {% endif %}
 
             <form action="{% url 'prototype_login' %}" method="post">
                 {% csrf_token %}
                 <label for="txt_username">Username</label>
-                <input name="username" id="txt_username" />
+                <input name="username" id="txt_username" /><br>
                 <label for="txt_password">Password</label>
-                <input name="password" type="password" id="txt_password" />
+                <input name="password" type="password" id="txt_password" /><br>
                 <input type="submit" value="Login" />
             </form>
 
