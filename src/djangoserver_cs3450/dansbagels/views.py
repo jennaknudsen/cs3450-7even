@@ -66,7 +66,6 @@ def createAccount(request):
     if request.method == 'GET':
         form = AccountCreation()
         context = {
-            'purpose': "Account creation",
             'form': form
         }
         return render(request, 'dansbagels/createAccount.html', context)
@@ -88,7 +87,7 @@ def createAccount(request):
 
 # URL: localhost:8000/dansbagels/login
 def login(request):
-    context = {'purpose': "Log in"}
+    context = {}
     # if logged in, set the proper context flags to show user that's logged in
     if 'logged_in' in request.session and request.session['logged_in']:
         username = request.session['username']

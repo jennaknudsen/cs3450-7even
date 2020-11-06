@@ -2,18 +2,33 @@
 /* Applies to the entire body of the HTML document (except where overridden by more specific
 selectors). */
 body {
-  margin: 25px;
-  background-color: rgb(240,240,240);
-  font-family: arial, sans-serif;
-  font-size: 14px;
+    margin: 25px;
+    background-color: #DBE0E5;
+    font-family: arial, sans-serif;
+    font-size: 14px;
 }
 
-.link { 
-	padding: 0px 0px 25px 25px;
+form {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
 }
+
+a:link, a:visited, a:active {
+    color: white;
+    padding: 0px 0px 25px 25px;
+    text-decoration: none;
+}
+
 
 #top-bar { 
 	text-align: right;
+	background-color: #6B2D42;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	padding-right: 10px;
+	padding-left: 10px;
 }
 
 #welcome {
@@ -23,4 +38,10 @@ body {
 	width:500px;
     margin: 0 auto;
 	margin-top: 50px;
+	font-size: 48pt;
+}
+
+#exceptionLink {
+    color: blue;
+    padding-left: 0px
 }
