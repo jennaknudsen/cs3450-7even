@@ -149,7 +149,7 @@ def orderBagel(request):
 # URL: localhost:8000/dansbagels/account
 def account(request):
     context = {'purpose': "View/Change account info"}
-    try:
+    if 'logged_in' in request.session and request.session['logged_in']:
         account = Person.objects.get(username_text=request.session['username'])
         if request.method == "GET":
             context['userName'] = request.session['username']
@@ -162,7 +162,7 @@ def account(request):
             context['accountType'] = request.session['accountType']
             context['updateAccountForm'] = AccountCreation()
             return render(request, 'dansbagels/account.html', context)
-    except Exception:
+    else:
         return redirect('login')
 
 
@@ -172,8 +172,8 @@ def admin__add_rem(request):
         context = {
             'purpose': "View/add/remove accounts: admin only",
             'form': ManagerAccountCreation(),
-            'permitted': True if request.session['accountType'] == 'Manager' else False,
-            'people': Person.objects.all()
+            'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
+            'people': Person.objects.all(),
         }
         return render(request, 'dansbagels/admin__add_rem.html', context)
     if request.method == "POST":
@@ -190,5 +190,9 @@ def admin__add_rem(request):
             )
         return redirect(request.path)
 
-
-
+# URL: localhost:8000/dansbagels/deleteAccount
+# only intended to handle post requests from admin/add_rem
+def deleteAccount(request):
+    if request.method == "POST":
+        deleteAccountDB(request.POST.get('DeleteButton'))
+    return redirect('admin__add_rem')
