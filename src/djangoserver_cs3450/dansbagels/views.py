@@ -152,16 +152,34 @@ def account(request):
     if 'logged_in' in request.session and request.session['logged_in']:
         account = Person.objects.get(username_text=request.session['username'])
         if request.method == "GET":
-            context['userName'] = request.session['username']
-            context['password'] = request.session['password']
+            context['userName'] = account.username_text
+            context['password'] = account.password_text
             context['firstName'] = str(account.firstName_text)
             context['lastName'] = account.lastName_text
             context['email'] = account.email_email
             context['phoneNumber'] = account.phoneNumber_text
             context['accountBalance'] = str(account.accountBalance_decimal)
             context['accountType'] = request.session['accountType']
-            context['updateAccountForm'] = AccountCreation()
+            context['updateAccountForm'] = UpdateAccount()
             return render(request, 'dansbagels/account.html', context)
+        if request.method == "POST":
+            form = UpdateAccount(request.POST)
+            if form.is_valid():
+                if updateAccountDB(
+                    # series of ternary statements that check if the user inputed something into the field
+                    # if the field is blank then it plugs in the users existing info
+                    oldUsername=request.session['username'],
+                    firstName=account.firstName_text if form.cleaned_data['firstName'] == '' else form.cleaned_data['firstName'],
+                    lastName=account.lastName_text if form.cleaned_data['lastName'] == '' else form.cleaned_data['lastName'],
+                    email=account.email_email if form.cleaned_data['email'] == '' else form.cleaned_data['email'],
+                    phoneNumber=account.phoneNumber_text if form.cleaned_data['phone'] == '' else form.cleaned_data['phone'],
+                    username=account.username_text if form.cleaned_data['username'] == '' else form.cleaned_data['username'],
+                    password=account.password_text if form.cleaned_data['password'] == '' else form.cleaned_data['password'],
+                    accountBalance=account.accountBalance_decimal if form.cleaned_data['accountBalance'] is None else form.cleaned_data['accountBalance']
+                ):
+                    if form.cleaned_data['username'] != "":
+                        request.session['username'] = form.cleaned_data['username']
+            return redirect(request.path)
     else:
         return redirect('login')
 

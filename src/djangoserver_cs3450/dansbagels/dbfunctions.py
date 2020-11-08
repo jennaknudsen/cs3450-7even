@@ -60,7 +60,7 @@ def deleteAccountDB(username):
 # Having two username parameters allows the function to support updating a username
 # Return true if the update was successful, false otherwise.
 def updateAccountDB(oldUsername, firstName, lastName, username, password, email, phoneNumber, 
-                  accountType, accountBalance):
+                    accountBalance):
     # don't allow the user to take the username of another user that already exists
     if oldUsername != username and checkUsernameDB(username):
         printDebug("User " + username + " already exists. Refusing to update account. Aborting")
@@ -73,8 +73,7 @@ def updateAccountDB(oldUsername, firstName, lastName, username, password, email,
         person.password_text = password
         person.email_email = email
         person.phoneNumber_text = phoneNumber
-        person.accountBalance_decimal=accountBalance
-        person.accountType = accountType
+        person.accountBalance_decimal = accountBalance
         person.save()
         printDebug("Account for " + firstName + " " + lastName + " updated successfully")
         return True
