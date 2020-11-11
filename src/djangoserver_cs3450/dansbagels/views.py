@@ -157,7 +157,6 @@ def admin__add_rem(request):
     if request.method == "GET":
         form = ManagerAccountCreation()
         context = {
-            'purpose': "View/add/remove accounts: admin only",
             'form': form
         }
         return render(request, 'dansbagels/admin__add_rem.html', context)
