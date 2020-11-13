@@ -170,7 +170,6 @@ def account(request):
 def admin__add_rem(request):
     if request.method == "GET":
         context = {
-            'purpose': "View/add/remove accounts: admin only",
             'form': ManagerAccountCreation(),
             'permitted': True if request.session['accountType'] == 'Manager' else False,
             'people': Person.objects.all()

@@ -19,7 +19,7 @@
         </div>
         <div>
         {% if permitted %}
-            <h1>The purpose of this page is: {{ purpose }}</h1>
+            <h1>Create an Account</h1>
             <table>
                 <tr>
                     <th>User Name</th>
@@ -46,8 +46,8 @@
             </table>
             <form method="post">
                 {% csrf_token %}
-                {{ form }}
-                <input type="submit" value="submit">
+                {{ form.as_p }}
+                <input type="submit" value="Submit">
             </form>
 
         {% else %}

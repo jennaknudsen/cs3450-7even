@@ -12,7 +12,7 @@ form {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 300px;
+    width: 400px;
 }
 
 a:link, a:visited, a:active {
@@ -22,13 +22,19 @@ a:link, a:visited, a:active {
 }
 
 
-#top-bar { 
+#top-bar {
 	text-align: right;
 	background-color: #6B2D42;
 	padding-top: 20px;
 	padding-bottom: 20px;
 	padding-right: 10px;
 	padding-left: 10px;
+}
+
+#banner-title {
+    color: white;
+    text-align: left;
+    font-family: Brush Script MT;
 }
 
 #welcome {
@@ -39,6 +45,7 @@ a:link, a:visited, a:active {
     margin: 0 auto;
 	margin-top: 50px;
 	font-size: 48pt;
+	color: blue;
 }
 
 #exceptionLink {
