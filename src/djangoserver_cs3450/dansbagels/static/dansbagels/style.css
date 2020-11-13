@@ -21,8 +21,32 @@ a:link, a:visited, a:active {
     text-decoration: none;
 }
 
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
 
-#top-bar { 
+.menuItem {
+    float: left;
+    border-style: solid;
+    border-width: 1px;
+    width: 250px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.grid-container {
+    display: grid;
+}
+
+.cartItem {
+    border-style: solid;
+    border-width: 1px;
+    width: 100%;
+    cursor: pointer;
+}
+
+#top-bar {
 	text-align: right;
 	background-color: #6B2D42;
 	padding-top: 20px;

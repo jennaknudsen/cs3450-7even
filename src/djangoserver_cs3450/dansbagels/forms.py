@@ -1,4 +1,5 @@
 from django import forms
+from django.forms.widgets import NumberInput, HiddenInput
 from .models import *
 
 
@@ -25,3 +26,8 @@ class UpdateAccount(forms.Form):
     username = forms.CharField(max_length=200, required=False)
     password = forms.CharField(max_length=200, required=False)
     accountBalance = forms.DecimalField(max_digits=7, decimal_places=2, required=False)
+
+class OrderBagel(forms.Form):
+    itemsOrdered = forms.CharField(max_length=200, widget=HiddenInput())
+    pickUpDate = forms.DateField(widget=NumberInput(attrs={'type': 'date'}))
+    pickUpTime = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}))

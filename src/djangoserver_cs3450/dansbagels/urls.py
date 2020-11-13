@@ -15,5 +15,6 @@ urlpatterns = [
     path('orderBagel', views.orderBagel, name='orderBagel'),
     path('account', views.account, name='account'),
     path('admin/add_rem', views.admin__add_rem, name='admin__add_rem'),
-    path('deleteAccount', views.deleteAccount, name='deleteAccount')
+    path('deleteAccount', views.deleteAccount, name='deleteAccount'),
+    path('placeOrder', views.placeOrder, name='placeOrder')
 ]

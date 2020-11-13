@@ -7,6 +7,9 @@ from django.urls import reverse
 from dansbagels.models import *
 from .forms import *
 from .dbfunctions import *
+from datetime import datetime
+from django.utils import timezone
+import pytz
 
 # import helper functions from dbfunctions.py
 from dansbagels.dbfunctions import *
@@ -142,7 +145,11 @@ def home(request):
 
 # URL: localhost:8000/dansbagels/orderBagel
 def orderBagel(request):
-    context = {'purpose': "Order Bagel"}
+    context = {'purpose': "Order Bagel",
+               'menuItems': MenuItem.objects.all(),
+               'orderForm': OrderBagel(),
+               'logged_in': True if 'logged_in' in request.session and request.session['logged_in'] is True else False
+               }
     return render(request, 'dansbagels/orderBagel.html', context)
 
 
@@ -214,3 +221,16 @@ def deleteAccount(request):
     if request.method == "POST":
         deleteAccountDB(request.POST.get('DeleteButton'))
     return redirect('admin__add_rem')
+
+
+def placeOrder(request):
+    form = OrderBagel(request.POST)
+    if form.is_valid():
+        date = form.cleaned_data['pickUpDate']
+        time = form.cleaned_data['pickUpTime'].split(":")
+        createOrderDB(
+            pickUpTime=datetime(year=date[0:4], month=date[5:7], day=date[8:10],
+                                hour=time[0], minute=time[1], second=0, tzinfo=pytz.UTC),
+            personOrdered=Person.objects.get(username_text=request.session['username']),
+            currentStatus=OrderStatus.objects.get(orderstatus_text="Ordered")
+        )
