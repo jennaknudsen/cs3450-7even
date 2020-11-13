@@ -159,6 +159,11 @@ def account(request):
     if 'logged_in' in request.session and request.session['logged_in']:
         account = Person.objects.get(username_text=request.session['username'])
         if request.method == "GET":
+            orderHistory = Order.objects.get(personOrdered=account)
+            orderLineItemHistory = []
+            for order in orderHistory:
+                # only get orderLineItems from orders the account placed
+                orderLineItemHistory.append(orderLineItemHistory.objects.get(order=order))
             context['userName'] = account.username_text
             context['password'] = account.password_text
             context['firstName'] = str(account.firstName_text)
@@ -168,6 +173,9 @@ def account(request):
             context['accountBalance'] = str(account.accountBalance_decimal)
             context['accountType'] = request.session['accountType']
             context['updateAccountForm'] = UpdateAccount()
+            context['orderHistory'] = orderHistory
+            context['orderLineItemHistory'] = orderLineItemHistory
+
             return render(request, 'dansbagels/account.html', context)
         if request.method == "POST":
             form = UpdateAccount(request.POST)
@@ -224,13 +232,22 @@ def deleteAccount(request):
 
 
 def placeOrder(request):
-    form = OrderBagel(request.POST)
-    if form.is_valid():
-        date = form.cleaned_data['pickUpDate']
-        time = form.cleaned_data['pickUpTime'].split(":")
-        createOrderDB(
-            pickUpTime=datetime(year=date[0:4], month=date[5:7], day=date[8:10],
-                                hour=time[0], minute=time[1], second=0, tzinfo=pytz.UTC),
-            personOrdered=Person.objects.get(username_text=request.session['username']),
-            currentStatus=OrderStatus.objects.get(orderstatus_text="Ordered")
-        )
+    if request.method == "POST":
+        form = OrderBagel(request.POST)
+        if form.is_valid():
+            orderDate = str(form.cleaned_data['pickUpDate'])
+            orderTime = str(form.cleaned_data['pickUpTime']).split(":")
+            order = createOrderDB(
+                pickUpTime=datetime.datetime(year=int(orderDate[0:4]), month=int(orderDate[5:7]), day=int(orderDate[8:10]),
+                                    hour=int(orderTime[0]), minute=int(orderTime[1]), second=0, tzinfo=pytz.UTC),
+                personOrdered=Person.objects.get(username_text=request.session['username']),
+                currentStatus=OrderStatus.objects.get(orderStatus_text="Ordered")
+            )
+            itemsOrdered = form.cleaned_data['itemsOrdered'].split(",")
+            for i in range(0,len(itemsOrdered), 2):
+                createOrderLineItemDB(
+                    itemOrdered=MenuItem.objects.get(itemName_text=itemsOrdered[i+1]),
+                    order=order,
+                    orderQuantity=int(itemsOrdered[i])
+                )
+        return redirect("home")  # temp redirect, should redirect to order status page

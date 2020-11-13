@@ -119,11 +119,11 @@ def createOrderDB(pickUpTime, personOrdered, currentStatus):
         order.currentStatus = currentStatus     # order.currentStatus should be of type OrderStatus
         order.save()
         printDebug("Order for " + str(personOrdered.username_text) + " created successfully.")
-        return True
+        return order
     except Exception as e:
         printDebug("Failed to create order for " + str(personOrdered.username_text))
         printDebug(str(e))
-        return False
+        return None
 
 
 # Creates an order line item.
