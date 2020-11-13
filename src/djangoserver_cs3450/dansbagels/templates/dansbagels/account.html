@@ -68,8 +68,14 @@
             </form>
             {% for order in orderHistory %}
             <div>
-                <p></p>
+                <p>{{ order.pickUpTime }}</p>
+                {% for item in orderLineItemHistory %}
+                    {% if item.order == order %}
+                    <p>{{item.itemOrdered}} x{{item.orderQuantity_int}}</p>
+                    {% endif %}
+                {% endfor %}
             </div>
+            {% endfor %}
         </div>
     </body>
 </html>

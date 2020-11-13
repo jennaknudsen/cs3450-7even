@@ -159,11 +159,6 @@ def account(request):
     if 'logged_in' in request.session and request.session['logged_in']:
         account = Person.objects.get(username_text=request.session['username'])
         if request.method == "GET":
-            orderHistory = Order.objects.get(personOrdered=account)
-            orderLineItemHistory = []
-            for order in orderHistory:
-                # only get orderLineItems from orders the account placed
-                orderLineItemHistory.append(orderLineItemHistory.objects.get(order=order))
             context['userName'] = account.username_text
             context['password'] = account.password_text
             context['firstName'] = str(account.firstName_text)
@@ -173,8 +168,8 @@ def account(request):
             context['accountBalance'] = str(account.accountBalance_decimal)
             context['accountType'] = request.session['accountType']
             context['updateAccountForm'] = UpdateAccount()
-            context['orderHistory'] = orderHistory
-            context['orderLineItemHistory'] = orderLineItemHistory
+            context['orderHistory'] = Order.objects.filter(personOrdered=account).reverse()
+            context['orderLineItemHistory'] = OrderLineItem.objects.all()
 
             return render(request, 'dansbagels/account.html', context)
         if request.method == "POST":
