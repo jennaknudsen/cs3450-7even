@@ -7,6 +7,9 @@ from django.urls import reverse
 from dansbagels.models import *
 from .forms import *
 from .dbfunctions import *
+from datetime import datetime
+from django.utils import timezone
+import pytz
 
 # import helper functions from dbfunctions.py
 from dansbagels.dbfunctions import *
@@ -142,27 +145,52 @@ def home(request):
 
 # URL: localhost:8000/dansbagels/orderBagel
 def orderBagel(request):
-    context = {'purpose': "Order Bagel"}
+    context = {'purpose': "Order Bagel",
+               'menuItems': MenuItem.objects.all(),
+               'orderForm': OrderBagel(),
+               'logged_in': True if 'logged_in' in request.session and request.session['logged_in'] is True else False
+               }
     return render(request, 'dansbagels/orderBagel.html', context)
 
 
 # URL: localhost:8000/dansbagels/account
 def account(request):
     context = {'purpose': "View/Change account info"}
-    try:
+    if 'logged_in' in request.session and request.session['logged_in']:
         account = Person.objects.get(username_text=request.session['username'])
         if request.method == "GET":
-            context['userName'] = request.session['username']
-            context['password'] = request.session['password']
+            context['userName'] = account.username_text
+            context['password'] = account.password_text
             context['firstName'] = str(account.firstName_text)
             context['lastName'] = account.lastName_text
             context['email'] = account.email_email
             context['phoneNumber'] = account.phoneNumber_text
             context['accountBalance'] = str(account.accountBalance_decimal)
             context['accountType'] = request.session['accountType']
-            context['updateAccountForm'] = AccountCreation()
+            context['updateAccountForm'] = UpdateAccount()
+            context['orderHistory'] = Order.objects.filter(personOrdered=account).reverse()
+            context['orderLineItemHistory'] = OrderLineItem.objects.all()
+
             return render(request, 'dansbagels/account.html', context)
-    except Exception:
+        if request.method == "POST":
+            form = UpdateAccount(request.POST)
+            if form.is_valid():
+                if updateAccountDB(
+                    # series of ternary statements that check if the user inputed something into the field
+                    # if the field is blank then it plugs in the users existing info
+                    oldUsername=request.session['username'],
+                    firstName=account.firstName_text if form.cleaned_data['firstName'] == '' else form.cleaned_data['firstName'],
+                    lastName=account.lastName_text if form.cleaned_data['lastName'] == '' else form.cleaned_data['lastName'],
+                    email=account.email_email if form.cleaned_data['email'] == '' else form.cleaned_data['email'],
+                    phoneNumber=account.phoneNumber_text if form.cleaned_data['phone'] == '' else form.cleaned_data['phone'],
+                    username=account.username_text if form.cleaned_data['username'] == '' else form.cleaned_data['username'],
+                    password=account.password_text if form.cleaned_data['password'] == '' else form.cleaned_data['password'],
+                    accountBalance=account.accountBalance_decimal if form.cleaned_data['accountBalance'] is None else form.cleaned_data['accountBalance']
+                ):
+                    if form.cleaned_data['username'] != "":
+                        request.session['username'] = form.cleaned_data['username']
+            return redirect(request.path)
+    else:
         return redirect('login')
 
 
@@ -171,8 +199,8 @@ def admin__add_rem(request):
     if request.method == "GET":
         context = {
             'form': ManagerAccountCreation(),
-            'permitted': True if request.session['accountType'] == 'Manager' else False,
-            'people': Person.objects.all()
+            'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
+            'people': Person.objects.all(),
         }
         return render(request, 'dansbagels/admin__add_rem.html', context)
     if request.method == "POST":
@@ -189,5 +217,31 @@ def admin__add_rem(request):
             )
         return redirect(request.path)
 
+# URL: localhost:8000/dansbagels/deleteAccount
+# only intended to handle post requests from admin/add_rem
+def deleteAccount(request):
+    if request.method == "POST":
+        deleteAccountDB(request.POST.get('DeleteButton'))
+    return redirect('admin__add_rem')
 
 
+def placeOrder(request):
+    if request.method == "POST":
+        form = OrderBagel(request.POST)
+        if form.is_valid():
+            orderDate = str(form.cleaned_data['pickUpDate'])
+            orderTime = str(form.cleaned_data['pickUpTime']).split(":")
+            order = createOrderDB(
+                pickUpTime=datetime.datetime(year=int(orderDate[0:4]), month=int(orderDate[5:7]), day=int(orderDate[8:10]),
+                                    hour=int(orderTime[0]), minute=int(orderTime[1]), second=0, tzinfo=pytz.UTC),
+                personOrdered=Person.objects.get(username_text=request.session['username']),
+                currentStatus=OrderStatus.objects.get(orderStatus_text="Ordered")
+            )
+            itemsOrdered = form.cleaned_data['itemsOrdered'].split(",")
+            for i in range(0,len(itemsOrdered), 2):
+                createOrderLineItemDB(
+                    itemOrdered=MenuItem.objects.get(itemName_text=itemsOrdered[i+1]),
+                    order=order,
+                    orderQuantity=int(itemsOrdered[i])
+                )
+        return redirect("home")  # temp redirect, should redirect to order status page

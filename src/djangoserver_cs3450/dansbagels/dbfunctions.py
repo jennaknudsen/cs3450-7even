@@ -60,7 +60,7 @@ def deleteAccountDB(username):
 # Having two username parameters allows the function to support updating a username
 # Return true if the update was successful, false otherwise.
 def updateAccountDB(oldUsername, firstName, lastName, username, password, email, phoneNumber, 
-                  accountType, accountBalance):
+                    accountBalance):
     # don't allow the user to take the username of another user that already exists
     if oldUsername != username and checkUsernameDB(username):
         printDebug("User " + username + " already exists. Refusing to update account. Aborting")
@@ -73,8 +73,7 @@ def updateAccountDB(oldUsername, firstName, lastName, username, password, email,
         person.password_text = password
         person.email_email = email
         person.phoneNumber_text = phoneNumber
-        person.accountBalance_decimal=accountBalance
-        person.accountType = accountType
+        person.accountBalance_decimal = accountBalance
         person.save()
         printDebug("Account for " + firstName + " " + lastName + " updated successfully")
         return True
@@ -120,11 +119,11 @@ def createOrderDB(pickUpTime, personOrdered, currentStatus):
         order.currentStatus = currentStatus     # order.currentStatus should be of type OrderStatus
         order.save()
         printDebug("Order for " + str(personOrdered.username_text) + " created successfully.")
-        return True
+        return order
     except Exception as e:
         printDebug("Failed to create order for " + str(personOrdered.username_text))
         printDebug(str(e))
-        return False
+        return None
 
 
 # Creates an order line item.
