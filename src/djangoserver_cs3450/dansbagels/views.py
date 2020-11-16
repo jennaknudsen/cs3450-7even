@@ -155,7 +155,7 @@ def orderBagel(request):
 
 # URL: localhost:8000/dansbagels/account
 def account(request):
-    context = {'purpose': "View/Change account info"}
+    context = {}
     if 'logged_in' in request.session and request.session['logged_in']:
         account = Person.objects.get(username_text=request.session['username'])
         if request.method == "GET":
