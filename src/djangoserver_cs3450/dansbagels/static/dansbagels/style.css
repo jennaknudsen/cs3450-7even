@@ -32,9 +32,10 @@ a:link, a:visited, a:active {
 }
 
 #banner-title {
-    color: white;
-    text-align: left;
-    font-family: Brush Script MT;
+    float:left;
+    color:white;
+    font-family:Brush Script MT;
+    font-size:larger;
 }
 
 #welcome {
