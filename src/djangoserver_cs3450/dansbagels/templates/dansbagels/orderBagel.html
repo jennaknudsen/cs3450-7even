@@ -5,6 +5,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8"/>
+        {% load static %}
         <link rel="stylesheet" href="{% static 'dansbagels/style.css' %}" type="text/css"/>
         <link rel="shortcut icon" href="{%static 'dansbagels/images/favicon.ico' %}"/>
         <title>Order Bagel</title>
@@ -18,6 +19,30 @@
             <a href="/dansbagels/account" class="link">Account</a>
             <a href="/dansbagels/orderBagel" class="link">Place Order</a>
         </div>
-        <h1>The purpose of this page is: {{ purpose }}</h1>
+        {% if logged_in %}
+            <h1>The purpose of this page is: {{ purpose }}</h1>
+            <div class="grid-container">
+                <div>
+                    <h2>Menu</h2>
+                    {% for menuItem in menuItems %}
+                    <div class="menuItem">
+                        <h3>{{menuItem.itemName_text}}</h3>
+                        <p>${{menuItem.itemPrice_decimal}}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div id="cart"></div>
+                <div id="checkOut">
+                    <form action="{% url 'placeOrder' %}" method="post">
+                        {% csrf_token %}
+                        {{ orderForm }}
+                        <button id="placeOrderButton" type="submit">Place Order</button>
+                    </form>
+                </div>
+                <script src="{% static 'dansbagels/bagelOrderScript.js' %}"></script>
+            </div>
+        {% else %}
+            <p>Please Log in to place an order</p>
+        {% endif %}
     </body>
 </html>

@@ -42,6 +42,12 @@
                         <th>{{person.phoneNumber_text}}</th>
                         <th>{{person.accountBalance_decimal}}</th>
                         <th>{{person.accountType}}</th>
+                        <th>
+                            <form action="{% url 'deleteAccount' %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" value={{person.username_text}} name="DeleteButton">Delete</button>
+                            </form>
+                        </th>
                     </tr>
                 {% endfor %}
             </table>

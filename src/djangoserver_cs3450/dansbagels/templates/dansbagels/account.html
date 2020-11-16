@@ -20,40 +20,63 @@
         </div>
         <div>
             <h1>The purpose of this page is: {{ purpose }}</h1>
-            <table>
-                <tr>
-                    <th>Username</th>
-                    <th>{{ userName }}</th>
-                </tr>
-                <tr>
-                    <th>Password</th>
-                    <th>{{ password }}</th>
-                </tr>
-                <tr>
-                    <th>First Name</th>
-                    <th>{{ firstName }}</th>
-                </tr>
-                <tr>
-                    <th>Last Name</th>
-                    <th>{{ lastName }}</th>
-                </tr>
-                <tr>
-                    <th>Email</th>
-                    <th>{{ email }}</th>
-                </tr>
-                <tr>
-                    <th>Phone Number</th>
-                    <th>{{ phoneNumber }}</th>
-                </tr>
-                <tr>
-                    <th>Account Balance</th>
-                    <th>{{ accountBalance }}</th>
-                </tr>
-                <tr>
-                    <th>Account Type</th>
-                    <th>{{ accountType }}</th>
-                </tr>
-            </table>
+            <p>To update your account info, input the updated info in the box next to your current info and click update
+            when done.</p>
+            <form method="post">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <th>Username</th>
+                        <th>{{ userName }}</th>
+                        <th>{{updateAccountForm.username}}</th>
+                    </tr>
+                    <tr>
+                        <th>Password</th>
+                        <th>{{ password }}</th>
+                        <th>{{updateAccountForm.password}}</th>
+                    </tr>
+                    <tr>
+                        <th>First Name</th>
+                        <th>{{ firstName }}</th>
+                        <th>{{updateAccountForm.firstName}}</th>
+                    </tr>
+                    <tr>
+                        <th>Last Name</th>
+                        <th>{{ lastName }}</th>
+                        <th>{{updateAccountForm.lastName}}</th>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <th>{{ email }}</th>
+                        <th>{{updateAccountForm.email}}</th>
+                    </tr>
+                    <tr>
+                        <th>Phone Number</th>
+                        <th>{{ phoneNumber }}</th>
+                        <th>{{updateAccountForm.phone}}</th>
+                    </tr>
+                    <tr>
+                        <th>Account Balance</th>
+                        <th>{{ accountBalance }}</th>
+                        <th>{{updateAccountForm.accountBalance}}</th>
+                    </tr>
+                    <tr>
+                        <th>Account Type</th>
+                        <th>{{ accountType }}</th>
+                    </tr>
+                </table>
+                <button type="submit">Update</button>
+            </form>
+            {% for order in orderHistory %}
+            <div>
+                <p>{{ order.pickUpTime }}</p>
+                {% for item in orderLineItemHistory %}
+                    {% if item.order == order %}
+                    <p>{{item.itemOrdered}} x{{item.orderQuantity_int}}</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% endfor %}
         </div>
     </body>
 </html>
