@@ -67,7 +67,7 @@ class ViewAccountInfoPageTestCase(TestCase):
         # we will also set the account balance to 50.00
         self.assertEqual(True, 
                 updateAccountDB("fn2.ln2", self.firstName, self.lastName, "new.username", self.password,
-                              self.email, self.phoneNumber, self.accountType, 50.00))
+                              self.email, self.phoneNumber, 50.00))
         self.assertEqual(50.00, Person.objects.get(username_text="new.username").accountBalance_decimal)
 
         # make sure the account with username "fn2.ln2" does not exist anymore
@@ -79,7 +79,7 @@ class ViewAccountInfoPageTestCase(TestCase):
         # make sure that updating the account to a username that already exists fails
         self.assertEqual(False,
                 updateAccountDB("fn2.ln2", self.firstName, self.lastName, "new.username", self.password,
-                              self.email, self.phoneNumber, self.accountType, 50.00))
+                              self.email, self.phoneNumber, 50.00))
 
 
 class CreateOrderPageTestCase(TestCase):
@@ -91,14 +91,16 @@ class CreateOrderPageTestCase(TestCase):
         # pickup time: 2020-Nov-10, 19:30:54, UTC time
         pickUpTime = datetime(2020, 11, 10, 19, 30, 54, tzinfo=pytz.UTC)
         personOrdered = Person.objects.get(username_text="AbeLincoln")
-
-        # should work with a custom order status as well as the default first order status
-        self.assertEqual(True,
-                createOrderDB(pickUpTime, personOrdered))
-
         currentStatus = OrderStatus.objects.get(pk=3)
-        self.assertEqual(True,
-                createOrderDB(pickUpTime, personOrdered, currentStatus))
+
+        # this function returns None if the order
+        # was not created. So to test the function, we just need
+        # to assert that createOrderDB() did not return None.
+        self.assertNotEqual(None,
+                createOrderDB(pickUpTime, "", personOrdered, currentStatus))
+
+        self.assertNotEqual(None,
+                createOrderDB(pickUpTime, "Nothing special", personOrdered, currentStatus 
 
         # now, add an order line item to each order
         itemOrdered = []
