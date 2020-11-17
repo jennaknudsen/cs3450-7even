@@ -111,10 +111,11 @@ def checkUsernameDB(username):
 # import pytz
 #
 # Returns True if created successfully, False otherwise.
-def createOrderDB(pickUpTime, personOrdered, currentStatus):
+def createOrderDB(pickUpTime, orderInstructions, personOrdered, currentStatus):
     try:
         order = Order()
         order.pickUpTime = pickUpTime
+        order.orderInstructions_text = orderInstructions
         order.personOrdered = personOrdered
         order.currentStatus = currentStatus     # order.currentStatus should be of type OrderStatus
         order.save()

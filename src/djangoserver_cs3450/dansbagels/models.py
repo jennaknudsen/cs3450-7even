@@ -77,6 +77,10 @@ class Order(models.Model):
     # pickup time is specified as a Python DateTime
     pickUpTime = models.DateTimeField()
 
+    # used to provide order instructions
+    # (e.g, which condiment goes on which bagel)
+    orderInstructions_text = models.CharField(max_length=200, default="")
+
     # each order will be tied to a single Person
     # many-to-one relationship 
     personOrdered = models.ForeignKey(
