@@ -141,3 +141,43 @@ class CreateOrderPageTestCase(TestCase):
             self.assertEqual(orderQuantities[i],
                     initialQuantities[i] - itemOrdered[i].inventoryQuantity_int)
 
+
+class ModifyAndDeleteOrderTestCase(TestCase):
+    def setUp(self):
+        pass
+
+    def test_modify_order_status_and_cancel_order(self):
+
+        pickUpTime = datetime(2020, 11, 10, 19, 30, 54, tzinfo=pytz.UTC)
+        personOrdered = Person.objects.get(username_text="ArthurDent")
+        currentStatus = OrderStatus.objects.get(pk=1)
+
+        order1 = createOrderDB(pickUpTime, "refund me!", 50.00, personOrdered, currentStatus)
+        order2 = createOrderDB(pickUpTime, "don't refund me!", 10.00, personOrdered, currentStatus)
+
+        # modify order1 status to In Preparation, order2 status to Ready
+        self.assertEqual(True,
+                modifyOrderStatusDB(order1, OrderStatus.objects.get(pk=2)))
+
+        self.assertEqual(True,
+                modifyOrderStatusDB(order2, OrderStatus.objects.get(pk=3)))
+
+        # validate that the changes actually occurred
+        self.assertEqual(order1.currentStatus,
+                OrderStatus.objects.get(pk=2))
+
+        self.assertEqual(order2.currentStatus,
+                OrderStatus.objects.get(pk=3))
+
+        # now, delete both orders for Arthur Dent
+        # only refund the first one
+        # final balance should be $90.00
+        self.assertEqual(True,
+                cancelOrderDB(order1, True))
+
+        self.assertEqual(True,
+                cancelOrderDB(order2, False))
+
+        self.assertEqual(90.00,
+                personOrdered.accountBalance_decimal)
+

@@ -180,6 +180,38 @@ def checkOrderQuantityValidDB(itemOrdered, orderQuantity):
         return True
 
 
+# modifies order status in the database
+# newOrderStatus should be of type OrderStatus
+# this can be obtained by using a Function such as OrderStatus.objects.get(pk=<key>)
+def modifyOrderStatusDB(order, newOrderStatus):
+    try:
+        order.currentStatus = newOrderStatus
+        order.save()
+        return True
+    except Exception as e:
+        printDebug("Failed to modify order status for order " + str(order))
+        printDebug(e)
+        return False
+
+
+# deletes an order from the database
+# if we need to issue a refund, then we can specify True for issueRefund
+def cancelOrderDB(order, issueRefund):
+    try:
+        if issueRefund:
+            order.personOrdered.accountBalance_decimal += Decimal(order.orderCost_decimal)
+            order.personOrdered.save()
+
+        # regardless of refund or not, delete the order
+        order.delete()
+        return True
+
+    except Exception as e:
+        printDebug("Failed to delete order " + str(order))
+        printDebug(e)
+        return False
+
+
 # Print a simple debug message preceded by [DEBUG]
 def printDebug(message):
     if printDebugMessages:
