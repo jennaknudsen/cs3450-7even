@@ -19,6 +19,13 @@
             <a href="/dansbagels/account" class="link">Account</a>
             <a href="/dansbagels/orderBagel" class="link">Place Order</a>
         </div>
+        {% if permitted %}
+            <div id="Sidenav">
+                <p style="padding-left:15px">Admin Links</p>
+                <a href="/dansbagels/admin/add_rem">Database Info</a><br>
+                <a href="#">Inventory</a>
+            </div>
+        {% endif %}
         {% if logged_in %}
             <h1>The purpose of this page is: {{ purpose }}</h1>
             <div class="grid-container">

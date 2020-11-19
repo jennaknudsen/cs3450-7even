@@ -18,6 +18,13 @@
             <a href="/dansbagels/account" class="link">Account</a>
             <a href="/dansbagels/orderBagel" class="link">Place Order</a>
         </div>
+        {% if permitted %}
+            <div id="Sidenav">
+                <p style="padding-left:15px">Admin Links</p>
+                <a href="/dansbagels/admin/add_rem">Database Info</a><br>
+                <a href="#">Inventory</a>
+            </div>
+        {% endif %}
         <div>
             <h1>Account Info</h1>
             <p>To update your account info, input the updated info in the box next to your current info and click update

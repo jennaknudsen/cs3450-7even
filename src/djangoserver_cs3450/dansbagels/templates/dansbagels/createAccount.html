@@ -18,6 +18,13 @@
             <a href="/dansbagels/account" class="link">Account</a>
             <a href="/dansbagels/orderBagel" class="link">Place Order</a>
         </div>
+        {% if permitted %}
+            <div id="Sidenav">
+                <p style="padding-left:15px">Admin Links</p>
+                <a href="/dansbagels/admin/add_rem">Database Info</a><br>
+                <a href="#">Inventory</a>
+            </div>
+        {% endif %}
         <h1 align="center">Create an Account</h1>
         <form method="post">
             {% csrf_token %}
