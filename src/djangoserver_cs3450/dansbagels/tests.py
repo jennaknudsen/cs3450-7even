@@ -97,10 +97,14 @@ class CreateOrderPageTestCase(TestCase):
         # was not created. So to test the function, we just need
         # to assert that createOrderDB() did not return None.
         self.assertNotEqual(None,
-                createOrderDB(pickUpTime, "", personOrdered, currentStatus))
+                createOrderDB(pickUpTime, "", 50.00, personOrdered, currentStatus))
 
         self.assertNotEqual(None,
-                createOrderDB(pickUpTime, "Nothing special", personOrdered, currentStatus 
+                createOrderDB(pickUpTime, "Nothing special", 7.25, personOrdered, currentStatus))
+
+        # make sure user was charged $57.25 for the order
+        self.assertEqual(42.75,
+                personOrdered.accountBalance_decimal)
 
         # now, add an order line item to each order
         itemOrdered = []

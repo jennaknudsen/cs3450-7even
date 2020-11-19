@@ -1,4 +1,5 @@
 from dansbagels.models import *
+from decimal import Decimal
 
 # Change this variable to True if you want debug messages to print 
 printDebugMessages = True
@@ -111,14 +112,20 @@ def checkUsernameDB(username):
 # import pytz
 #
 # Returns True if created successfully, False otherwise.
-def createOrderDB(pickUpTime, orderInstructions, personOrdered, currentStatus):
+def createOrderDB(pickUpTime, orderInstructions, orderCost, personOrdered, currentStatus):
     try:
         order = Order()
         order.pickUpTime = pickUpTime
         order.orderInstructions_text = orderInstructions
+        order.orderCost_decimal = orderCost
         order.personOrdered = personOrdered
         order.currentStatus = currentStatus     # order.currentStatus should be of type OrderStatus
         order.save()
+
+        # if the order cost is set correctly, then deduct the balance from the user
+        personOrdered.accountBalance_decimal -= Decimal(orderCost)
+        personOrdered.save()
+
         printDebug("Order for " + str(personOrdered.username_text) + " created successfully.")
         return order
     except Exception as e:
