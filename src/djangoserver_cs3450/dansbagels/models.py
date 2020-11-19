@@ -81,6 +81,9 @@ class Order(models.Model):
     # (e.g, which condiment goes on which bagel)
     orderInstructions_text = models.CharField(max_length=200, default="")
 
+    # used to keep track of an order cost
+    orderCost_decimal = models.DecimalField(max_digits=4, decimal_places=2, default=0.00)
+
     # each order will be tied to a single Person
     # many-to-one relationship 
     personOrdered = models.ForeignKey(
