@@ -15,6 +15,10 @@ form {
     width: 400px;
 }
 
+h1 {
+    align:center;
+}
+
 a:link, a:visited, a:active {
     color: white;
     padding: 0px 0px 25px 25px;
