@@ -4,6 +4,7 @@
 
 <html lang="en">
     <head>
+        {% load static %}
         <meta charset="utf-8"/>
         <link rel="stylesheet" href="{% static 'dansbagels/style.css' %}" type="text/css"/>
         <link rel="shortcut icon" href="{%static 'dansbagels/images/favicon.ico' %}"/>
@@ -24,12 +25,12 @@
         <!-- Sidenav is for links that appear for the Admin. The CSS stuff is not working -->
 
         {% if permitted %}
-            <div id="Sidenav">
-                <p style="padding-left:15px">Admin Links</p>
-                <a href="/dansbagels/admin/add_rem">Database Info</a><br>
+            <div id="admin-links">
+                <a href="/dansbagels/admin/add_rem">Database Info</a>
                 <a href="#">Inventory</a>
             </div>
         {% endif %}
-        <h1 id="welcome" align="center" style="color:blue">Welcome to Dan's Bagel Shop!</h1>
+        <h1 id="welcome" align="center">Welcome to Dan's Bagel Shop!</h1>
+        <img src="{% static 'dansbagels/images/bagels.png' %}" alt="bagels" width="600" height="400" class="center">
     </body>
 </html>

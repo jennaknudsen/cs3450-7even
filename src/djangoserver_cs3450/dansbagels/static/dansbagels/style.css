@@ -30,6 +30,13 @@ table, th, td {
   border-collapse: collapse;
 }
 
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
 .menuItem {
     float: left;
     border-style: solid;
@@ -66,37 +73,33 @@ table, th, td {
     font-size:larger;
 }
 
+#admin-links {
+	text-align: right;
+	background-color: #6B2D42;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+/* The navigation menu links */
+#admin-links a {
+    padding: 8px 15px 8px 32px;
+    text-decoration: none;
+    color: white;
+}
+
 #welcome {
 	text-align: = center;
 	font-size: 35px;
 	font-weight: normal;
-	width:500px;
+	width:900px;
     margin: 0 auto;
-	margin-top: 50px;
+	margin-top: 25px;
 	font-size: 48pt;
-	color: blue;
 }
 
 
-/* Side navigation stuff from https://www.w3schools.com/howto/howto_js_sidenav.asp--> */
-/* The side navigation menu */
-#Sidenav {
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Stay on top */
-    right: 25px;
-    background-color: #6B2D42;
-    overflow-x: hidden; /* Disable horizontal scroll */
-    padding-right: 10px;
-    color:white;
-}
-
-/* The navigation menu links */
-#Sidenav a {
-    padding: 8px 15px 8px 32px;
-    text-decoration: none;
-    color: white;
-    display: block;
-}
 
 #exceptionLink {
     color: blue;
