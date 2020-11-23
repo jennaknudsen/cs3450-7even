@@ -28,10 +28,13 @@
         {% if user_is_logged_in %}
 
             <p align="center"> Currently logged in: {{ username }}</p>
-            <form action="{% url 'prototype_logout' %}" method="post">
-                {% csrf_token %}
-                <input type="submit" value="Logout" />
-            </form>
+            <div align="center">
+                <form action="{% url 'prototype_logout' %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="Logout" />
+                </form>
+            </div>
+
 
         {% else %}
 
@@ -41,14 +44,18 @@
                 <p align="center"> You are not logged in. </p>
             {% endif %}
 
-            <form action="{% url 'prototype_login' %}" method="post">
-                {% csrf_token %}
-                <label for="txt_username">Username</label>
-                <input name="username" id="txt_username" /><br>
-                <label for="txt_password">Password</label>
-                <input name="password" type="password" id="txt_password" /><br>
-                <input type="submit" value="Login" />
-            </form>
+            <div id="form-div" align="center" style="padding-top: 10px;">
+                <form action="{% url 'prototype_login' %}" method="post">
+                    {% csrf_token %}
+                    <label for="txt_username"></label>
+                    <input name="username" id="txt_username" placeholder="Username"/><br>
+                    <label for="txt_password"></label>
+                    <input name="password" type="password" id="txt_password" placeholder="Password"/><br>
+                    <p></p>
+                    <input type="submit" value="Login" />
+                </form>
+            </div>
+
 
         {% endif %}
     </body>

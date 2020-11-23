@@ -55,12 +55,15 @@
                     </tr>
                 {% endfor %}
             </table>
-            <h1>Create an Account</h1>
-            <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" value="Submit">
-            </form>
+            <h1 align="center">Create Employee Account</h1>
+            <div id="form-div" align="center">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+
 
         {% else %}
             <h1>Access denied, invalid account type</h1>
