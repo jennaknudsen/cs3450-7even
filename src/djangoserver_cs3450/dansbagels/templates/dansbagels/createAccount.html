@@ -11,18 +11,27 @@
     </head>
     <body>
         <div id="top-bar">
+            <span id="banner-title" style="float:left; font-size:larger;">Dan's Bagel Shop</span>
             <a href="/dansbagels/home" class="link">Home</a>
             <a href="/dansbagels/createAccount" class="link">Create Account</a>
             <a href="/dansbagels/login" class="link">Log in</a>
             <a href="/dansbagels/account" class="link">Account</a>
             <a href="/dansbagels/orderBagel" class="link">Place Order</a>
         </div>
+        {% if permitted %}
+            <div id="admin-links">
+                <a href="/dansbagels/admin/add_rem">Database Info</a>
+                <a href="#">Inventory</a>
+            </div>
+        {% endif %}
         <h1 align="center">Create an Account</h1>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Submit">
-        </form>
-    <p align="right">Have an Account? <a href="/dansbagels/login" id="exceptionLink">Log in</a></p>
+        <div id="form-div" align="center">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Submit">
+            </form>
+            <p>Have an Account? <a href="/dansbagels/login" id="exceptionLink">Log in</a></p>
+        </div>
     </body>
 </html>

@@ -5,12 +5,13 @@ from .models import *
 
 class AccountCreation(forms.Form):
     # this is the account creation form for the customer
-    firstName = forms.CharField(max_length=200)
-    lastName = forms.CharField(max_length=200)
-    email = forms.EmailField(max_length=200)
-    phone = forms.CharField(max_length=200)
-    username = forms.CharField(max_length=200)
-    password = forms.CharField(max_length=200)
+    # Site used to figure out placeholder stuff: https://stackoverflow.com/questions/4101258/how-do-i-add-a-placeholder-on-a-charfield-in-django
+    firstName = forms.CharField(label='', widget=forms.TextInput(attrs={'placeholder': 'First Name'}), max_length=200)
+    lastName = forms.CharField(label='', widget=forms.TextInput(attrs={'placeholder': 'Last Name'}), max_length=200)
+    email = forms.EmailField(label='', widget=forms.TextInput(attrs={'placeholder': 'Email'}), max_length=200)
+    phone = forms.CharField(label='', widget=forms.TextInput(attrs={'placeholder': 'Phone Number'}), max_length=200)
+    username = forms.CharField(label='', widget=forms.TextInput(attrs={'placeholder': 'Username'}), max_length=200)
+    password = forms.CharField(label='', widget=forms.TextInput(attrs={'placeholder': 'Password'}), max_length=200)
 
 
 class ManagerAccountCreation(AccountCreation):

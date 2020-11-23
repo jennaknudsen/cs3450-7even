@@ -4,6 +4,7 @@
 
 <html lang="en">
     <head>
+        {% load static %}
         <meta charset="utf-8"/>
         <link rel="stylesheet" href="{% static 'dansbagels/style.css' %}" type="text/css"/>
         <link rel="shortcut icon" href="{%static 'dansbagels/images/favicon.ico' %}"/>
@@ -11,13 +12,25 @@
     </head>
     <body>
         <div id="top-bar">
-            <em>Dan's Bagel Shop</em>
+            <!-- For some reason, I can't get these style things to work in CSS; the other ones work -->
+            <span id="banner-title" style="float:left; font-size:larger;">Dan's Bagel Shop</span>
             <a href="/dansbagels/home" class="link">Home</a>
             <a href="/dansbagels/createAccount" class="link">Create Account</a>
             <a href="/dansbagels/login" class="link">Log in</a>
             <a href="/dansbagels/account" class="link">Account</a>
             <a href="/dansbagels/orderBagel" class="link">Place Order</a>
         </div>
-        <h1 id="welcome" align="center" style="color:blue">Welcome to Dan's Bagel Shop!</h1>
+        <!-- Side navigation stuff from https://www.w3schools.com/howto/howto_js_sidenav.asp -->
+        <!-- anything in the style attribute here isn't showing up just from CSS -->
+        <!-- Sidenav is for links that appear for the Admin. The CSS stuff is not working -->
+
+        {% if permitted %}
+            <div id="admin-links">
+                <a href="/dansbagels/admin/add_rem">Database Info</a>
+                <a href="#">Inventory</a>
+            </div>
+        {% endif %}
+        <h1 id="welcome" align="center">Welcome to Dan's Bagel Shop!</h1>
+        <img src="{% static 'dansbagels/images/bagels.png' %}" alt="bagels" width="600" height="400" class="center">
     </body>
 </html>

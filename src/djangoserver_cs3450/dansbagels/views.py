@@ -69,7 +69,8 @@ def createAccount(request):
     if request.method == 'GET':
         form = AccountCreation()
         context = {
-            'form': form
+            'form': form,
+            'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False
         }
         return render(request, 'dansbagels/createAccount.html', context)
     if request.method == 'POST':
@@ -89,7 +90,9 @@ def createAccount(request):
 
 # URL: localhost:8000/dansbagels/login
 def login(request):
-    context = {}
+    context = {
+        'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False
+    }
     # if logged in, set the proper context flags to show user that's logged in
     if 'logged_in' in request.session and request.session['logged_in']:
         username = request.session['username']
@@ -139,7 +142,9 @@ def prototype_logout(request):
 
 # URL: localhost:8000/dansbagels/home
 def home(request):
-    context = {'purpose': "Home page"}
+    context = {
+        'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False
+    }
     return render(request, 'dansbagels/home.html', context)
 
 
@@ -148,14 +153,15 @@ def orderBagel(request):
     context = {'purpose': "Order Bagel",
                'menuItems': MenuItem.objects.all(),
                'orderForm': OrderBagel(),
-               'logged_in': True if 'logged_in' in request.session and request.session['logged_in'] is True else False
+               'logged_in': True if 'logged_in' in request.session and request.session['logged_in'] is True else False,
+               'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False
                }
     return render(request, 'dansbagels/orderBagel.html', context)
 
 
 # URL: localhost:8000/dansbagels/account
 def account(request):
-    context = {'purpose': "View/Change account info"}
+    context = {}
     if 'logged_in' in request.session and request.session['logged_in']:
         account = Person.objects.get(username_text=request.session['username'])
         if request.method == "GET":
@@ -170,6 +176,7 @@ def account(request):
             context['updateAccountForm'] = UpdateAccount()
             context['orderHistory'] = Order.objects.filter(personOrdered=account).reverse()
             context['orderLineItemHistory'] = OrderLineItem.objects.all()
+            context['permitted'] = True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False
 
             return render(request, 'dansbagels/account.html', context)
         if request.method == "POST":

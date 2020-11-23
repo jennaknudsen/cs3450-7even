@@ -11,6 +11,7 @@
     </head>
     <body>
         <div id="top-bar">
+            <span id="banner-title" style="float:left; font-size:larger;">Dan's Bagel Shop</span>
             <a href="/dansbagels/home" class="link">Home</a>
             <a href="/dansbagels/createAccount" class="link">Create Account</a>
             <a href="/dansbagels/login" class="link">Log in</a>
@@ -19,7 +20,11 @@
         </div>
         <div>
         {% if permitted %}
-            <h1>Create an Account</h1>
+            <div id="admin-links">
+                <a href="/dansbagels/admin/add_rem">Database Info</a>
+                <a href="#">Inventory</a>
+            </div>
+            <h1>Database Info</h1>
             <table>
                 <tr>
                     <th>User Name</th>
@@ -50,11 +55,15 @@
                     </tr>
                 {% endfor %}
             </table>
-            <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" value="Submit">
-            </form>
+            <h1 align="center">Create Employee Account</h1>
+            <div id="form-div" align="center">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+
 
         {% else %}
             <h1>Access denied, invalid account type</h1>
