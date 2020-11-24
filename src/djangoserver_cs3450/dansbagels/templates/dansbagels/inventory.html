@@ -1,3 +1,4 @@
+{# This page is primarily for the manager and the chef #}
 {% load static %}
 
 <!DOCTYPE html>
@@ -19,9 +20,7 @@
             <a href="/dansbagels/account" class="link">Account</a>
             <a href="/dansbagels/orderBagel" class="link">Place Order</a>
         </div>
-        <!-- Side navigation stuff from https://www.w3schools.com/howto/howto_js_sidenav.asp -->
         <!-- anything in the style attribute here isn't showing up just from CSS -->
-        <!-- Sidenav is for links that appear for the Admin. The CSS stuff is not working -->
 
         {% if permitted %}
             <div id="admin-links">
@@ -29,7 +28,7 @@
                 <a href="/dansbagels/inventory">Inventory</a>
             </div>
         {% endif %}
-        <h1 id="welcome" align="center">Welcome to Dan's Bagel Shop!</h1>
-        <img src="{% static 'dansbagels/images/bagels.png' %}" alt="bagels" width="600" height="400" class="center">
+        <h1>Inventory</h1>
+        {# Inventory stuff goes here #}
     </body>
 </html>

@@ -147,6 +147,25 @@ def home(request):
     }
     return render(request, 'dansbagels/home.html', context)
 
+# URL: localhost:8000/dansbagels/activeOrders
+def activeOrders(request):
+    context = {
+        'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False
+    }
+    return render(request, 'dansbagels/activeOrders.html', context)
+
+def completedOrders(request):
+    context = {
+        'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False
+    }
+    return render(request, 'dansbagels/completedOrders.html', context)
+
+def inventory(request):
+    context = {
+        'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False
+    }
+    return render(request, 'dansbagels/inventory.html', context)
+
 
 # URL: localhost:8000/dansbagels/orderBagel
 def orderBagel(request):

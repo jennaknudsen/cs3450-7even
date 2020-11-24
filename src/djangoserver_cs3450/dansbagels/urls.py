@@ -16,5 +16,8 @@ urlpatterns = [
     path('account', views.account, name='account'),
     path('admin/add_rem', views.admin__add_rem, name='admin__add_rem'),
     path('deleteAccount', views.deleteAccount, name='deleteAccount'),
-    path('placeOrder', views.placeOrder, name='placeOrder')
+    path('placeOrder', views.placeOrder, name='placeOrder'),
+    path('activeOrders', views.activeOrders, name='activeOrders'),
+    path('completedOrders', views.completedOrders, name='completedOrders'),
+    path('inventory', views.inventory, name='inventory')
 ]
