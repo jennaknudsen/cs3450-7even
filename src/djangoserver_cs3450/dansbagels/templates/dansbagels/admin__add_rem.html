@@ -38,20 +38,20 @@
                 </tr>
                 {% for person in people %}
                     <tr>
-                        <th>{{person.username_text}}</th>
-                        <th>{{person.password_text}}</th>
-                        <th>{{person.firstName_text}}</th>
-                        <th>{{person.lastName_text}}</th>
-                        <th>{{person.email_email}}</th>
-                        <th>{{person.phoneNumber_text}}</th>
-                        <th>{{person.accountBalance_decimal}}</th>
-                        <th>{{person.accountType}}</th>
-                        <th>
-                            <form action="{% url 'deleteAccount' %}" method="post">
+                        <td>{{person.username_text}}</td>
+                        <td>{{person.password_text}}</td>
+                        <td>{{person.firstName_text}}</td>
+                        <td>{{person.lastName_text}}</td>
+                        <td>{{person.email_email}}</td>
+                        <td>{{person.phoneNumber_text}}</td>
+                        <td>{{person.accountBalance_decimal}}</td>
+                        <td>{{person.accountType}}</td>
+                        <td>
+                            <form action="{% url 'deleteAccount' %}" method="post" class="in-table-form">
                                 {% csrf_token %}
                                 <button type="submit" value={{person.username_text}} name="DeleteButton">Delete</button>
                             </form>
-                        </th>
+                        </td>
                     </tr>
                 {% endfor %}
             </table>

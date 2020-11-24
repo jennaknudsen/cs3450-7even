@@ -33,57 +33,57 @@
                 <table>
                     <tr>
                         <th>Username</th>
-                        <th>{{ userName }}</th>
-                        <th>{{updateAccountForm.username}}</th>
+                        <td>{{ userName }}</td>
+                        <td>{{updateAccountForm.username}}</td>
                     </tr>
                     <tr>
                         <th>Password</th>
-                        <th>{{ password }}</th>
-                        <th>{{updateAccountForm.password}}</th>
+                        <td>{{ password }}</td>
+                        <td>{{updateAccountForm.password}}</td>
                     </tr>
                     <tr>
                         <th>First Name</th>
-                        <th>{{ firstName }}</th>
-                        <th>{{updateAccountForm.firstName}}</th>
+                        <td>{{ firstName }}</td>
+                        <td>{{updateAccountForm.firstName}}</td>
                     </tr>
                     <tr>
                         <th>Last Name</th>
-                        <th>{{ lastName }}</th>
-                        <th>{{updateAccountForm.lastName}}</th>
+                        <td>{{ lastName }}</td>
+                        <td>{{updateAccountForm.lastName}}</td>
                     </tr>
                     <tr>
                         <th>Email</th>
-                        <th>{{ email }}</th>
-                        <th>{{updateAccountForm.email}}</th>
+                        <td>{{ email }}</td>
+                        <td>{{updateAccountForm.email}}</td>
                     </tr>
                     <tr>
                         <th>Phone Number</th>
-                        <th>{{ phoneNumber }}</th>
-                        <th>{{updateAccountForm.phone}}</th>
+                        <td>{{ phoneNumber }}</td>
+                        <td>{{updateAccountForm.phone}}</td>
                     </tr>
                     <tr>
                         <th>Account Balance</th>
-                        <th>{{ accountBalance }}</th>
-                        <th>{{updateAccountForm.accountBalance}}</th>
+                        <td>{{ accountBalance }}</td>
+                        <td>{{updateAccountForm.accountBalance}}</td>
                     </tr>
                     <tr>
                         <th>Account Type</th>
-                        <th>{{ accountType }}</th>
+                        <td>{{ accountType }}</td>
                     </tr>
                 </table>
                 <button type="submit">Update</button>
             </form>
+            <h1>Order status (if any)</h1>
             {% for order in orderHistory %}
             <div>
                 <p>{{ order.pickUpTime }}</p>
                 {% for item in orderLineItemHistory %}
-                    {% if item.order == order %}
-                    <p>{{item.itemOrdered}} x{{item.orderQuantity_int}}</p>
-                    {% endif %}
+                {% if item.order == order %}
+                <p>{{item.itemOrdered}} x{{item.orderQuantity_int}}</p>
+                {% endif %}
                 {% endfor %}
             </div>
             {% endfor %}
         </div>
-        <h1>Order status (if any)</h1>
     </body>
 </html>

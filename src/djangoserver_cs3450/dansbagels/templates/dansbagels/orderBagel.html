@@ -26,10 +26,10 @@
             </div>
         {% endif %}
         {% if logged_in %}
-            <h1>The purpose of this page is: {{ purpose }}</h1>
+            <h1>Place Order</h1>
+            <h2>Menu</h2>
             <div class="grid-container">
                 <div>
-                    <h2>Menu</h2>
                     {% for menuItem in menuItems %}
                     <div class="menuItem">
                         <h3>{{menuItem.itemName_text}}</h3>
@@ -37,16 +37,16 @@
                     </div>
                     {% endfor %}
                 </div>
-                <div id="cart"></div>
-                <div id="checkOut">
-                    <form action="{% url 'placeOrder' %}" method="post">
-                        {% csrf_token %}
-                        {{ orderForm }}
-                        <button id="placeOrderButton" type="submit">Place Order</button>
-                    </form>
-                </div>
-                <script src="{% static 'dansbagels/bagelOrderScript.js' %}"></script>
             </div>
+            <div id="cart"></div>
+            <div id="checkOut">
+                <form action="{% url 'placeOrder' %}" method="post">
+                    {% csrf_token %}
+                    {{ orderForm }}
+                    <button id="placeOrderButton" type="submit">Place Order</button>
+                </form>
+            </div>
+            <script src="{% static 'dansbagels/bagelOrderScript.js' %}"></script>
         {% else %}
             <p>Please Log in to place an order</p>
         {% endif %}

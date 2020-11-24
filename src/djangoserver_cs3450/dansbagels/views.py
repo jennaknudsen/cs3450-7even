@@ -169,8 +169,7 @@ def inventory(request):
 
 # URL: localhost:8000/dansbagels/orderBagel
 def orderBagel(request):
-    context = {'purpose': "Order Bagel",
-               'menuItems': MenuItem.objects.all(),
+    context = {'menuItems': MenuItem.objects.all(),
                'orderForm': OrderBagel(),
                'logged_in': True if 'logged_in' in request.session and request.session['logged_in'] is True else False,
                'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False
