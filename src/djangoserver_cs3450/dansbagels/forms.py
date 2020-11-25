@@ -28,6 +28,7 @@ class UpdateAccount(forms.Form):
     password = forms.CharField(max_length=200, required=False)
     accountBalance = forms.DecimalField(max_digits=7, decimal_places=2, required=False)
 
+
 class OrderBagel(forms.Form):
     itemsOrdered = forms.CharField(max_length=200, widget=HiddenInput())
     orderCost = forms.DecimalField(max_digits=7, widget=HiddenInput())
@@ -35,3 +36,7 @@ class OrderBagel(forms.Form):
     pickUpTime = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}))
     orderInstruction = forms.CharField(max_length=200, widget=forms.Textarea(attrs={"rows": 5, "cols": 50}),
                                        initial="Please place special instructions in this field, ie which toppings go with which bagel")
+
+
+class UpdateOrder(forms.Form):
+    orderStatus = forms.ChoiceField(choices=OrderStatus.ORDER_STATUS_CHOICES)

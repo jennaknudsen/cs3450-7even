@@ -150,10 +150,22 @@ def home(request):
 
 # URL: localhost:8000/dansbagels/activeOrders
 def activeOrders(request):
-    context = {
-        'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False
-    }
-    return render(request, 'dansbagels/activeOrders.html', context)
+    if request.method == "GET":
+        context = {
+            'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
+            'orders': Order.objects.exclude(currentStatus=OrderStatus(OrderStatus.COMPLETED)),
+            'orderLineItems': OrderLineItem.objects.all(),
+            'form': UpdateOrder()
+        }
+        return render(request, 'dansbagels/activeOrders.html', context)
+    if request.method == "POST":
+        form = UpdateOrder(request.POST)
+        if form.is_valid():
+            orderID = request.POST.get('UpdateButton')
+            order = Order.objects.get(id=orderID)
+            order.currentStatus = OrderStatus(form.cleaned_data['orderStatus'])
+            order.save()
+            return redirect(request.path)
 
 def completedOrders(request):
     context = {

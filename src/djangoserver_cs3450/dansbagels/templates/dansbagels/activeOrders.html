@@ -29,6 +29,25 @@
             </div>
         {% endif %}
         <h1>List of orders in progress</h1>
+        {% for order in orders %}
+            <div>
+                <p>{{ order.personOrdered }}</p>
+                <p>{{ order.pickUpTime }}</p>
+                <p>${{ order.orderCost_decimal }}</p>
+                <p>{{ order.orderInstructions_text }}</p>
+                {% for item in orderLineItems %}
+                    {% if item.order == order %}
+                    <p>{{item.itemOrdered}} x{{item.orderQuantity_int}}</p>
+                    {% endif %}
+                {% endfor %}
+                <p>Order Status: {{ order.currentStatus }}</p>
+                <form method="post">
+                    {% csrf_token %}
+                    {{form}}
+                    <button type="submit" value="{{order.id}}" name="UpdateButton">Update Order</button>
+                </form>
+            </div>
+            {% endfor %}
         {# Order status stuff goes here #}
     </body>
 </html>

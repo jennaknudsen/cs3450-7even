@@ -66,7 +66,20 @@ class MenuItem(models.Model):
 
 # this class holds order statuses (Ordered, In Preparation, Ready, Completed)
 class OrderStatus(models.Model):
-    orderStatus_text = models.CharField(max_length=20)
+    ORDERED = 1
+    IN_PREPARATION = 2
+    READY = 3
+    COMPLETED = 4
+    ORDER_STATUS_CHOICES = [
+        (ORDERED, "Ordered"),
+        (IN_PREPARATION, "In Preparation"),
+        (READY, "Ready"),
+        (COMPLETED, "Completed")
+    ]
+    orderStatus_text = models.CharField(
+        max_length=20,
+        choices=ORDER_STATUS_CHOICES
+    )
 
     def __str__(self):
         return self.orderStatus_text
