@@ -135,6 +135,7 @@ def prototype_logout(request):
     try:
         del request.session['username']
         del request.session['password']
+        del request.session['accountType']
     except KeyError:
         pass
     return HttpResponseRedirect(reverse('login'))
@@ -261,10 +262,12 @@ def placeOrder(request):
                 pickUpTime=datetime.datetime(year=int(orderDate[0:4]), month=int(orderDate[5:7]), day=int(orderDate[8:10]),
                                     hour=int(orderTime[0]), minute=int(orderTime[1]), second=0, tzinfo=pytz.UTC),
                 personOrdered=Person.objects.get(username_text=request.session['username']),
-                currentStatus=OrderStatus.objects.get(orderStatus_text="Ordered")
+                currentStatus=OrderStatus.objects.get(orderStatus_text="Ordered"),
+                orderInstructions=form.cleaned_data['orderInstruction'],
+                orderCost=form.cleaned_data['orderCost']
             )
             itemsOrdered = form.cleaned_data['itemsOrdered'].split(",")
-            for i in range(0,len(itemsOrdered), 2):
+            for i in range(0, len(itemsOrdered), 2):
                 createOrderLineItemDB(
                     itemOrdered=MenuItem.objects.get(itemName_text=itemsOrdered[i+1]),
                     order=order,

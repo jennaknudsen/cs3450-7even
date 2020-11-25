@@ -76,6 +76,8 @@
             {% for order in orderHistory %}
             <div>
                 <p>{{ order.pickUpTime }}</p>
+                <p>${{ order.orderCost_decimal }}</p>
+                <p>{{ order.orderInstructions_text }}</p>
                 {% for item in orderLineItemHistory %}
                     {% if item.order == order %}
                     <p>{{item.itemOrdered}} x{{item.orderQuantity_int}}</p>

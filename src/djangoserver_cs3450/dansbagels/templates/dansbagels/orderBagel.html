@@ -39,7 +39,7 @@
                 </div>
                 <div id="cart"></div>
                 <div id="checkOut">
-                    <form action="{% url 'placeOrder' %}" method="post">
+                    <form action="{% url 'placeOrder' %}" method="post" id="orderForm">
                         {% csrf_token %}
                         {{ orderForm }}
                         <button id="placeOrderButton" type="submit">Place Order</button>
