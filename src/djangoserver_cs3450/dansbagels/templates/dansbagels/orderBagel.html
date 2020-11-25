@@ -44,14 +44,15 @@
                     {% endif %}
                     {% endfor %}
                 </div>
+            </div>
                 <div id="cart"></div>
-                <div id="checkOut">
-                    <form action="{% url 'placeOrder' %}" method="post" id="orderForm">
-                        {% csrf_token %}
-                        {{ orderForm }}
-                        <button id="placeOrderButton" type="submit">Place Order</button>
-                    </form>
-                </div>
+                    <div id="checkOut">
+                        <form action="{% url 'placeOrder' %}" method="post" id="orderForm">
+                            {% csrf_token %}
+                            {{ orderForm.as_p }}
+                            <button id="placeOrderButton" type="submit">Place Order</button>
+                        </form>
+                    </div>
                 <script src="{% static 'dansbagels/bagelOrderScript.js' %}"></script>
         {% else %}
             <p>Please Log in to place an order</p>

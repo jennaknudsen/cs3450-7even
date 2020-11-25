@@ -32,10 +32,10 @@ class UpdateAccount(forms.Form):
 class OrderBagel(forms.Form):
     itemsOrdered = forms.CharField(max_length=200, widget=HiddenInput())
     orderCost = forms.DecimalField(max_digits=7, widget=HiddenInput())
-    pickUpDate = forms.DateField(widget=NumberInput(attrs={'type': 'date'}))
-    pickUpTime = forms.TimeField(widget=forms.TimeInput(attrs={'type': 'time'}))
-    orderInstruction = forms.CharField(max_length=200, widget=forms.Textarea(attrs={"rows": 5, "cols": 50}),
-                                       initial="Please place special instructions in this field, i.e. which toppings go with which bagel")
+    pickUpDate = forms.DateField(label="Pick-Up Date", widget=NumberInput(attrs={'type': 'date'}))
+    pickUpTime = forms.TimeField(label="Pick-Up Time", widget=forms.TimeInput(attrs={'type': 'time'}))
+    orderInstruction = forms.CharField(label="Order Instructions", max_length=200, widget=forms.Textarea(attrs={"rows": 5, "cols": 50,
+                                                                                    'placeholder': 'Please place special instructions in this field, i.e. which toppings go with which bagel'}))
 
 
 class UpdateOrder(forms.Form):
