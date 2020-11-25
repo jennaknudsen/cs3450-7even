@@ -28,17 +28,15 @@ var cartTotalPrice = 0.0;
 var checkout = document.getElementById("checkOut");
 
 var totalPrice = document.createElement("p");
-var pickUpDate = document.getElementById("id_pickUpDate");
-var pickUpTime = document.getElementById("id_pickUpTime");
 var itemsOrdered = document.getElementById("id_itemsOrdered");
-var placeOrderButton = document.getElementById("placeOrderButton");
+var orderCost = document.getElementById("id_orderCost");
+var pickUpDate = document.getElementById("id_pickUpDate");
+var orderForm = document.getElementById("orderForm");
 
 pickUpDate.min = new Date().toISOString().split('T')[0];
 pickUpDate.max = new Date(Date.now() + 12096e5).toISOString().split('T')[0];//12096e5 is a magic number which is 14 days in miliseconds
 totalPrice.style.visibility = "hidden";
-pickUpDate.style.visibility = "hidden";
-pickUpTime.style.visibility = "hidden";
-placeOrderButton.style.visibility = "hidden";
+orderForm.style.visibility = "hidden";
 
 checkout.append(totalPrice);
 
@@ -110,9 +108,7 @@ function removeItemFromCart(tableEntry){
 function updateTotalPrice(){
 	if (cartItemNames.length != 0){
 		totalPrice.style.visibility = "visible";
-		pickUpDate.style.visibility = "visible";
-		pickUpTime.style.visibility = "visible";
-		placeOrderButton.style.visibility = "visible";
+		orderForm.style.visibility = "visible";
 		cartTotalPrice = 0.0;
 		for (let i = 0; i<cartItemPrices.length; i++){
 			cartTotalPrice += parseFloat(cartItemPrices[i]);
@@ -123,13 +119,12 @@ function updateTotalPrice(){
 				itemsOrdered.value = itemsOrdered.value + "," + cartItemQuantity[i] + "," + cartItemNames[i];
 			}
 		}
-		totalPrice.textContent = "Total Price is $" + parseFloat(cartTotalPrice).toFixed(2)
+		totalPrice.textContent = "Total Price is $" + parseFloat(cartTotalPrice).toFixed(2);
+		orderCost.value = parseFloat(cartTotalPrice).toFixed(2);
 	}
 	else{
 		cartTotalPrice = 0;
 		totalPrice.style.visibility = "hidden";
-		pickUpDate.style.visibility = "hidden";
-		pickUpTime.style.visibility = "hidden";
-		placeOrderButton.style.visibility = "hidden";
+		orderForm.style.visibility = "hidden";
 	}
 }

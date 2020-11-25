@@ -135,6 +135,7 @@ def prototype_logout(request):
     try:
         del request.session['username']
         del request.session['password']
+        del request.session['accountType']
     except KeyError:
         pass
     return HttpResponseRedirect(reverse('login'))
@@ -149,20 +150,36 @@ def home(request):
 
 # URL: localhost:8000/dansbagels/activeOrders
 def activeOrders(request):
-    context = {
-        'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False
-    }
-    return render(request, 'dansbagels/activeOrders.html', context)
+    if request.method == "GET":
+        context = {
+            'permitted': True if 'accountType' in request.session and request.session['accountType'] != 'Customer' else False,
+            'orders': Order.objects.exclude(currentStatus=OrderStatus(OrderStatus.COMPLETED)).exclude(
+                currentStatus=OrderStatus(OrderStatus.READY)
+            ),
+            'orderLineItems': OrderLineItem.objects.all(),
+            'form': UpdateOrder()
+        }
+        return render(request, 'dansbagels/activeOrders.html', context)
+    if request.method == "POST":
+        form = UpdateOrder(request.POST)
+        if form.is_valid():
+            orderID = request.POST.get('UpdateButton')
+            order = Order.objects.get(id=orderID)
+            modifyOrderStatusDB(order, OrderStatus(form.cleaned_data['orderStatus']))
+            return redirect(request.path)
 
 def completedOrders(request):
     context = {
-        'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False
+        'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
+        'orders': Order.objects.filter(currentStatus=OrderStatus(OrderStatus.READY)),
+        'orderLineItems': OrderLineItem.objects.all(),
     }
     return render(request, 'dansbagels/completedOrders.html', context)
 
 def inventory(request):
     context = {
-        'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False
+        'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
+        'menuItems': MenuItem.objects.all()
     }
     return render(request, 'dansbagels/inventory.html', context)
 
@@ -260,10 +277,12 @@ def placeOrder(request):
                 pickUpTime=datetime.datetime(year=int(orderDate[0:4]), month=int(orderDate[5:7]), day=int(orderDate[8:10]),
                                     hour=int(orderTime[0]), minute=int(orderTime[1]), second=0, tzinfo=pytz.UTC),
                 personOrdered=Person.objects.get(username_text=request.session['username']),
-                currentStatus=OrderStatus.objects.get(orderStatus_text="Ordered")
+                currentStatus=OrderStatus.objects.get(orderStatus_text="Ordered"),
+                orderInstructions=form.cleaned_data['orderInstruction'],
+                orderCost=form.cleaned_data['orderCost']
             )
             itemsOrdered = form.cleaned_data['itemsOrdered'].split(",")
-            for i in range(0,len(itemsOrdered), 2):
+            for i in range(0, len(itemsOrdered), 2):
                 createOrderLineItemDB(
                     itemOrdered=MenuItem.objects.get(itemName_text=itemsOrdered[i+1]),
                     order=order,

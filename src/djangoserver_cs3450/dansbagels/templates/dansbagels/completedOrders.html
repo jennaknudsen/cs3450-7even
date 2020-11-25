@@ -27,8 +27,22 @@
                 <a href="/dansbagels/admin/add_rem">Database Info</a>
                 <a href="/dansbagels/inventory">Inventory</a>
             </div>
-        {% endif %}
         <h1>List of completed Orders</h1>
         {# Completed order stuff goes here #}
+        {% for order in orders %}
+            <div>
+                <p>{{ order.personOrdered }}</p>
+                <p>{{ order.pickUpTime }}</p>
+                <p>${{ order.orderCost_decimal }}</p>
+                <p>{{ order.orderInstructions_text }}</p>
+                {% for item in orderLineItems %}
+                    {% if item.order == order %}
+                    <p>{{item.itemOrdered}} x{{item.orderQuantity_int}}</p>
+                    {% endif %}
+                {% endfor %}
+                <p>Order Status: {{ order.currentStatus }}</p>
+            </div>
+            {% endfor %}
+        {% endif %}
     </body>
 </html>
