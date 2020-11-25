@@ -27,8 +27,13 @@
                 <a href="/dansbagels/admin/add_rem">Database Info</a>
                 <a href="/dansbagels/inventory">Inventory</a>
             </div>
-        {% endif %}
         <h1>Inventory</h1>
         {# Inventory stuff goes here #}
+        {% for item in menuItems %}
+        <div>
+            <p>{{item}} X {{item.inventoryQuantity_int}}</p>
+        </div>
+        {% endfor %}
+        {% endif %}
     </body>
 </html>

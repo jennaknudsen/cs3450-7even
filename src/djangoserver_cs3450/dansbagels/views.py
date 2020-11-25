@@ -153,7 +153,9 @@ def activeOrders(request):
     if request.method == "GET":
         context = {
             'permitted': True if 'accountType' in request.session and request.session['accountType'] != 'Customer' else False,
-            'orders': Order.objects.exclude(currentStatus=OrderStatus(OrderStatus.COMPLETED)),
+            'orders': Order.objects.exclude(currentStatus=OrderStatus(OrderStatus.COMPLETED)).exclude(
+                currentStatus=OrderStatus(OrderStatus.READY)
+            ),
             'orderLineItems': OrderLineItem.objects.all(),
             'form': UpdateOrder()
         }
@@ -163,21 +165,21 @@ def activeOrders(request):
         if form.is_valid():
             orderID = request.POST.get('UpdateButton')
             order = Order.objects.get(id=orderID)
-            order.currentStatus = OrderStatus(form.cleaned_data['orderStatus'])
-            order.save()
+            modifyOrderStatusDB(order, OrderStatus(form.cleaned_data['orderStatus']))
             return redirect(request.path)
 
 def completedOrders(request):
     context = {
         'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
-        'orders': Order.objects.filter(currentStatus=OrderStatus(OrderStatus.COMPLETED)),
+        'orders': Order.objects.filter(currentStatus=OrderStatus(OrderStatus.READY)),
         'orderLineItems': OrderLineItem.objects.all(),
     }
     return render(request, 'dansbagels/completedOrders.html', context)
 
 def inventory(request):
     context = {
-        'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False
+        'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
+        'menuItems': MenuItem.objects.all()
     }
     return render(request, 'dansbagels/inventory.html', context)
 
