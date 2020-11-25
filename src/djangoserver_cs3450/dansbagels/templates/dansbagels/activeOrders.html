@@ -27,7 +27,7 @@
                 <a href="/dansbagels/admin/add_rem">Database Info</a>
                 <a href="/dansbagels/inventory">Inventory</a>
             </div>
-        {% endif %}
+
         <h1>List of orders in progress</h1>
         {% for order in orders %}
             <div>
@@ -49,5 +49,6 @@
             </div>
             {% endfor %}
         {# Order status stuff goes here #}
+        {% endif %}
     </body>
 </html>

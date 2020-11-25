@@ -152,7 +152,7 @@ def home(request):
 def activeOrders(request):
     if request.method == "GET":
         context = {
-            'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
+            'permitted': True if 'accountType' in request.session and request.session['accountType'] != 'Customer' else False,
             'orders': Order.objects.exclude(currentStatus=OrderStatus(OrderStatus.COMPLETED)),
             'orderLineItems': OrderLineItem.objects.all(),
             'form': UpdateOrder()
@@ -169,7 +169,9 @@ def activeOrders(request):
 
 def completedOrders(request):
     context = {
-        'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False
+        'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
+        'orders': Order.objects.filter(currentStatus=OrderStatus(OrderStatus.COMPLETED)),
+        'orderLineItems': OrderLineItem.objects.all(),
     }
     return render(request, 'dansbagels/completedOrders.html', context)
 
