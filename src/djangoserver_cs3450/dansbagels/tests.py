@@ -181,3 +181,23 @@ class ModifyAndDeleteOrderTestCase(TestCase):
         self.assertEqual(90.00,
                 personOrdered.accountBalance_decimal)
 
+
+class addInventoryStockTestCase(TestCase):
+    def setUp(self):
+        pass
+
+    def test_add_inventory_stock(self):
+        inventoryItem = MenuItem.objects.get(itemName_text="French Onion Smear")
+
+        # should have 5 quantity by default
+        self.assertEqual(5, inventoryItem.inventoryQuantity_int)
+
+        # add 10 quantity
+        self.assertEqual(False,
+                addInventoryStockDB(inventoryItem, "abc"))
+        self.assertEqual(True,
+                addInventoryStockDB(inventoryItem, 10))
+
+        # check that it added
+        self.assertEqual(15, inventoryItem.inventoryQuantity_int)
+
