@@ -47,6 +47,15 @@ table, th, td {
     padding: 5px;
 }
 
+.outOfStock {
+    float: left;
+    border-style: solid;
+    border-width: 1px;
+    width: 250px;
+    color: red;
+    padding: 5px;
+}
+
 .grid-container {
     display: grid;
 }
