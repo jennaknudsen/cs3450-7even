@@ -29,11 +29,29 @@
             </div>
         <h1>Inventory</h1>
         {# Inventory stuff goes here #}
-        {% for item in menuItems %}
         <div>
-            <p>{{item}} X {{item.inventoryQuantity_int}}</p>
+            <form method="post">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <th>Item Name</th>
+                        <th>Item Price</th>
+                        <th>Item Quantity</th>
+                        <th>Amount to order</th>
+                    </tr>
+                    {% for item in menuItems %}
+                    <tr>
+                        <th>{{item.itemName_text}}</th>
+                        <th>${{item.itemPrice_decimal}}</th>
+                        <th>{{item.inventoryQuantity_int}}</th>
+                        <th><input type="number" name="{{item.id}}" min="0" value="0"></th>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <button type="submit">Place order(s)</button>
+            </form>
         </div>
-        {% endfor %}
+
         {% endif %}
     </body>
 </html>

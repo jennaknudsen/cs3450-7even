@@ -177,11 +177,17 @@ def completedOrders(request):
     return render(request, 'dansbagels/completedOrders.html', context)
 
 def inventory(request):
-    context = {
-        'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
-        'menuItems': MenuItem.objects.all()
-    }
-    return render(request, 'dansbagels/inventory.html', context)
+    if request.method == "GET":
+        context = {
+            'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
+            'menuItems': MenuItem.objects.all()
+        }
+        return render(request, 'dansbagels/inventory.html', context)
+    if request.method == "POST":
+        for i in range(1, len(request.POST)):
+            addInventoryStockDB(MenuItem.objects.get(pk=i), int(request.POST.get(str(i))))
+        return redirect(request.path)
+
 
 
 # URL: localhost:8000/dansbagels/orderBagel
