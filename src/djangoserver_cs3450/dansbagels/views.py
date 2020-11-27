@@ -184,8 +184,9 @@ def inventory(request):
         }
         return render(request, 'dansbagels/inventory.html', context)
     if request.method == "POST":
-        for i in range(1, len(request.POST)):
-            addInventoryStockDB(MenuItem.objects.get(pk=i), int(request.POST.get(str(i))))
+        for key in request.POST:
+            if "csrf" not in key:
+                addInventoryStockDB(MenuItem.objects.get(pk=int(key)), int(request.POST.get(key)))
         return redirect(request.path)
 
 
