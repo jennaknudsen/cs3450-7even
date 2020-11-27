@@ -34,51 +34,90 @@
                     <tr>
                         <th>Username</th>
                         <th>{{ userName }}</th>
-                        <th>{{updateAccountForm.username}}</th>
+                        <th>
+                            <button type="button" id="username" name="button">Update</button>
+                            {{updateAccountForm.username}}
+                        </th>
                     </tr>
                     <tr>
                         <th>Password</th>
                         <th>{{ password }}</th>
-                        <th>{{updateAccountForm.password}}</th>
+                        <th>
+                            <button type="button" id="password" name="button">Update</button>
+                            {{updateAccountForm.password}}
+                        </th>
                     </tr>
                     <tr>
                         <th>First Name</th>
                         <th>{{ firstName }}</th>
-                        <th>{{updateAccountForm.firstName}}</th>
+                        <th>
+                            <button type="button" id="firstName" name="button">Update</button>
+                            {{updateAccountForm.firstName}}
+                        </th>
                     </tr>
                     <tr>
                         <th>Last Name</th>
                         <th>{{ lastName }}</th>
-                        <th>{{updateAccountForm.lastName}}</th>
+                        <th>
+                            <button type="button" id="lastName" name="button">Update</button>
+                            {{updateAccountForm.lastName}}
+                        </th>
                     </tr>
                     <tr>
                         <th>Email</th>
                         <th>{{ email }}</th>
-                        <th>{{updateAccountForm.email}}</th>
+                        <th>
+                            <button type="button" id="email" name="button">Update</button>
+                            {{updateAccountForm.email}}
+                        </th>
                     </tr>
                     <tr>
                         <th>Phone Number</th>
                         <th>{{ phoneNumber }}</th>
-                        <th>{{updateAccountForm.phone}}</th>
+                        <th>
+                            <button type="button" id="phone" name="button">Update</button>
+                            {{updateAccountForm.phone}}
+                        </th>
                     </tr>
                     <tr>
                         <th>Account Balance</th>
                         <th>{{ accountBalance }}</th>
-                        <th>{{updateAccountForm.accountBalance}}</th>
+                        <th>
+                            <button type="button" id="accountBalance" name="button">Update</button>
+                            {{updateAccountForm.accountBalance}}
+                        </th>
                     </tr>
                     <tr>
                         <th>Account Type</th>
-                        <th>{{ accountType }}</th>
+                        <th>
+                            {{ accountType }}
+                        </th>
                     </tr>
                 </table>
-                <button type="submit">Update</button>
+                <button type="submit" style="visibility: hidden">Update</button>
             </form>
+            {% for order in trackedOrder %}
+            <div>
+                <p>Pick Up Time: {{ order.pickUpTime }}</p>
+                <p>Total Cost: {{ order.orderCost_decimal }}</p>
+                <p>Instructions: {{ order.orderInstructions_text }}</p>
+                <p>Current Status: {{ order.currentStatus }}</p>
+                <p>Items ordered:</p>
+                {% for item in orderLineItems %}
+                    {% if item.order == order %}
+                    <p>{{item.itemOrdered}} x{{item.orderQuantity_int}}</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% endfor %}
+
+        <h1>Order History</h1>
             {% for order in orderHistory %}
             <div>
                 <p>{{ order.pickUpTime }}</p>
                 <p>${{ order.orderCost_decimal }}</p>
                 <p>{{ order.orderInstructions_text }}</p>
-                {% for item in orderLineItemHistory %}
+                {% for item in orderLineItems %}
                     {% if item.order == order %}
                     <p>{{item.itemOrdered}} x{{item.orderQuantity_int}}</p>
                     {% endif %}
@@ -86,6 +125,6 @@
             </div>
             {% endfor %}
         </div>
-        <h1>Order status (if any)</h1>
+        <script src="{% static 'dansbagels/accountScript.js' %}"></script>
     </body>
 </html>
