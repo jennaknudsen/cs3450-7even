@@ -94,7 +94,7 @@
                         </th>
                     </tr>
                 </table>
-                <button type="submit" style="visibility: hidden">Update</button>
+                <button type="submit" style="visibility: hidden"></button>
             </form>
             {% for order in trackedOrder %}
             <div>
@@ -108,6 +108,13 @@
                     <p>{{item.itemOrdered}} x{{item.orderQuantity_int}}</p>
                     {% endif %}
                 {% endfor %}
+                {% ifnotequal order.currentStatus|stringformat:"s" "Ready" %}
+                    <form method="post" action="{% url 'cancelOrder' %}">
+                        {% csrf_token %}
+                        <input type="hidden" value="true" name="refund">
+                        <button type="submit" value="{{order.id}}" name="cancel">Cancel Order</button>
+                    </form>
+                {% endifnotequal %}
             </div>
             {% endfor %}
 

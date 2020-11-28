@@ -30,11 +30,17 @@ var checkout = document.getElementById("checkOut");
 var totalPrice = document.createElement("p");
 var itemsOrdered = document.getElementById("id_itemsOrdered");
 var orderCost = document.getElementById("id_orderCost");
+var pickUpTime = document.getElementById("id_pickUpTime");
 var pickUpDate = document.getElementById("id_pickUpDate");
 var orderForm = document.getElementById("orderForm");
 
+var minTime = String(new Date().getHours()) + ":" + String(new Date().getMinutes() + 10);
+pickUpTime.value = minTime;
+pickUpTime.min = minTime;
+pickUpTime.max = "22:00"
+
 pickUpDate.min = new Date().toISOString().split('T')[0];
-pickUpDate.max = new Date(Date.now() + 12096e5).toISOString().split('T')[0];//12096e5 is a magic number which is 14 days in miliseconds
+pickUpDate.max = new Date(Date.now() + 6.048e8).toISOString().split('T')[0];//12096e5 is a magic number which is 14 days in miliseconds
 totalPrice.style.visibility = "hidden";
 orderForm.style.visibility = "hidden";
 

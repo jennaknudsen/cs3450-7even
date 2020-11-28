@@ -287,7 +287,7 @@ def deleteAccount(request):
         deleteAccountDB(request.POST.get('DeleteButton'))
     return redirect('admin__add_rem')
 
-
+# Only intended to handle post requests from orderBagel
 def placeOrder(request):
     if request.method == "POST":
         form = OrderBagel(request.POST)
@@ -309,4 +309,13 @@ def placeOrder(request):
                     order=order,
                     orderQuantity=int(itemsOrdered[i])
                 )
-        return redirect("home")  # temp redirect, should redirect to order status page
+        return redirect("account")
+
+
+def cancelOrder(request):
+    if request.method == "POST":
+        if request.POST.get("refund") == "true":
+            cancelOrderDB(Order.objects.get(id=request.POST.get("cancel")), True)
+        else:
+            cancelOrderDB(Order.objects.get(id=request.POST.get("cancel")), False)
+    return redirect("account")
