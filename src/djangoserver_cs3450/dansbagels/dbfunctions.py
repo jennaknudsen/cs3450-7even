@@ -211,6 +211,17 @@ def cancelOrderDB(order, issueRefund):
         printDebug(e)
         return False
 
+# adds inventory stock
+# this can be obtained by using a Function such MenuItem.objects.get(itemName_text=<text>)
+def addInventoryStockDB(inventoryItem, quantityToAdd):
+    try:
+        inventoryItem.inventoryQuantity_int += quantityToAdd
+        inventoryItem.save()
+        return True
+    except Exception as e:
+        printDebug("Failed to add inventory stock " + str(inventoryItem))
+        printDebug(e)
+        return False
 
 # Print a simple debug message preceded by [DEBUG]
 def printDebug(message):
