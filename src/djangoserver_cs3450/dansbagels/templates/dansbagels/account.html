@@ -34,52 +34,97 @@
                     <tr>
                         <th>Username</th>
                         <td>{{ userName }}</td>
-                        <td>{{updateAccountForm.username}}</td>
+			<td>
+                            <button type="button" id="username" name="button">Update</button>
+                            {{updateAccountForm.username}}
+                        </td>
                     </tr>
                     <tr>
                         <th>Password</th>
                         <td>{{ password }}</td>
-                        <td>{{updateAccountForm.password}}</td>
+			<td>
+                            <button type="button" id="password" name="button">Update</button>
+                            {{updateAccountForm.password}}
+                        </td>
                     </tr>
                     <tr>
                         <th>First Name</th>
                         <td>{{ firstName }}</td>
-                        <td>{{updateAccountForm.firstName}}</td>
+			<td>
+                            <button type="button" id="firstName" name="button">Update</button>
+                            {{updateAccountForm.firstName}}
+                        </td>
                     </tr>
                     <tr>
                         <th>Last Name</th>
                         <td>{{ lastName }}</td>
-                        <td>{{updateAccountForm.lastName}}</td>
+			<td>
+                            <button type="button" id="lastName" name="button">Update</button>
+                            {{updateAccountForm.lastName}}
+                        </td>
                     </tr>
                     <tr>
                         <th>Email</th>
                         <td>{{ email }}</td>
-                        <td>{{updateAccountForm.email}}</td>
+			<td>
+                            <button type="button" id="email" name="button">Update</button>
+                            {{updateAccountForm.email}}
+                        </td>
                     </tr>
                     <tr>
                         <th>Phone Number</th>
                         <td>{{ phoneNumber }}</td>
-                        <td>{{updateAccountForm.phone}}</td>
+			<td>
+                            <button type="button" id="phone" name="button">Update</button>
+                            {{updateAccountForm.phone}}
+                        </td>
                     </tr>
                     <tr>
                         <th>Account Balance</th>
                         <td>{{ accountBalance }}</td>
-                        <td>{{updateAccountForm.accountBalance}}</td>
+			<td>
+                            <button type="button" id="accountBalance" name="button">Update</button>
+                            {{updateAccountForm.accountBalance}}
+                        </td>
                     </tr>
                     <tr>
                         <th>Account Type</th>
-                        <td>{{ accountType }}</td>
+			<td>
+                            {{ accountType }}
+                        </td>
                     </tr>
                 </table>
-                <button type="submit">Update</button>
+                <button type="submit" style="visibility: hidden"></button>
             </form>
-            <h1>Order status (if any)</h1>
+            {% for order in trackedOrder %}
+            <div>
+                <p>Pick Up Time: {{ order.pickUpTime }}</p>
+                <p>Total Cost: {{ order.orderCost_decimal }}</p>
+                <p>Instructions: {{ order.orderInstructions_text }}</p>
+                <p>Current Status: {{ order.currentStatus }}</p>
+                <p>Items ordered:</p>
+                {% for item in orderLineItems %}
+                    {% if item.order == order %}
+                    <p>{{item.itemOrdered}} x{{item.orderQuantity_int}}</p>
+                    {% endif %}
+                {% endfor %}
+                {% ifnotequal order.currentStatus|stringformat:"s" "Ready" %}
+                    <form method="post" action="{% url 'cancelOrder' %}">
+                        {% csrf_token %}
+                        <input type="hidden" value="true" name="refund">
+                        <button type="submit" value="{{order.id}}" name="cancel">Cancel Order</button>
+                    </form>
+		{% endifnotequal %}
+            </div>
+            {% endfor %}
+
+        <h1>Order History</h1>
             {% for order in orderHistory %}
             <div>
                 <p>{{ order.pickUpTime }}</p>
                 <p>${{ order.orderCost_decimal }}</p>
                 <p>{{ order.orderInstructions_text }}</p>
-                {% for item in orderLineItemHistory %}
+                {% for item in orderLineItems %}
                 {% if item.order == order %}
                 <p>{{item.itemOrdered}} x{{item.orderQuantity_int}}</p>
                 {% endif %}
@@ -87,5 +132,6 @@
             </div>
             {% endfor %}
         </div>
+<script src="{% static 'dansbagels/accountScript.js' %}"></script>
     </body>
 </html>

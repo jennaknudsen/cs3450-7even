@@ -20,13 +20,13 @@ class ManagerAccountCreation(AccountCreation):
 
 class UpdateAccount(forms.Form):
     # this class cant inherit from Account creation since we need the fields to not be required
-    firstName = forms.CharField(max_length=200, required=False)
-    lastName = forms.CharField(max_length=200, required=False)
-    email = forms.EmailField(max_length=200, required=False)
-    phone = forms.CharField(max_length=200, required=False)
-    username = forms.CharField(max_length=200, required=False)
-    password = forms.CharField(max_length=200, required=False)
-    accountBalance = forms.DecimalField(max_digits=7, decimal_places=2, required=False)
+    firstName = forms.CharField(max_length=200, required=False, widget=HiddenInput())
+    lastName = forms.CharField(max_length=200, required=False, widget=HiddenInput())
+    email = forms.EmailField(max_length=200, required=False, widget=HiddenInput())
+    phone = forms.CharField(max_length=200, required=False, widget=HiddenInput())
+    username = forms.CharField(max_length=200, required=False, widget=HiddenInput())
+    password = forms.CharField(max_length=200, required=False, widget=HiddenInput())
+    accountBalance = forms.DecimalField(max_digits=7, decimal_places=2, required=False, widget=HiddenInput())
 
 
 class OrderBagel(forms.Form):
@@ -34,8 +34,8 @@ class OrderBagel(forms.Form):
     orderCost = forms.DecimalField(max_digits=7, widget=HiddenInput())
     pickUpDate = forms.DateField(label="Pick-Up Date", widget=NumberInput(attrs={'type': 'date'}))
     pickUpTime = forms.TimeField(label="Pick-Up Time", widget=forms.TimeInput(attrs={'type': 'time'}))
-    orderInstruction = forms.CharField(label="Order Instructions", max_length=200, widget=forms.Textarea(attrs={"rows": 5, "cols": 50,
-                                                                                    'placeholder': 'Please place special instructions in this field, i.e. which toppings go with which bagel'}))
+    orderInstruction = forms.CharField(max_length=200, widget=forms.Textarea(attrs={"rows": 5, "cols": 50, "placeholder":
+    	"Please place special instructions in this field, i.e. which toppings go with which bagel"}))	
 
 
 class UpdateOrder(forms.Form):

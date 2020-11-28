@@ -11,3 +11,4 @@ db.sqlite3
 *.idea
 *.docx#
 *.tmp
+~$*.docx

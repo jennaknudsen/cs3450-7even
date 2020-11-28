@@ -41,6 +41,11 @@
                     {% endif %}
                 {% endfor %}
                 <p>Order Status: {{ order.currentStatus }}</p>
+                <form method="post">
+                    {% csrf_token %}
+                    {{form}}
+                    <button type="submit" value="{{order.id}}" name="UpdateButton">Update Order</button>
+                </form>
             </div>
             {% endfor %}
         {% endif %}
