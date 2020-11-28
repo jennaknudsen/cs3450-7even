@@ -37,14 +37,14 @@
                         <th>Item Name</th>
                         <th>Item Price</th>
                         <th>Item Quantity</th>
-                        <th>Amount to order</th>
+                        <th>Amount to order/remove</th>
                     </tr>
                     {% for item in menuItems %}
                     <tr>
                         <th>{{item.itemName_text}}</th>
                         <th>${{item.itemPrice_decimal}}</th>
                         <th>{{item.inventoryQuantity_int}}</th>
-                        <th><input type="number" name="{{item.id}}" min="0" value="0"></th>
+                        <th><input type="number" name="{{item.id}}" value="0"></th>
                     </tr>
                     {% endfor %}
                 </table>
