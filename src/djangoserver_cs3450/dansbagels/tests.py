@@ -4,6 +4,7 @@ from dansbagels.dbfunctions import *
 from datetime import datetime
 from django.utils import timezone
 import pytz
+from decimal import Decimal
 
 class OwnerAccountPageTestCase(TestCase):
     def setUp(self):
@@ -228,3 +229,44 @@ class addInventoryStockTestCase(TestCase):
         # check that it added
         self.assertEqual(15, inventoryItem.inventoryQuantity_int)
 
+class addAndRemoveMenuItemTestCase(TestCase):
+    def setUp(self):
+        pass
+
+    def test_add_and_remove_menu_item(self):
+        # create a MenuItem called testMenuItem
+        # initial quantity is 10
+        # price is $5.55
+        itemName = "testMenuItem"
+        initialQuantity = 10
+        itemPrice = Decimal('5.55')
+
+        # before creating item, there shouldn't be any items with name "testMenuItem"
+        self.assertEqual(0,
+                MenuItem.objects.filter(itemName_text=itemName).count())
+
+        # create the item and validate creation
+        self.assertEqual(True,
+                addMenuItemDB(itemName, initialQuantity, itemPrice))
+
+        itemCreated = MenuItem.objects.get(itemName_text=itemName)
+
+        # make sure all properties set properly
+        self.assertEqual("testMenuItem",
+                itemCreated.itemName_text)
+        self.assertEqual(initialQuantity,
+                itemCreated.inventoryQuantity_int)
+        self.assertEqual(itemPrice,
+                itemCreated.itemPrice_decimal)
+
+        # now there should be 1 item with name "testMenuItem"
+        self.assertEqual(1,
+                MenuItem.objects.filter(itemName_text=itemName).count())
+
+        # test deleting the item
+        self.assertEqual(True,
+                deleteMenuItemDB(itemCreated))
+
+        # after deletion, there shouldn't be any items with name "testMenuItem"
+        self.assertEqual(0,
+                MenuItem.objects.filter(itemName_text=itemName).count())

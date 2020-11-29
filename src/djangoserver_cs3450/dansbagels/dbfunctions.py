@@ -215,6 +215,7 @@ def cancelOrderDB(order, issueRefund):
         printDebug(e)
         return False
 
+
 # adds inventory stock
 # this can be obtained by using a Function such MenuItem.objects.get(itemName_text=<text>)
 def addInventoryStockDB(inventoryItem, quantityToAdd):
@@ -226,6 +227,36 @@ def addInventoryStockDB(inventoryItem, quantityToAdd):
         printDebug("Failed to add inventory stock " + str(inventoryItem))
         printDebug(e)
         return False
+
+
+# creates a new menu item
+# itemPrice should be a Decimal with two decimal places
+def addMenuItemDB(itemName, initialQuantity, itemPrice):
+    try:
+        newItem = MenuItem()
+        newItem.itemName_text = itemName
+        newItem.inventoryQuantity_int = initialQuantity
+        newItem.itemPrice_decimal = Decimal(itemPrice)
+        newItem.save()
+        printDebug("New menu item " + str(newItem) + " successfuly created")
+        return True
+    except Exception as e:
+        printDebug("Failed to create new menu item " + str(newItem))
+        printDebug(e)
+        return False
+
+
+# deletes a menu item
+# menu item specified by MenuItem.objects.get(itemName_text=<item name>)
+def deleteMenuItemDB(menuItem):
+    try:
+        menuItem.delete()
+        return True
+    except Exception as e:
+        printDebug("Failed to delete menu item " + str(menuItem))
+        printDebug(e)
+        return False
+
 
 # Print a simple debug message preceded by [DEBUG]
 def printDebug(message):
