@@ -5,9 +5,7 @@ This is the Git repo for Team 7even for CS 3450.
 ## Organization and name scheme for the workspace
 
 All documentation will be stored in a folder called `docs/`. All project source
-code will be stored in a folder called `src/djangoserver_cs3450/`. As the program is being written,
-we expect the `src/djangoserver_cs3450/` folder to become subdivided into more subfolders (Django
-will generate many of these automatically).
+code will be stored in a folder called `src/djangoserver_cs3450/`.
 
 ## Version control procedures
 
@@ -47,14 +45,14 @@ To set up the server on a new computer, perform the following steps:
 3. When running the program for the first time, the database will be empty. To populate 
 the database for the first time, run `python manage.py migrate`.
 4. Once the database has been populated, run `python manage.py runserver` to run the 
-webserver. The website can be visited at `localhost:8000`.
+webserver. The website can be visited at `localhost:8000/dansbagels/home/`.
 
 To run the server on a computer every time after setup, perform steps 1, 2, and 4.
 
 ## Unit testing instructions
 
-Unit tests for the database will be stored in a folder called `tests.py` in the `src/djangoserver_cs3450`
-directory. To run these unit tests, cd into the directory containing `manage.py` and then 
+Unit tests for the database will be stored in a file called `tests.py` in the `src/djangoserver_cs3450/dansbagels/`
+directory. To run these unit tests, `cd` into the directory containing `manage.py` and then
 run `python manage.py test`. This will report any unit test failures and a test summary.
 
 ## System testing instructions
@@ -67,9 +65,3 @@ outputs report proper values, then we will consider the system testing as a pass
 ## Prototypes
 
 More details about the prototypes (including how to run them) can be found in `docs/Prototypes.md`.
-
-## Notes
-
-This description of the process was created before any acutal code was written for this 
-assignment. Once we start writing code, we may find a need to modify some of the steps listed 
-here. 
