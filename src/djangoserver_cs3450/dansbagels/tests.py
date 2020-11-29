@@ -169,6 +169,21 @@ class ModifyAndDeleteOrderTestCase(TestCase):
         self.assertEqual(order2.currentStatus,
                 OrderStatus.objects.get(pk=3))
 
+        # add dummy item to each order
+        lineItem1 = MenuItem.objects.get(itemName_text="+ Tomato")
+        lineItem2 = MenuItem.objects.get(itemName_text="+ Lox")
+
+        # we expect the first item to have its quantity unchanged
+        # the second item should have its quantity decreased by 2
+        initialInventoryQuantity1 = lineItem1.inventoryQuantity_int
+        initialInventoryQuantity2 = lineItem2.inventoryQuantity_int
+
+        # we know these functions work
+        self.assertEqual(True,
+                createOrderLineItemDB(lineItem1, order1, 4))
+        self.assertEqual(True,
+                createOrderLineItemDB(lineItem2, order2, 2))
+
         # now, delete both orders for Arthur Dent
         # only refund the first one
         # final balance should be $90.00
@@ -178,8 +193,20 @@ class ModifyAndDeleteOrderTestCase(TestCase):
         self.assertEqual(True,
                 cancelOrderDB(order2, False))
 
+        # must re-get the item because it has changed in the database
+        # (or else, lineItem1 and lineItem2 will point to old items)
+        lineItem1 = MenuItem.objects.get(itemName_text="+ Tomato")
+        lineItem2 = MenuItem.objects.get(itemName_text="+ Lox")
+
         self.assertEqual(90.00,
                 personOrdered.accountBalance_decimal)
+
+        # validate inventory quantity decreased only for item 2
+        self.assertEqual(0,
+                initialInventoryQuantity1 - lineItem1.inventoryQuantity_int)
+
+        self.assertEqual(2,
+                initialInventoryQuantity2 - lineItem2.inventoryQuantity_int)
 
 
 class addInventoryStockTestCase(TestCase):

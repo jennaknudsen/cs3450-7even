@@ -201,6 +201,10 @@ def cancelOrderDB(order, issueRefund):
         if issueRefund:
             order.personOrdered.accountBalance_decimal += Decimal(order.orderCost_decimal)
             order.personOrdered.save()
+            allItems = order.orderlineitem_set.all()
+            for item in allItems:
+                item.itemOrdered.inventoryQuantity_int += item.orderQuantity_int
+                item.itemOrdered.save()
 
         # regardless of refund or not, delete the order
         order.delete()
