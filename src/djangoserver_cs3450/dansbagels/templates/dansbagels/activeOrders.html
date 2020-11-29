@@ -41,10 +41,17 @@
                     {% endif %}
                 {% endfor %}
                 <p>Order Status: {{ order.currentStatus }}</p>
+                <!-- This form is for updating the order -->
                 <form method="post">
                     {% csrf_token %}
                     {{form}}
                     <button type="submit" value="{{order.id}}" name="UpdateButton">Update Order</button>
+                </form>
+                <!-- This form is for canceling the order -->
+                <form method="post" action="{% url 'cancelOrder' %}">
+                    {% csrf_token %}
+                        <input type="hidden" value="false" name="refund">
+                        <button type="submit" value="{{order.id}}" name="cancel">Cancel Order</button>
                 </form>
             </div>
             {% endfor %}

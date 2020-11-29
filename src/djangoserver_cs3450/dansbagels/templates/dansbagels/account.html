@@ -108,13 +108,13 @@
                     <p>{{item.itemOrdered}} x{{item.orderQuantity_int}}</p>
                     {% endif %}
                 {% endfor %}
-                {% ifnotequal order.currentStatus|stringformat:"s" "Ready" %}
+                {% ifequal order.currentStatus|stringformat:"s" "Ordered" %}
                     <form method="post" action="{% url 'cancelOrder' %}">
                         {% csrf_token %}
                         <input type="hidden" value="true" name="refund">
                         <button type="submit" value="{{order.id}}" name="cancel">Cancel Order</button>
                     </form>
-		{% endifnotequal %}
+		{% endifequal %}
             </div>
             {% endfor %}
 
