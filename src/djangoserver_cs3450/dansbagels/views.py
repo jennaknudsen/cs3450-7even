@@ -17,7 +17,7 @@ from dansbagels.dbfunctions import *
 
 # URL: localhost:8000/dansbagels/
 def index(request):
-    return HttpResponse("Hello, world. You're at the dansbagels index.")
+    return redirect("Home")
 
 
 # URL: localhost:8000/dansbagels/test
@@ -192,16 +192,26 @@ def inventory(request):
     if request.method == "GET":
         context = {
             'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
-            'menuItems': MenuItem.objects.all()
+            'menuItems': MenuItem.objects.all(),
+            'createMenuItem': CreateMenuItem()
         }
         return render(request, 'dansbagels/inventory.html', context)
     if request.method == "POST":
-        for key in request.POST:
-            if "csrf" not in key:
-                addInventoryStockDB(MenuItem.objects.get(pk=int(key)), int(request.POST.get(key)))
+        for menuItem in MenuItem.objects.all():
+            if request.POST.get('delete'+str(menuItem.id)) == 'remove':
+                deleteMenuItemDB(menuItem)
+            else:
+                addInventoryStockDB(menuItem, int(request.POST.get(str(menuItem.id))))
         return redirect(request.path)
 
 
+def createMenuItem(request):
+    if request.method == "POST":
+        form = CreateMenuItem(request.POST)
+        if form.is_valid():
+            addMenuItemDB(form.cleaned_data['itemName'], form.cleaned_data['initialQuantity'], form.cleaned_data['itemPrice'])
+
+        return redirect('inventory')
 
 # URL: localhost:8000/dansbagels/orderBagel
 def orderBagel(request):

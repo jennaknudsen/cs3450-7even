@@ -40,3 +40,9 @@ class OrderBagel(forms.Form):
 
 class UpdateOrder(forms.Form):
     orderStatus = forms.ChoiceField(choices=OrderStatus.ORDER_STATUS_CHOICES)
+
+
+class CreateMenuItem(forms.Form):
+    itemName = forms.CharField(max_length=200)
+    itemPrice = forms.DecimalField(max_digits=4, decimal_places=2)
+    initialQuantity = forms.IntegerField()

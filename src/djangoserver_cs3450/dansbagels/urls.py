@@ -20,5 +20,6 @@ urlpatterns = [
     path('activeOrders', views.activeOrders, name='activeOrders'),
     path('completedOrders', views.completedOrders, name='completedOrders'),
     path('inventory', views.inventory, name='inventory'),
-    path('cancelOrder', views.cancelOrder, name="cancelOrder")
+    path('cancelOrder', views.cancelOrder, name="cancelOrder"),
+    path('createMenuItem', views.createMenuItem, name='createMenuItem')
 ]

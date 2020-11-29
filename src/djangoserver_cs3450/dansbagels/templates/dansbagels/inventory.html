@@ -44,14 +44,25 @@
                         <td>${{item.itemPrice_decimal}}</td>
                         <td>{{item.inventoryQuantity_int}}</td>
                         <td><input type="number" name="{{item.id}}" value="0"></td>
+                        <td>
+                            <input type="checkbox" name="delete{{item.id}}" value="remove">
+                            <label for="delete{{item.id}}">Delete Item</label>
+                        </td>
                     </tr>
                     {% endfor %}
 
 
                 </table>
-		<button type="submit">Place order(s)</button>
+		<button type="submit">Update Inventory</button>
             </form>
 
+        </div>
+        <div>
+            <form method="post" action="{% url 'createMenuItem' %}">
+                {% csrf_token %}
+                {{ createMenuItem }}
+                <button type="submit">Add Item</button>
+            </form>
         </div>
 
         {% endif %}
