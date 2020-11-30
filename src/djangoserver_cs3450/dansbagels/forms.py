@@ -43,6 +43,6 @@ class UpdateOrder(forms.Form):
 
 
 class CreateMenuItem(forms.Form):
-    itemName = forms.CharField(max_length=200)
-    itemPrice = forms.DecimalField(max_digits=4, decimal_places=2)
-    initialQuantity = forms.IntegerField()
+    itemName = forms.CharField(label='', widget=forms.TextInput(attrs={'placeholder': 'Item Name'}), max_length=200)
+    itemPrice = forms.DecimalField(label='', widget=forms.TextInput(attrs={'placeholder': 'Item Price'}), max_digits=4, decimal_places=2)
+    initialQuantity = forms.IntegerField(label='', widget=forms.TextInput(attrs={'placeholder': 'Initial Quantity'}))
