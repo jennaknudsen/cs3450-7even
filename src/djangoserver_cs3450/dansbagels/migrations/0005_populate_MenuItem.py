@@ -87,61 +87,61 @@ def populate_db(apps, schema_editor):
     item9.save()
 
     item10 = MenuItem()
-    item10.itemName_text = "Bacon Sandwich"
+    item10.itemName_text = "+ Bacon"
     item10.inventoryQuantity_int = 65
     item10.itemPrice_decimal = 1.00
     item10.save()
 
     item11 = MenuItem()
-    item11.itemName_text = "Egg Sandwich"
+    item11.itemName_text = "+ Egg"
     item11.inventoryQuantity_int = 146
     item11.itemPrice_decimal = 2.00
     item11.save()
 
     item12 = MenuItem()
-    item12.itemName_text = "Cheese Sandwich"
+    item12.itemName_text = "+ Cheese"
     item12.inventoryQuantity_int = 231
     item12.itemPrice_decimal = 1.00
     item12.save()
 
     item13 = MenuItem()
-    item13.itemName_text = "Sausage Sandwich"
+    item13.itemName_text = "+ Sausage"
     item13.inventoryQuantity_int = 4
     item13.itemPrice_decimal = 2.00
     item13.save()
 
     item14 = MenuItem()
-    item14.itemName_text = "Avacado Sandwich"
+    item14.itemName_text = "+ Avacado"
     item14.inventoryQuantity_int = 51
     item14.itemPrice_decimal = 10.00
     item14.save()
 
     item15 = MenuItem()
-    item15.itemName_text = "Turkey Sandwich"
+    item15.itemName_text = "+ Turkey"
     item15.inventoryQuantity_int = 78
     item15.itemPrice_decimal = 2.00
     item15.save()
 
     item16 = MenuItem()
-    item16.itemName_text = "Ham Sandwich"
+    item16.itemName_text = "+ Ham"
     item16.inventoryQuantity_int = 250
     item16.itemPrice_decimal = 2.00
     item16.save()
 
     item17 = MenuItem()
-    item17.itemName_text = "Spinach Sandwich"
+    item17.itemName_text = "+ Spinach"
     item17.inventoryQuantity_int = 283
     item17.itemPrice_decimal = 1.00
     item17.save()
 
     item18 = MenuItem()
-    item18.itemName_text = "Tomato Sandwich"
+    item18.itemName_text = "+ Tomato"
     item18.inventoryQuantity_int = 245
     item18.itemPrice_decimal = 1.00
     item18.save()
 
     item19 = MenuItem()
-    item19.itemName_text = "Lox Sandwich"
+    item19.itemName_text = "+ Lox"
     item19.inventoryQuantity_int = 44
     item19.itemPrice_decimal = 10.00
     item19.save()

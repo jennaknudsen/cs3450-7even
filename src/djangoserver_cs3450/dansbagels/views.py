@@ -17,7 +17,7 @@ from dansbagels.dbfunctions import *
 
 # URL: localhost:8000/dansbagels/
 def index(request):
-    return HttpResponse("Hello, world. You're at the dansbagels index.")
+    return redirect("Home")
 
 
 # URL: localhost:8000/dansbagels/test
@@ -168,21 +168,50 @@ def activeOrders(request):
             modifyOrderStatusDB(order, OrderStatus(form.cleaned_data['orderStatus']))
             return redirect(request.path)
 
+
 def completedOrders(request):
-    context = {
-        'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
-        'orders': Order.objects.filter(currentStatus=OrderStatus(OrderStatus.READY)),
-        'orderLineItems': OrderLineItem.objects.all(),
-    }
-    return render(request, 'dansbagels/completedOrders.html', context)
+    if request.method == "GET":
+        context = {
+            'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
+            'orders': Order.objects.filter(currentStatus=OrderStatus(OrderStatus.READY)),
+            'orderLineItems': OrderLineItem.objects.all(),
+            'form': UpdateOrder()
+        }
+        return render(request, 'dansbagels/completedOrders.html', context)
+
+    if request.method == "POST":
+        form = UpdateOrder(request.POST)
+        if form.is_valid():
+            orderID = request.POST.get('UpdateButton')
+            order = Order.objects.get(id=orderID)
+            modifyOrderStatusDB(order, OrderStatus(form.cleaned_data['orderStatus']))
+            return redirect(request.path)
+
 
 def inventory(request):
-    context = {
-        'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
-        'menuItems': MenuItem.objects.all()
-    }
-    return render(request, 'dansbagels/inventory.html', context)
+    if request.method == "GET":
+        context = {
+            'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
+            'menuItems': MenuItem.objects.all(),
+            'createMenuItem': CreateMenuItem()
+        }
+        return render(request, 'dansbagels/inventory.html', context)
+    if request.method == "POST":
+        for menuItem in MenuItem.objects.all():
+            if request.POST.get('delete'+str(menuItem.id)) == 'remove':
+                deleteMenuItemDB(menuItem)
+            else:
+                addInventoryStockDB(menuItem, int(request.POST.get(str(menuItem.id))))
+        return redirect(request.path)
 
+
+def createMenuItem(request):
+    if request.method == "POST":
+        form = CreateMenuItem(request.POST)
+        if form.is_valid():
+            addMenuItemDB(form.cleaned_data['itemName'], form.cleaned_data['initialQuantity'], form.cleaned_data['itemPrice'])
+
+        return redirect('inventory')
 
 # URL: localhost:8000/dansbagels/orderBagel
 def orderBagel(request):
@@ -209,8 +238,9 @@ def account(request):
             context['accountBalance'] = str(account.accountBalance_decimal)
             context['accountType'] = request.session['accountType']
             context['updateAccountForm'] = UpdateAccount()
-            context['orderHistory'] = Order.objects.filter(personOrdered=account).reverse()
-            context['orderLineItemHistory'] = OrderLineItem.objects.all()
+            context['orderHistory'] = Order.objects.filter(personOrdered=account).filter(currentStatus=OrderStatus(OrderStatus.COMPLETED)).reverse()
+            context['orderLineItems'] = OrderLineItem.objects.all()
+            context['trackedOrder'] = Order.objects.filter(personOrdered=account).exclude(currentStatus=OrderStatus(OrderStatus.COMPLETED)).reverse()
             context['permitted'] = True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False
 
             return render(request, 'dansbagels/account.html', context)
@@ -266,7 +296,7 @@ def deleteAccount(request):
         deleteAccountDB(request.POST.get('DeleteButton'))
     return redirect('admin__add_rem')
 
-
+# Only intended to handle post requests from orderBagel
 def placeOrder(request):
     if request.method == "POST":
         form = OrderBagel(request.POST)
@@ -288,4 +318,13 @@ def placeOrder(request):
                     order=order,
                     orderQuantity=int(itemsOrdered[i])
                 )
-        return redirect("home")  # temp redirect, should redirect to order status page
+        return redirect("account")
+
+
+def cancelOrder(request):
+    if request.method == "POST":
+        if request.POST.get("refund") == "true":
+            cancelOrderDB(Order.objects.get(id=request.POST.get("cancel")), True)
+        else:
+            cancelOrderDB(Order.objects.get(id=request.POST.get("cancel")), False)
+    return redirect("account")
