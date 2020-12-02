@@ -17,7 +17,7 @@ from dansbagels.dbfunctions import *
 
 # URL: localhost:8000/dansbagels/
 def index(request):
-    return redirect("Home")
+    return redirect("home")
 
 
 # URL: localhost:8000/dansbagels/test
