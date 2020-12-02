@@ -17,7 +17,8 @@ form {
 }
 
 h1 {
-    align:center;
+    text-align: center;
+    font-family: Optima;
 }
 
 a:link, a:visited, a:active {

@@ -30,7 +30,7 @@
         {% endif %}
         <div>
             <h1>Account Info</h1>
-            <p>To update your account info, input the updated info in the box next to your current info and click update
+            <p style="text-align: center;">To update your account info, input the updated info in the box next to your current info and click update
             when done.</p>
             <form method="post">
                 {% csrf_token %}
@@ -38,7 +38,7 @@
                     <tr>
                         <th>Username</th>
                         <td>{{ userName }}</td>
-			<td>
+			            <td>
                             <button type="button" id="username" name="button">Update</button>
                             {{updateAccountForm.username}}
                         </td>
@@ -46,7 +46,7 @@
                     <tr>
                         <th>Password</th>
                         <td>{{ password }}</td>
-			<td>
+			            <td>
                             <button type="button" id="password" name="button">Update</button>
                             {{updateAccountForm.password}}
                         </td>
@@ -54,7 +54,7 @@
                     <tr>
                         <th>First Name</th>
                         <td>{{ firstName }}</td>
-			<td>
+			            <td>
                             <button type="button" id="firstName" name="button">Update</button>
                             {{updateAccountForm.firstName}}
                         </td>
@@ -62,7 +62,7 @@
                     <tr>
                         <th>Last Name</th>
                         <td>{{ lastName }}</td>
-			<td>
+			            <td>
                             <button type="button" id="lastName" name="button">Update</button>
                             {{updateAccountForm.lastName}}
                         </td>
@@ -70,7 +70,7 @@
                     <tr>
                         <th>Email</th>
                         <td>{{ email }}</td>
-			<td>
+			            <td>
                             <button type="button" id="email" name="button">Update</button>
                             {{updateAccountForm.email}}
                         </td>
@@ -78,7 +78,7 @@
                     <tr>
                         <th>Phone Number</th>
                         <td>{{ phoneNumber }}</td>
-			<td>
+			            <td>
                             <button type="button" id="phone" name="button">Update</button>
                             {{updateAccountForm.phone}}
                         </td>
@@ -86,14 +86,14 @@
                     <tr>
                         <th>Account Balance</th>
                         <td>{{ accountBalance }}</td>
-			<td>
+			            <td>
                             <button type="button" id="accountBalance" name="button">Update</button>
                             {{updateAccountForm.accountBalance}}
                         </td>
                     </tr>
                     <tr>
                         <th>Account Type</th>
-			<td>
+			            <td>
                             {{ accountType }}
                         </td>
                     </tr>
