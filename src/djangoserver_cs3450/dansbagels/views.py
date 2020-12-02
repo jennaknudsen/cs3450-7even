@@ -70,7 +70,8 @@ def createAccount(request):
         form = AccountCreation()
         context = {
             'form': form,
-            'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False
+            'permitted': True if 'accountType' in request.session and request.session['accountType'] != 'Customer' else False,
+            'admin': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
         }
         return render(request, 'dansbagels/createAccount.html', context)
     if request.method == 'POST':
@@ -91,7 +92,8 @@ def createAccount(request):
 # URL: localhost:8000/dansbagels/login
 def login(request):
     context = {
-        'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False
+        'permitted': True if 'accountType' in request.session and request.session['accountType'] != 'Customer' else False,
+        'admin': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
     }
     # if logged in, set the proper context flags to show user that's logged in
     if 'logged_in' in request.session and request.session['logged_in']:
@@ -144,7 +146,8 @@ def prototype_logout(request):
 # URL: localhost:8000/dansbagels/home
 def home(request):
     context = {
-        'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False
+        'permitted': True if 'accountType' in request.session and request.session['accountType'] != 'Customer' else False,
+        'admin': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
     }
     return render(request, 'dansbagels/home.html', context)
 
@@ -153,6 +156,7 @@ def activeOrders(request):
     if request.method == "GET":
         context = {
             'permitted': True if 'accountType' in request.session and request.session['accountType'] != 'Customer' else False,
+            'admin': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
             'orders': Order.objects.exclude(currentStatus=OrderStatus(OrderStatus.COMPLETED)).exclude(
                 currentStatus=OrderStatus(OrderStatus.READY)
             ),
@@ -172,7 +176,8 @@ def activeOrders(request):
 def completedOrders(request):
     if request.method == "GET":
         context = {
-            'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
+            'permitted': True if 'accountType' in request.session and request.session['accountType'] != 'Customer' else False,
+            'admin': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
             'orders': Order.objects.filter(currentStatus=OrderStatus(OrderStatus.READY)),
             'orderLineItems': OrderLineItem.objects.all(),
             'form': UpdateOrder()
@@ -191,7 +196,8 @@ def completedOrders(request):
 def inventory(request):
     if request.method == "GET":
         context = {
-            'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
+            'permitted': True if 'accountType' in request.session and request.session['accountType'] != 'Customer' else False,
+            'admin': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
             'menuItems': MenuItem.objects.all(),
             'createMenuItem': CreateMenuItem()
         }
@@ -218,7 +224,8 @@ def orderBagel(request):
     context = {'menuItems': MenuItem.objects.all(),
                'orderForm': OrderBagel(),
                'logged_in': True if 'logged_in' in request.session and request.session['logged_in'] is True else False,
-               'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False
+               'permitted': True if 'accountType' in request.session and request.session['accountType'] != 'Customer' else False,
+               'admin': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
                }
     return render(request, 'dansbagels/orderBagel.html', context)
 
@@ -241,7 +248,8 @@ def account(request):
             context['orderHistory'] = Order.objects.filter(personOrdered=account).filter(currentStatus=OrderStatus(OrderStatus.COMPLETED)).reverse()
             context['orderLineItems'] = OrderLineItem.objects.all()
             context['trackedOrder'] = Order.objects.filter(personOrdered=account).exclude(currentStatus=OrderStatus(OrderStatus.COMPLETED)).reverse()
-            context['permitted'] = True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False
+            context['permitted'] = True if 'accountType' in request.session and request.session['accountType'] != 'Customer' else False
+            context['admin'] = True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False
             context['reorder'] = Reorder()
 
             return render(request, 'dansbagels/account.html', context)
@@ -272,7 +280,7 @@ def admin__add_rem(request):
     if request.method == "GET":
         context = {
             'form': ManagerAccountCreation(),
-            'permitted': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
+            'admin': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
             'people': Person.objects.all(),
         }
         return render(request, 'dansbagels/admin__add_rem.html', context)

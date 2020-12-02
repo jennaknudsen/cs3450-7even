@@ -17,9 +17,11 @@
             <a href="/dansbagels/login" class="link">Log in</a>
             <a href="/dansbagels/account" class="link">Account</a>
             <a href="/dansbagels/orderBagel" class="link">Place Order</a>
+            <a href="/dansbagels/activeOrders" class="link">Active Orders</a>
+            <a href="/dansbagels/completedOrders" class="link">Completed Orderes</a>
         </div>
         <div>
-        {% if permitted %}
+        {% if admin %}
             <div id="admin-links">
                 <a href="/dansbagels/admin/add_rem">Database Info</a>
                 <a href="/dansbagels/inventory">Inventory</a>
