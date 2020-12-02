@@ -40,7 +40,7 @@ pickUpTime.min = minTime;
 pickUpTime.max = "22:00"
 
 pickUpDate.min = new Date().toISOString().split('T')[0];
-pickUpDate.max = new Date(Date.now() + 6.048e8).toISOString().split('T')[0];//12096e5 is a magic number which is 14 days in miliseconds
+pickUpDate.max = new Date(Date.now() + 6.048e8).toISOString().split('T')[0];//6.48e8 is a magic number which is 7 days in miliseconds
 totalPrice.style.visibility = "hidden";
 orderForm.style.visibility = "hidden";
 

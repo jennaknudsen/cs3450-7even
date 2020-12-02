@@ -99,7 +99,7 @@
             {% for order in trackedOrder %}
             <div>
                 <p>Pick Up Time: {{ order.pickUpTime }}</p>
-                <p>Total Cost: {{ order.orderCost_decimal }}</p>
+                <p>Total Cost: ${{ order.orderCost_decimal }}</p>
                 <p>Instructions: {{ order.orderInstructions_text }}</p>
                 <p>Current Status: {{ order.currentStatus }}</p>
                 <p>Items ordered:</p>
@@ -121,14 +121,19 @@
         <h1>Order History</h1>
             {% for order in orderHistory %}
             <div>
-                <p>{{ order.pickUpTime }}</p>
-                <p>${{ order.orderCost_decimal }}</p>
-                <p>{{ order.orderInstructions_text }}</p>
+                <p>Pick Up Time: {{ order.pickUpTime }}</p>
+                <p>Total Cost: ${{ order.orderCost_decimal }}</p>
+                <p>Instructions: {{ order.orderInstructions_text }}</p>
                 {% for item in orderLineItems %}
                 {% if item.order == order %}
                 <p>{{item.itemOrdered}} x{{item.orderQuantity_int}}</p>
                 {% endif %}
                 {% endfor %}
+                <form method="post" action="{% url 'reorder' %}">
+                    {% csrf_token %}
+                    {{reorder}}
+                    <button type="submit" value="{{order.id}}" name="reorder">Reorder</button>
+                </form>
             </div>
             {% endfor %}
         </div>
