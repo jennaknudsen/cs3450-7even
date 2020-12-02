@@ -38,6 +38,11 @@ class OrderBagel(forms.Form):
     	"Please place special instructions in this field, i.e. which toppings go with which bagel"}))	
 
 
+class Reorder(forms.Form):
+    pickUpDate = forms.DateField(label="Pick-Up Date", widget=NumberInput(attrs={'type': 'date'}))
+    pickUpTime = forms.TimeField(label="Pick-Up Time", widget=forms.TimeInput(attrs={'type': 'time'}))
+
+
 class UpdateOrder(forms.Form):
     orderStatus = forms.ChoiceField(choices=OrderStatus.ORDER_STATUS_CHOICES)
 

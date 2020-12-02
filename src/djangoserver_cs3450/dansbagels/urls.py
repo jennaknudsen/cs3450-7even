@@ -21,5 +21,6 @@ urlpatterns = [
     path('completedOrders', views.completedOrders, name='completedOrders'),
     path('inventory', views.inventory, name='inventory'),
     path('cancelOrder', views.cancelOrder, name="cancelOrder"),
-    path('createMenuItem', views.createMenuItem, name='createMenuItem')
+    path('createMenuItem', views.createMenuItem, name='createMenuItem'),
+    path('reorder', views.reorder, name="reorder")
 ]

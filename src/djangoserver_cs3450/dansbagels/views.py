@@ -17,7 +17,7 @@ from dansbagels.dbfunctions import *
 
 # URL: localhost:8000/dansbagels/
 def index(request):
-    return redirect("Home")
+    return redirect("home")
 
 
 # URL: localhost:8000/dansbagels/test
@@ -242,6 +242,7 @@ def account(request):
             context['orderLineItems'] = OrderLineItem.objects.all()
             context['trackedOrder'] = Order.objects.filter(personOrdered=account).exclude(currentStatus=OrderStatus(OrderStatus.COMPLETED)).reverse()
             context['permitted'] = True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False
+            context['reorder'] = Reorder()
 
             return render(request, 'dansbagels/account.html', context)
         if request.method == "POST":
@@ -319,6 +320,31 @@ def placeOrder(request):
                     orderQuantity=int(itemsOrdered[i])
                 )
         return redirect("account")
+
+
+def reorder(request):
+    if request.method == "POST":
+        form = Reorder(request.POST)
+        if form.is_valid():
+            order = Order.objects.get(id=int(request.POST.get('reorder')))
+            order.pk = None  # If the pk is set to none then django creates a new object instead of overwriting the old one
+            orderDate = str(form.cleaned_data['pickUpDate'])
+            orderTime = str(form.cleaned_data['pickUpTime']).split(":")
+            order.pickUpTime = datetime.datetime(year=int(orderDate[0:4]), month=int(orderDate[5:7]),
+                                                 day=int(orderDate[8:10]), hour=int(orderTime[0]), minute=int(orderTime[1]),
+                                                 second=0, tzinfo=pytz.UTC)
+            order.currentStatus = OrderStatus(OrderStatus.ORDERED)
+            order.save()
+
+            account = order.personOrdered
+            account.accountBalance_decimal -= order.orderCost_decimal
+            account.save()
+
+            for item in OrderLineItem.objects.filter(order=Order.objects.get(id=int(request.POST.get('reorder')))):
+                item.pk = None
+                item.order = order
+                item.save()
+    return redirect('account')
 
 
 def cancelOrder(request):
