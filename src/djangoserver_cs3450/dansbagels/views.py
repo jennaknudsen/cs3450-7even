@@ -207,7 +207,12 @@ def inventory(request):
             if request.POST.get('delete'+str(menuItem.id)) == 'remove':
                 deleteMenuItemDB(menuItem)
             else:
-                addInventoryStockDB(menuItem, int(request.POST.get(str(menuItem.id))))
+                newAmount = request.POST.get(str(menuItem.id))
+                if newAmount.startswith("-"):
+                    newInt = -1 * int(newAmount[1:])
+                else:
+                    newInt = int(newAmount)
+                addInventoryStockDB(menuItem, newInt)
         return redirect(request.path)
 
 
