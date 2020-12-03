@@ -33,14 +33,15 @@
             <h1>Account Info</h1>
             <p style="text-align: center;">To update your account info, input the updated info in the box next to your current info and click update
             when done.</p>
+            <form method="post" id="updateAccount-form">{% csrf_token %}</form>
             <table>
                 <tr>
                     <th>Username</th>
                     <td>{{ userName }}</td>
                     <td>
-                        <form method="post">
+                        <form>
                             {% csrf_token %}
-                            <button type="button" id="username" name="button">Update</button>
+                            <button type="button" id="username" name="button" form="updateAccount-form">Update</button>
                             {{updateAccountForm.username}}
                         </form>
                     </td>
