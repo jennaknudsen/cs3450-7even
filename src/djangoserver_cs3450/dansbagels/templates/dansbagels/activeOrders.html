@@ -55,23 +55,26 @@
                             <td>{{ order.orderInstructions_text }}</td>
                             <td>{{ order.currentStatus }}</td>
                         </tr>
+                        <tr>
+                            <td colspan="4">
+                                <!-- This form is for updating the order -->
+                                <form method="post">
+                                    {% csrf_token %}
+                                    {{form.as_p}}
+                                    <button type="submit" value="{{order.id}}" name="UpdateButton">Update Order</button>
+                                </form>
+                                <br>
+                                <!-- This form is for canceling the order -->
+                                <form method="post" action="{% url 'cancelOrder' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" value="false" name="refund">
+                                    <button type="submit" value="{{order.id}}" name="cancel">Cancel Order</button>
+                                </form>
+                            </td>
+
+                        </tr>
                     </table>
                     <br>
-                    <div id="form-div" align="center">
-                        <!-- This form is for updating the order -->
-                        <form method="post">
-                            {% csrf_token %}
-                            {{form.as_p}}
-                            <button type="submit" value="{{order.id}}" name="UpdateButton">Update Order</button>
-                        </form>
-                        <br>
-                        <!-- This form is for canceling the order -->
-                        <form method="post" action="{% url 'cancelOrder' %}">
-                            {% csrf_token %}
-                            <input type="hidden" value="false" name="refund">
-                            <button type="submit" value="{{order.id}}" name="cancel">Cancel Order</button>
-                        </form>
-                    </div>
                 </div>
                 <br><br>
                 {% endfor %}

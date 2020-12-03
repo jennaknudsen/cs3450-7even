@@ -51,15 +51,18 @@
                             <td>${{ order.orderCost_decimal }}</td>
                             <td>{{ order.currentStatus }}</td>
                         </tr>
+                        <tr>
+                            <td colspan="4">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    {{form.as_p}}
+                                    <button type="submit" value="{{order.id}}" name="UpdateButton">Update Order</button>
+                                </form>
+                            </td>
+                        </tr>
                     </table>
                     <br>
-                    <div id="form-div">
-                        <form method="post">
-                            {% csrf_token %}
-                            {{form.as_p}}
-                            <button type="submit" value="{{order.id}}" name="UpdateButton">Update Order</button>
-                        </form>
-                    </div>
+
 
                 </div>
                 {% endfor %}

@@ -63,24 +63,26 @@
                         </form>
                     </td>
                 </tr>{% endfor %}
+                <tr>
+                    <td colspan="5" style="background-color: #6B2D42;">
+                        <br>
+                        <div align="center">
+                            <button type="submit" form="inventory-form">Update Inventory</button>
+                        </div>
+                        <br>
+                    </td>
+                </tr>
             </table>
             <p></p>
-            <div align="center">
-                <button type="submit" form="inventory-form">Update Inventory</button>
+
+        <h1>Create New Menu Item</h1>
+            <div id="form-div" align="center">
+                <form method="post" action="{% url 'createMenuItem' %}">
+                    {% csrf_token %}
+                    {{ createMenuItem.as_p }}
+                    <button type="submit">Add Item</button>
+                </form>
             </div>
-
-
-
-
-        <p></p>
-        <p></p>
-        <div id="form-div" align="center">
-            <form method="post" action="{% url 'createMenuItem' %}">
-                {% csrf_token %}
-                {{ createMenuItem.as_p }}
-                <button type="submit">Add Item</button>
-            </form>
-        </div>
         {% endif %}
     </body>
 </html>
