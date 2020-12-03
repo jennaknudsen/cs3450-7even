@@ -281,14 +281,14 @@ def account(request):
 
 
 # URL: localhost:8000/dansbagels/admin/add_rem
-def admin__add_rem(request):
+def admin__database(request):
     if request.method == "GET":
         context = {
             'form': ManagerAccountCreation(),
             'admin': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
             'people': Person.objects.all(),
         }
-        return render(request, 'dansbagels/admin__add_rem.html', context)
+        return render(request, 'dansbagels/admin__database', context)
     if request.method == "POST":
         form = ManagerAccountCreation(request.POST)
         if form.is_valid():
