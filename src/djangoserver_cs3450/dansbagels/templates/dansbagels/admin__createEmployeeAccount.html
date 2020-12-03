@@ -7,11 +7,10 @@
         <meta charset="utf-8"/>
         <link rel="stylesheet" href="{% static 'dansbagels/style.css' %}" type="text/css"/>
         <link rel="shortcut icon" href="{%static 'dansbagels/images/favicon.ico' %}"/>
-        <title>Home</title>
+        <title>Add/Remove</title>
     </head>
     <body>
         <div id="top-bar">
-            <!-- For some reason, I can't get these style things to work in CSS; the other ones work -->
             <span id="banner-title" style="float:left; font-size:larger;">Dan's Bagel Shop</span>
             <a href="/dansbagels/home" class="link">Home</a>
             <a href="/dansbagels/createAccount" class="link">Create Account</a>
@@ -24,15 +23,25 @@
                 <a href="/dansbagels/inventory">Inventory</a>
             {% endif %}
         </div>
-        <!-- anything in the style attribute here isn't showing up just from CSS -->
-
+        <div>
         {% if admin %}
             <div id="admin-links">
                 <a href="/dansbagels/admin/database">Database Info</a>
 
             </div>
+            <h1 align="center">Create Employee Account</h1>
+            <div id="form-div" align="center">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+
+
+        {% else %}
+            <h1>Access denied, invalid account type</h1>
         {% endif %}
-        <h1 id="welcome" align="center">Welcome to Dan's Bagel Shop!</h1>
-        <img src="{% static 'dansbagels/images/bagels.png' %}" alt="bagels" width="600" height="400" class="center">
+        </div>
     </body>
 </html>

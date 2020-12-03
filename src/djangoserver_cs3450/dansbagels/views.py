@@ -284,11 +284,23 @@ def account(request):
 def admin__database(request):
     if request.method == "GET":
         context = {
-            'form': ManagerAccountCreation(),
             'admin': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
+            'permitted': True if 'accountType' in request.session and request.session['accountType'] != 'Customer' else False,
             'people': Person.objects.all(),
         }
-        return render(request, 'dansbagels/admin__database', context)
+        return render(request, 'dansbagels/admin__database.html', context)
+
+
+
+def admin__createEmployeeAccount(request):
+    if request.method == "GET":
+        context = {
+            'form': ManagerAccountCreation(),
+            'admin': True if 'accountType' in request.session and request.session['accountType'] == 'Manager' else False,
+            'permitted': True if 'accountType' in request.session and request.session['accountType'] != 'Customer' else False,
+            'people': Person.objects.all(),
+        }
+        return render(request, 'dansbagels/admin__createEmployeeAccount.html', context)
     if request.method == "POST":
         form = ManagerAccountCreation(request.POST)
         if form.is_valid():

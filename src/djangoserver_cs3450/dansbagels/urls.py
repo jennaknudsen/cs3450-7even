@@ -15,6 +15,7 @@ urlpatterns = [
     path('orderBagel', views.orderBagel, name='orderBagel'),
     path('account', views.account, name='account'),
     path('admin/database', views.admin__database, name='admin__database'),
+    path('admin/createEmployeeAccount', views.admin__createEmployeeAccount, name='admin__createEmployeeAccount'),
     path('deleteAccount', views.deleteAccount, name='deleteAccount'),
     path('placeOrder', views.placeOrder, name='placeOrder'),
     path('activeOrders', views.activeOrders, name='activeOrders'),

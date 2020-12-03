@@ -17,14 +17,17 @@
             <a href="/dansbagels/login" class="link">Log in</a>
             <a href="/dansbagels/account" class="link">Account</a>
             <a href="/dansbagels/orderBagel" class="link">Place Order</a>
-            <a href="/dansbagels/activeOrders" class="link">Active Orders</a>
-            <a href="/dansbagels/completedOrders" class="link">Completed Orderes</a>
+            {% if permitted %}
+                <a href="/dansbagels/activeOrders" class="link">Active Orders</a>
+                <a href="/dansbagels/completedOrders" class="link">Completed Orderes</a>
+                <a href="/dansbagels/inventory">Inventory</a>
+            {% endif %}
         </div>
         <div>
         {% if admin %}
             <div id="admin-links">
                 <a href="/dansbagels/admin/database">Database Info</a>
-                <a href="/dansbagels/inventory">Inventory</a>
+
             </div>
             <h1>Database Info</h1>
             <table>
@@ -57,14 +60,6 @@
                     </tr>
                 {% endfor %}
             </table>
-            <h1 align="center">Create Employee Account</h1>
-            <div id="form-div" align="center">
-                <form method="post">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <input type="submit" value="Submit">
-                </form>
-            </div>
 
 
         {% else %}
