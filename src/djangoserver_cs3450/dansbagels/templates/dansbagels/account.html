@@ -39,8 +39,9 @@
                     <td>{{ userName }}</td>
                     <td>
                         <form method="post">
+                            {% csrf_token %}
                             <button type="button" id="username" name="button">Update</button>
-                            {{updateAccountForm.username.}}
+                            {{updateAccountForm.username}}
                         </form>
                     </td>
                 </tr>
