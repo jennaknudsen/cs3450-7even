@@ -19,42 +19,42 @@
             <a href="/dansbagels/login" class="link">Log in</a>
             <a href="/dansbagels/account" class="link">Account</a>
             <a href="/dansbagels/orderBagel" class="link">Place Order</a>
-            {% if permitted %}
-                <a href="/dansbagels/activeOrders" class="link">Active Orders</a>
-                <a href="/dansbagels/completedOrders" class="link">Completed Orderes</a>
-                <a href="/dansbagels/inventory">Inventory</a>
-            {% endif %}
         </div>
         <!-- anything in the style attribute here isn't showing up just from CSS -->
 
         {% if permitted %}
-            {% if admin %}
-                <div id="admin-links">
+            <div id="admin-links">
+                <a href="/dansbagels/activeOrders" class="link">Active Orders</a>
+                <a href="/dansbagels/completedOrders" class="link">Completed Orderes</a>
+                <a href="/dansbagels/inventory">Inventory</a>
+                {% if admin %}
                     <a href="/dansbagels/admin/database">Database Info</a>
                     <a href="/dansbagels/admin/createEmployeeAccount">Create Employee Account</a>
-                </div>
-            {% endif %}
-        <h1>List of completed Orders</h1>
-        {# Completed order stuff goes here #}
-        {% for order in orders %}
-            <div>
-                <p>{{ order.personOrdered }}</p>
-                <p>{{ order.pickUpTime }}</p>
-                <p>${{ order.orderCost_decimal }}</p>
-                <p>{{ order.orderInstructions_text }}</p>
-                {% for item in orderLineItems %}
-                    {% if item.order == order %}
-                    <p>{{item.itemOrdered}} x{{item.orderQuantity_int}}</p>
-                    {% endif %}
-                {% endfor %}
-                <p>Order Status: {{ order.currentStatus }}</p>
-                <form method="post">
-                    {% csrf_token %}
-                    {{form}}
-                    <button type="submit" value="{{order.id}}" name="UpdateButton">Update Order</button>
-                </form>
+                {% endif %}
             </div>
-            {% endfor %}
+        {% endif %}
+            {% if permitted %}
+            <h1>List of completed Orders</h1>
+            {# Completed order stuff goes here #}
+            {% for order in orders %}
+                <div>
+                    <p>{{ order.personOrdered }}</p>
+                    <p>{{ order.pickUpTime }}</p>
+                    <p>${{ order.orderCost_decimal }}</p>
+                    <p>{{ order.orderInstructions_text }}</p>
+                    {% for item in orderLineItems %}
+                        {% if item.order == order %}
+                        <p>{{item.itemOrdered}} x{{item.orderQuantity_int}}</p>
+                        {% endif %}
+                    {% endfor %}
+                    <p>Order Status: {{ order.currentStatus }}</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{form}}
+                        <button type="submit" value="{{order.id}}" name="UpdateButton">Update Order</button>
+                    </form>
+                </div>
+                {% endfor %}
         {% endif %}
     </body>
 </html>

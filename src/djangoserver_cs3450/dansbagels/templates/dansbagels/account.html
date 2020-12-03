@@ -17,16 +17,16 @@
             <a href="/dansbagels/login" class="link">Log in</a>
             <a href="/dansbagels/account" class="link">Account</a>
             <a href="/dansbagels/orderBagel" class="link">Place Order</a>
-            {% if permitted %}
+        </div>
+        {% if permitted %}
+            <div id="admin-links">
                 <a href="/dansbagels/activeOrders" class="link">Active Orders</a>
                 <a href="/dansbagels/completedOrders" class="link">Completed Orderes</a>
                 <a href="/dansbagels/inventory">Inventory</a>
-            {% endif %}
-        </div>
-        {% if admin %}
-            <div id="admin-links">
-                <a href="/dansbagels/admin/database">Database Info</a>
-                <a href="/dansbagels/admin/createEmployeeAccount">Create Employee Account</a>
+                {% if admin %}
+                    <a href="/dansbagels/admin/database">Database Info</a>
+                    <a href="/dansbagels/admin/createEmployeeAccount">Create Employee Account</a>
+                {% endif %}
             </div>
         {% endif %}
         <div>
