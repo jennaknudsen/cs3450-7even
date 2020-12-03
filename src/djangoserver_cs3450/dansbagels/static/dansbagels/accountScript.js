@@ -19,7 +19,14 @@ var buttons = document.getElementsByName("button");
 buttons.forEach(function (button){
 		button.onclick = function () {showField(button.id)};
 	});
-	
+var inputs = Array.from(document.getElementsByTagName('input'))
+
+inputs.forEach(function (input) {
+                    if (input.type.toLowerCase() == 'hidden'){
+                        input.setAttribute("form", "updateAccount-form");
+                    }
+               });
+
 function showField(buttonID) {
 		document.getElementById("id_" + buttonID).type = "text";
 		document.getElementById(buttonID).remove();
