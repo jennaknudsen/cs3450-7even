@@ -22,7 +22,7 @@ buttons.forEach(function (button){
 var inputs = Array.from(document.getElementsByTagName('input'))
 
 inputs.forEach(function (input) {
-                    if (input.type.toLowerCase() == 'hidden'){
+                    if (input.type.toLowerCase() == 'hidden' && input.name.toLowerCase() != "csrfmiddlewaretoken"){
                         input.setAttribute("form", "updateAccount-form");
                     }
                });
