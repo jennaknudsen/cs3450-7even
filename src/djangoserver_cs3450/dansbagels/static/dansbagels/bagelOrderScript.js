@@ -34,7 +34,7 @@ var pickUpTime = document.getElementById("id_pickUpTime");
 var pickUpDate = document.getElementById("id_pickUpDate");
 var orderForm = document.getElementById("orderForm");
 
-var minTime = String(new Date().getHours()) + ":" + String(new Date().getMinutes() + 10);
+var minTime = setMinTime();
 pickUpTime.value = minTime;
 pickUpTime.min = minTime;
 pickUpTime.max = "22:00"
@@ -133,4 +133,11 @@ function updateTotalPrice(){
 		totalPrice.style.visibility = "hidden";
 		orderForm.style.visibility = "hidden";
 	}
+}
+
+function setMinTime() {
+        if (new Date().getMinutes() + 10 > 60){
+            return String(new Date().getHours() + 1) + ":" + String(0) + String(new Date().getMinutes() - 50);
+        }
+        return String(new Date().getHours()) + ":" + String(new Date().getMinutes() + 10);
 }

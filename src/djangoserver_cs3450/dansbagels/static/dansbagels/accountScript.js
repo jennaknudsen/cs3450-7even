@@ -1,13 +1,17 @@
-var pickUpTime = document.getElementById("id_pickUpTime");
-var pickUpDate = document.getElementById("id_pickUpDate");
 
-var minTime = String(new Date().getHours()) + ":" + String(new Date().getMinutes() + 10);
-pickUpTime.value = minTime;
-pickUpTime.min = minTime;
-pickUpTime.max = "22:00"
+var pickUpTime = document.getElementsByName("pickUpTime");
+var pickUpDate = document.getElementsByName("pickUpDate");
 
-pickUpDate.min = new Date().toISOString().split('T')[0];
-pickUpDate.max = new Date(Date.now() + 6.048e8).toISOString().split('T')[0];//6.48e8 is a magic number which is 7 days in miliseconds
+var minTime = setMinTime();
+pickUpTime.forEach(function (element) {
+                        element.value = minTime;
+                        element.min = minTime;
+                        element.max = "22:00";
+                   });
+pickUpDate.forEach(function (element) {
+                        element.min = new Date().toISOString().split('T')[0];
+                        element.max = new Date(Date.now() + 6.048e8).toISOString().split('T')[0];//6.48e8 is a magic number which is 7 days in miliseconds
+                  });
 
 //get the button html elements
 var buttons = document.getElementsByName("button");
@@ -19,4 +23,11 @@ buttons.forEach(function (button){
 function showField(buttonID) {
 		document.getElementById("id_" + buttonID).type = "text";
 		document.getElementById(buttonID).remove();
+}
+
+function setMinTime() {
+        if (new Date().getMinutes() + 10 > 60){
+            return String(new Date().getHours() + 1) + ":" + String(0) + String(new Date().getMinutes() - 50);
+        }
+        return String(new Date().getHours()) + ":" + String(new Date().getMinutes() + 10);
 }
