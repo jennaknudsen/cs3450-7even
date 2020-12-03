@@ -33,7 +33,7 @@
         {% if admin %}
 
             <h1>Database Info</h1>
-            <table>
+            <table id="database-table">
                 <tr>
                     <th>User Name</th>
                     <th>Password</th>
@@ -43,6 +43,7 @@
                     <th>Phone Number</th>
                     <th>Account Balance</th>
                     <th>Account Type</th>
+                    <th>Delete Account</th>
                 </tr>
                 {% for person in people %}
                     <tr>

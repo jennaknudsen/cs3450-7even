@@ -34,40 +34,41 @@
         {% endif %}
         {% if permitted %}
             <h1 align="center">Inventory</h1>
-            <div id="table-div" align="center" style="margin-left: auto; margin-right: auto;">
-                <form method="post" id="inventory-form">{% csrf_token %}</form>
 
-                <table id="inventory-table" align="center" style="margin-left: auto; margin-right: auto;">
-                    <tr>
-                        <th>Item</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Amount to order/remove</th>
-                        <th>Remove Item From Menu</th>
-                    </tr>
-                    {% for item in menuItems %}
-                    <tr>
-                        <td>{{item.itemName_text}}</td>
-                        <td>${{item.itemPrice_decimal}}</td>
-                        <td>{{item.inventoryQuantity_int}}</td>
-                        <td>
-                            <form>
-                                {% csrf_token %}
-                                <input type="number" name="{{item.id}}" form="inventory-form" value=0>
-                            </form>
-                        </td>
-                        <td>
-                            <form>
-                                {% csrf_token %}
-                                <input type="checkbox" name="delete{{item.id}}" form="inventory-form" value="remove">
-                                <label for="delete{{item.id}}">Delete Item</label>
-                            </form>
-                        </td>
-                    </tr>{% endfor %}
-                </table>
-                <p></p>
+            <form method="post" id="inventory-form">{% csrf_token %}</form>
+            <table id="inventory-table" align="center" style="margin-left: auto; margin-right: auto;">
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Amount to order/remove</th>
+                    <th>Remove Item From Menu</th>
+                </tr>
+                {% for item in menuItems %}
+                <tr>
+                    <td>{{item.itemName_text}}</td>
+                    <td>${{item.itemPrice_decimal}}</td>
+                    <td>{{item.inventoryQuantity_int}}</td>
+                    <td>
+                        <form>
+                            {% csrf_token %}
+                            <input type="number" name="{{item.id}}" form="inventory-form" value=0>
+                        </form>
+                    </td>
+                    <td>
+                        <form>
+                            {% csrf_token %}
+                            <input type="checkbox" name="delete{{item.id}}" form="inventory-form" value="remove">
+                            <label for="delete{{item.id}}">Delete Item</label>
+                        </form>
+                    </td>
+                </tr>{% endfor %}
+            </table>
+            <p></p>
+            <div align="center">
                 <button type="submit" form="inventory-form">Update Inventory</button>
             </div>
+
 
 
 

@@ -35,30 +35,45 @@
         {% if permitted %}
             <h1>List of orders in progress</h1>
             {% for order in orders %}
-                <div>
-                    <p>{{ order.personOrdered }}</p>
-                    <p>{{ order.pickUpTime }}</p>
-                    <p>${{ order.orderCost_decimal }}</p>
-                    <p>{{ order.orderInstructions_text }}</p>
-                    {% for item in orderLineItems %}
-                        {% if item.order == order %}
-                        <p>{{item.itemOrdered}} x{{item.orderQuantity_int}}</p>
-                        {% endif %}
-                    {% endfor %}
-                    <p>Order Status: {{ order.currentStatus }}</p>
-                    <!-- This form is for updating the order -->
-                    <form method="post">
-                        {% csrf_token %}
-                        {{form}}
-                        <button type="submit" value="{{order.id}}" name="UpdateButton">Update Order</button>
-                    </form>
-                    <!-- This form is for canceling the order -->
-                    <form method="post" action="{% url 'cancelOrder' %}">
-                        {% csrf_token %}
+                <div align="center">
+                    <table>
+                        <tr>
+                            <th>Pick Up Time</th>
+                            <th>Order Items</th>
+                            <th>Order Instructions</th>
+                            <th>Status</th>
+                        </tr>
+                        <tr>
+                            <td>{{ order.pickUpTime }}</td>
+                            <td>
+                                {% for item in orderLineItems %}
+                                    {% if item.order == order %}
+                                        <p>{{item.itemOrdered}} x{{item.orderQuantity_int}}</p>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>{{ order.orderInstructions_text }}</td>
+                            <td>{{ order.currentStatus }}</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <div id="form-div" align="center">
+                        <!-- This form is for updating the order -->
+                        <form method="post">
+                            {% csrf_token %}
+                            {{form.as_p}}
+                            <button type="submit" value="{{order.id}}" name="UpdateButton">Update Order</button>
+                        </form>
+                        <br>
+                        <!-- This form is for canceling the order -->
+                        <form method="post" action="{% url 'cancelOrder' %}">
+                            {% csrf_token %}
                             <input type="hidden" value="false" name="refund">
                             <button type="submit" value="{{order.id}}" name="cancel">Cancel Order</button>
-                    </form>
+                        </form>
+                    </div>
                 </div>
+                <br><br>
                 {% endfor %}
             {# Order status stuff goes here #}
         {% endif %}

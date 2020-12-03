@@ -37,22 +37,30 @@
             <h1>List of completed Orders</h1>
             {# Completed order stuff goes here #}
             {% for order in orders %}
-                <div>
-                    <p>{{ order.personOrdered }}</p>
-                    <p>{{ order.pickUpTime }}</p>
-                    <p>${{ order.orderCost_decimal }}</p>
-                    <p>{{ order.orderInstructions_text }}</p>
-                    {% for item in orderLineItems %}
-                        {% if item.order == order %}
-                        <p>{{item.itemOrdered}} x{{item.orderQuantity_int}}</p>
-                        {% endif %}
-                    {% endfor %}
-                    <p>Order Status: {{ order.currentStatus }}</p>
-                    <form method="post">
-                        {% csrf_token %}
-                        {{form}}
-                        <button type="submit" value="{{order.id}}" name="UpdateButton">Update Order</button>
-                    </form>
+                <div align="center">
+                    <table>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Pick Up Time</th>
+                            <th>Cost</th>
+                            <th>Status</th>
+                        </tr>
+                        <tr>
+                            <td>{{ order.personOrdered }}</td>
+                            <td>{{ order.pickUpTime }}</td>
+                            <td>${{ order.orderCost_decimal }}</td>
+                            <td>{{ order.currentStatus }}</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <div id="form-div">
+                        <form method="post">
+                            {% csrf_token %}
+                            {{form.as_p}}
+                            <button type="submit" value="{{order.id}}" name="UpdateButton">Update Order</button>
+                        </form>
+                    </div>
+
                 </div>
                 {% endfor %}
         {% endif %}

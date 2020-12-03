@@ -36,17 +36,17 @@
             <div class="grid-container">
                 <div>
                     {% for menuItem in menuItems %}
-                    {% if menuItem.inventoryQuantity_int > 0 %}
-                        <div class="menuItem">
-                            <h3>{{menuItem.itemName_text}}</h3>
-                            <p>${{menuItem.itemPrice_decimal}}</p>
-                        </div>
-                    {% else %}
-                        <div class="outOfStock">
-                            <h3>{{menuItem.itemName_text}}</h3>
-                            <p>${{menuItem.itemPrice_decimal}}</p>
-                        </div>
-                    {% endif %}
+                        {% if menuItem.inventoryQuantity_int > 0 %}
+                            <div class="menuItem">
+                                <h3>{{menuItem.itemName_text}}</h3>
+                                <p>${{menuItem.itemPrice_decimal}}</p>
+                            </div>
+                        {% else %}
+                            <div class="outOfStock">
+                                <h3>{{menuItem.itemName_text}}</h3>
+                                <p>${{menuItem.itemPrice_decimal}}</p>
+                            </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
