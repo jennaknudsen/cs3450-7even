@@ -49,7 +49,7 @@
                 <p align="center"> You are not logged in. </p>
             {% endif %}
 
-            <div id="form-div" align="center" style="padding-top: 10px;">
+            <div class="form-div" align="center" style="padding-top: 10px;">
                 <form action="{% url 'prototype_login' %}" method="post">
                     {% csrf_token %}
                     <label for="txt_username"></label>

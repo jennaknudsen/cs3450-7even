@@ -114,6 +114,7 @@ function removeItemFromCart(tableEntry){
 function updateTotalPrice(){
 	if (cartItemNames.length != 0){
 		totalPrice.style.visibility = "visible";
+		totalPrice.style.textAlign = "center";
 		orderForm.style.visibility = "visible";
 		cartTotalPrice = 0.0;
 		for (let i = 0; i<cartItemPrices.length; i++){

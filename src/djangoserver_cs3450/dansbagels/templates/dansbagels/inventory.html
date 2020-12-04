@@ -76,7 +76,7 @@
             <p></p>
 
         <h1>Create New Menu Item</h1>
-            <div id="form-div" align="center">
+            <div class="form-div" align="center">
                 <form method="post" action="{% url 'createMenuItem' %}">
                     {% csrf_token %}
                     {{ createMenuItem.as_p }}

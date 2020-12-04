@@ -50,8 +50,8 @@
                     {% endfor %}
                 </div>
             </div>
-                <div id="cart"></div>
-                    <div id="checkOut">
+                <div id="cart" align="center"></div>
+                    <div id="checkOut" class="form-div" align="center" style="width: 350px">
                         <form action="{% url 'placeOrder' %}" method="post" id="orderForm">
                             {% csrf_token %}
                             {{ orderForm.as_p }}

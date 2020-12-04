@@ -32,7 +32,7 @@
         {% endif %}
         {% if admin %}
             <h1 align="center">Create Employee Account</h1>
-            <div id="form-div" align="center">
+            <div class="form-div" align="center">
                 <form method="post">
                     {% csrf_token %}
                     {{ form.as_p }}

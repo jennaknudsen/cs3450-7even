@@ -157,15 +157,20 @@
                             <th>Cost</th>
                             <td>${{ order.orderCost_decimal }}</td>
                         </tr>
+                        {% ifequal order.currentStatus|stringformat:"s" "Ordered" %}
+                            <tr>
+                                <td colspan="2" style="background-color:#6B2D42;">
+                                        <form method="post" action="{% url 'cancelOrder' %}">
+                                            {% csrf_token %}
+                                            <input type="hidden" value="true" name="refund">
+                                            <button type="submit" value="{{order.id}}" name="cancel">Cancel Order</button>
+                                        </form>
+                                </td>
+                            </tr>
+                        {% endifequal %}
                     </table>
 
-                    {% ifequal order.currentStatus|stringformat:"s" "Ordered" %}
-                        <form method="post" action="{% url 'cancelOrder' %}">
-                            {% csrf_token %}
-                            <input type="hidden" value="true" name="refund">
-                            <button type="submit" value="{{order.id}}" name="cancel">Cancel Order</button>
-                        </form>
-		            {% endifequal %}
+
                 </div>
             <br>
             {% endfor %}
@@ -196,16 +201,17 @@
                             <th>Cost</th>
                             <td>${{ order.orderCost_decimal }}</td>
                         </tr>
+                        <tr>
+                            <td colspan="2">
+                                <form method="post" action="{% url 'reorder' %}">
+                                    {% csrf_token %}
+                                    {{reorder.as_p}}
+                                    <button type="submit" value="{{order.id}}" name="reorder">Reorder</button>
+                                </form>
+                            </td>
+                        </tr>
                     </table>
                     <br>
-                    <div id="form-div">
-                        <form method="post" action="{% url 'reorder' %}">
-                            {% csrf_token %}
-                            {{reorder}}
-                            <button type="submit" value="{{order.id}}" name="reorder">Reorder</button>
-                        </form>
-                    </div>
-
                 </div>
                 <br>
             {% endfor %}
