@@ -1,6 +1,3 @@
-from django import template
-
-from django.template import loader
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -8,7 +5,6 @@ from dansbagels.models import *
 from .forms import *
 from .dbfunctions import *
 from datetime import datetime
-from django.utils import timezone
 import pytz
 
 # import helper functions from dbfunctions.py
@@ -18,50 +14,6 @@ from dansbagels.dbfunctions import *
 # URL: localhost:8000/dansbagels/
 def index(request):
     return redirect("home")
-
-
-# URL: localhost:8000/dansbagels/test
-def test(request):
-    return HttpResponse("You made it to the dansbagels test.")
-
-
-# URL: localhost:8000/dansbagels/prototype1
-def prototype1(request):
-    # list will be of tuples (username, password)
-    listOfUsers = []
-    allPeople = Person.objects.all()
-    for person in allPeople:
-        listOfUsers.append((person.username_text, person.password_text))
-    context = {
-        'all_users': listOfUsers
-    }
-    return render(request, 'dansbagels/prototype1.html', context)
-
-
-# URL: localhost:8000/dansbagels/prototype1/changepassword
-def changepassword(request):
-    thisUsername = request.POST['user']
-    newPassword = request.POST['new_password']
-    
-    thisUser = Person.objects.get(username_text=thisUsername)
-    thisUser.password_text = newPassword
-    thisUser.save()
-
-    # return HttpResponseRedirect
-    return HttpResponseRedirect(reverse('prototype1'))
-
-
-# URL: localhost:8000/dansbagels/prototype2
-def prototype2(request):
-    # get database info here to pass in
-    listOfUsers = []
-    allPeople = Person.objects.all()
-
-    context = {
-        'all_users': allPeople
-    }
-
-    return render(request, 'dansbagels/prototype2.html', context)
 
 
 # URL: localhost:8000/dansbagels/createAccount
@@ -151,6 +103,7 @@ def home(request):
     }
     return render(request, 'dansbagels/home.html', context)
 
+
 # URL: localhost:8000/dansbagels/activeOrders
 def activeOrders(request):
     if request.method == "GET":
@@ -224,6 +177,7 @@ def createMenuItem(request):
 
         return redirect('inventory')
 
+
 # URL: localhost:8000/dansbagels/orderBagel
 def orderBagel(request):
     context = {'menuItems': MenuItem.objects.all(),
@@ -291,7 +245,6 @@ def admin__database(request):
         return render(request, 'dansbagels/admin__database.html', context)
 
 
-
 def admin__createEmployeeAccount(request):
     if request.method == "GET":
         context = {
@@ -315,12 +268,14 @@ def admin__createEmployeeAccount(request):
             )
         return redirect(request.path)
 
+
 # URL: localhost:8000/dansbagels/deleteAccount
 # only intended to handle post requests from admin/add_rem
 def deleteAccount(request):
     if request.method == "POST":
         deleteAccountDB(request.POST.get('DeleteButton'))
     return redirect('admin__add_rem')
+
 
 # Only intended to handle post requests from orderBagel
 def placeOrder(request):
@@ -331,7 +286,7 @@ def placeOrder(request):
             orderTime = str(form.cleaned_data['pickUpTime']).split(":")
             order = createOrderDB(
                 pickUpTime=datetime.datetime(year=int(orderDate[0:4]), month=int(orderDate[5:7]), day=int(orderDate[8:10]),
-                                    hour=int(orderTime[0]), minute=int(orderTime[1]), second=0, tzinfo=pytz.UTC),
+                                    hour=int(orderTime[0]), minute=int(orderTime[1]), second=0, tzinfo=pytz.timezone('America/Denver')),
                 personOrdered=Person.objects.get(username_text=request.session['username']),
                 currentStatus=OrderStatus.objects.get(orderStatus_text="Ordered"),
                 orderInstructions=form.cleaned_data['orderInstruction'],
